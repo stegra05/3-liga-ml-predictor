@@ -31,13 +31,13 @@ class MLDataExporter:
         logger.info(f"ML Data Exporter initialized (output: {output_dir})")
 
     def export_comprehensive_dataset(self,
-                                     min_season: str = "2014-2015",
+                                     min_season: str = "2009-2010",
                                      include_current: bool = False) -> pd.DataFrame:
         """
         Export comprehensive dataset with all features
 
         Args:
-            min_season: Minimum season to include (default: 2014-2015 when FotMob stats start)
+            min_season: Minimum season to include (default: 2009-2010 for all available seasons)
             include_current: Include current incomplete season
 
         Returns:
@@ -47,6 +47,28 @@ class MLDataExporter:
 
         # Build comprehensive query joining all data sources
         query = """
+        WITH h2h_flat AS (
+            SELECT
+                CASE WHEN team_a_id < team_b_id THEN team_a_id ELSE team_b_id END AS ta_id,
+                CASE WHEN team_a_id < team_b_id THEN team_b_id ELSE team_a_id END AS tb_id,
+                CASE WHEN team_a_id < team_b_id THEN team_a_wins ELSE team_b_wins END AS ta_wins,
+                draws,
+                CASE WHEN team_a_id < team_b_id THEN team_b_wins ELSE team_a_wins END AS tb_wins,
+                total_matches,
+                last_updated
+            FROM head_to_head
+        ),
+        most_recent AS (
+            SELECT ta_id, tb_id, MAX(last_updated) AS max_updated
+            FROM h2h_flat
+            GROUP BY ta_id, tb_id
+        ),
+        h2h_norm AS (
+            SELECT f.ta_id, f.tb_id, f.ta_wins, f.draws, f.tb_wins, f.total_matches
+            FROM h2h_flat f
+            JOIN most_recent mr
+              ON mr.ta_id = f.ta_id AND mr.tb_id = f.tb_id AND mr.max_updated = f.last_updated
+        )
         SELECT
             -- Match identifiers
             m.match_id,
@@ -130,17 +152,15 @@ class MLDataExporter:
             m.precipitation_mm,
             m.weather_condition,
 
-            -- Derived features
-            m.rest_days_home,
-            m.rest_days_away,
-            m.travel_distance_km,
-
             -- Head-to-head statistics (raw values, will be adjusted in feature engineering)
             h2h.total_matches as h2h_total_matches,
-            h2h.team_a_wins as h2h_team_a_wins,
+            h2h.ta_wins as h2h_team_a_wins,
             h2h.draws as h2h_draws,
-            h2h.team_b_wins as h2h_team_b_wins,
-            h2h.team_a_id as h2h_team_a_id
+            h2h.tb_wins as h2h_team_b_wins,
+            CASE
+                WHEN m.home_team_id < m.away_team_id THEN m.home_team_id
+                ELSE m.away_team_id
+            END as h2h_team_a_id
 
         FROM matches m
 
@@ -159,10 +179,10 @@ class MLDataExporter:
         LEFT JOIN match_statistics hms ON m.match_id = hms.match_id AND m.home_team_id = hms.team_id
         LEFT JOIN match_statistics ams ON m.match_id = ams.match_id AND m.away_team_id = ams.team_id
 
-        -- Join head-to-head (team_a_id < team_b_id in h2h table)
-        LEFT JOIN head_to_head h2h ON (
-            (h2h.team_a_id = m.home_team_id AND h2h.team_b_id = m.away_team_id) OR
-            (h2h.team_a_id = m.away_team_id AND h2h.team_b_id = m.home_team_id)
+        -- Join head-to-head with canonical ordering (ensure one row per unordered pair)
+        LEFT JOIN h2h_norm h2h ON (
+            CASE WHEN m.home_team_id < m.away_team_id THEN m.home_team_id ELSE m.away_team_id END = h2h.ta_id AND
+            CASE WHEN m.home_team_id < m.away_team_id THEN m.away_team_id ELSE m.home_team_id END = h2h.tb_id
         )
 
         WHERE m.is_finished = 1

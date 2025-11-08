@@ -79,7 +79,7 @@ def export_ml_datasets():
     exporter = MLDataExporter(output_dir="data/processed")
 
     # Export comprehensive dataset
-    df = exporter.export_comprehensive_dataset(min_season="2014-2015")
+    df = exporter.export_comprehensive_dataset(min_season="2009-2010")
 
     # Create temporal splits
     train, val, test = exporter.create_train_test_split(

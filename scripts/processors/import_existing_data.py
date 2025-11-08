@@ -7,7 +7,7 @@ import pandas as pd
 from pathlib import Path
 from loguru import logger
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 from database.db_manager import get_db
@@ -108,6 +108,93 @@ class DataImporter:
         logger.success(f"FotMob import complete: {imported} team-match stats imported, {skipped} skipped")
         return imported
 
+    def _find_team_id_alternative(self, team_name: str):
+        """
+        Try alternative methods to find team ID when standard lookup fails
+        
+        Args:
+            team_name: Team name from CSV
+            
+        Returns:
+            Team ID or None
+        """
+        # Known mappings for common CSV name variations
+        known_mappings = {
+            "Aue": "Erzgebirge Aue",
+            "Bayern II": "FC Bayern München II",
+            "Braunschweig": "Eintracht Braunschweig",
+            "Burghausen": "Wacker Burghausen",
+            "Dortmund II": "Borussia Dortmund II",
+            "Erfurt": "FC Rot-Weiß Erfurt",
+            "Heidenheim": "1. FC Heidenheim 1846",
+            "Ingolstadt": "FC Ingolstadt 04",
+            "Jena": "FC Carl Zeiss Jena",
+            "Offenbach": "Kickers Offenbach",
+            "Regensburg": "Jahn Regensburg",
+            "SG Dynamo Dresden": "Dynamo Dresden",
+            "Sandhausen": "SV Sandhausen",
+            "Stuttgart II": "VfB Stuttgart II",
+            "Unterhaching": "SpVgg Unterhaching",
+            "VfL Osnabruck": "VfL Osnabrück",  # Handle umlaut
+            "VfL Osnabrück": "VfL Osnabrück",
+            "Wehen": "SV Wehen Wiesbaden",
+            "Wuppertal": "Wuppertaler SV",
+            # Additional mappings for newer seasons
+            "Viktoria Koln": "Viktoria Köln",
+            "Viktoria Köln": "Viktoria Köln",
+            "RW Essen": "Rot-Weiss Essen",
+            "Rot-Weiss Essen": "Rot-Weiss Essen",
+            "Preussen Munster": "Preußen Münster",
+            "Preussen Münster": "Preußen Münster",
+            "Preußen Munster": "Preußen Münster",
+            "Wurzburger Kickers": "FC Kickers Würzburg",
+            "Würzburger Kickers": "FC Kickers Würzburg",
+            "Viktoria Berlin": "FC Viktoria 1889 Berlin",
+            "Grossaspach": "SG Sonnenhof Großaspach",
+            "Großaspach": "SG Sonnenhof Großaspach",
+            "Saarbrucken": "1. FC Saarbrücken",
+            "Saarbrücken": "1. FC Saarbrücken",
+            "Kaiserslautern": "1. FC Kaiserslautern",
+        }
+        
+        # Check known mappings first
+        if team_name in known_mappings:
+            mapped_name = known_mappings[team_name]
+            query = "SELECT team_id FROM teams WHERE team_name = ? LIMIT 1"
+            result = self.db.execute_query(query, (mapped_name,))
+            if result:
+                logger.debug(f"Mapped '{team_name}' -> '{mapped_name}'")
+                return result[0]['team_id']
+        
+        # Try direct database lookup (case-insensitive, partial match)
+        query = """
+            SELECT team_id FROM teams 
+            WHERE LOWER(team_name) = LOWER(?)
+               OR LOWER(team_name) LIKE LOWER(?)
+               OR LOWER(?) LIKE LOWER('%' || team_name || '%')
+            LIMIT 1
+        """
+        result = self.db.execute_query(query, (team_name, f"%{team_name}%", team_name))
+        if result:
+            return result[0]['team_id']
+        
+        # Try with common name variations
+        variations = [
+            team_name.replace(" II", "").replace(" 2", "").strip(),
+            team_name.replace("SG ", "").replace("FC ", "").replace("TSV ", "").replace("SV ", "").strip(),
+            team_name.replace(" 1860", "").strip(),
+            team_name.replace("Osnabruck", "Osnabrück"),  # Handle umlaut
+        ]
+        
+        for variant in variations:
+            if variant and variant != team_name:
+                result = self.db.execute_query(query, (variant, f"%{variant}%", variant))
+                if result:
+                    logger.debug(f"Found team '{team_name}' via variant '{variant}'")
+                    return result[0]['team_id']
+        
+        return None
+
     def _insert_match_stats(self, match_id: int, team_id: int, is_home: bool, row: pd.Series, prefix: str):
         """Insert match statistics for one team"""
 
@@ -190,25 +277,63 @@ class DataImporter:
                 home_team_id = self.team_mapper.get_team_id(row['homeTeamName'])
                 away_team_id = self.team_mapper.get_team_id(row['awayTeamName'])
 
-                if not home_team_id or not away_team_id:
-                    logger.debug(f"Could not find teams: {row['homeTeamName']} vs {row['awayTeamName']}")
-                    skipped += 1
-                    continue
+                # If team not found, try alternative lookup methods
+                if not home_team_id:
+                    # Try direct database lookup with fuzzy matching
+                    home_team_id = self._find_team_id_alternative(row['homeTeamName'])
+                    if not home_team_id:
+                        logger.warning(f"Could not find home team: {row['homeTeamName']} (season: {row.get('season', 'unknown')})")
+                        skipped += 1
+                        continue
 
-                # Find match in database by season + teams (not date)
-                # This eliminates issues with "Unknown" dates (68.7% of records)
-                query = """
-                    SELECT match_id, home_goals, away_goals FROM matches
-                    WHERE season = ? AND home_team_id = ? AND away_team_id = ?
-                """
-                result = self.db.execute_query(query, (row['season'], home_team_id, away_team_id))
+                if not away_team_id:
+                    # Try direct database lookup with fuzzy matching
+                    away_team_id = self._find_team_id_alternative(row['awayTeamName'])
+                    if not away_team_id:
+                        logger.warning(f"Could not find away team: {row['awayTeamName']} (season: {row.get('season', 'unknown')})")
+                        skipped += 1
+                        continue
+
+                # Find match in database by season + teams
+                # Try to use date if available, otherwise match by season + teams + score
+                match_datetime = row.get('matchDateTime', '')
+                use_date = match_datetime and pd.notna(match_datetime) and 'Unknown' not in str(match_datetime)
+                
+                if use_date:
+                    # Try to parse date and match by date range (±1 day tolerance)
+                    try:
+                        match_date = pd.to_datetime(match_datetime)
+                        date_start = (match_date - timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')
+                        date_end = (match_date + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')
+                        
+                        query = """
+                            SELECT match_id, home_goals, away_goals, matchday, match_datetime 
+                            FROM matches
+                            WHERE season = ? AND home_team_id = ? AND away_team_id = ?
+                              AND match_datetime BETWEEN ? AND ?
+                        """
+                        result = self.db.execute_query(query, (
+                            row['season'], home_team_id, away_team_id, date_start, date_end
+                        ))
+                    except Exception as e:
+                        logger.debug(f"Could not parse date '{match_datetime}': {e}")
+                        use_date = False
+                
+                if not use_date or not result:
+                    # Fallback: match by season + teams only
+                    query = """
+                        SELECT match_id, home_goals, away_goals, matchday, match_datetime 
+                        FROM matches
+                        WHERE season = ? AND home_team_id = ? AND away_team_id = ?
+                    """
+                    result = self.db.execute_query(query, (row['season'], home_team_id, away_team_id))
 
                 if not result:
-                    logger.debug(f"Match not found: {row['homeTeamName']} vs {row['awayTeamName']} in {row['season']}")
+                    logger.warning(f"Match not found: {row['homeTeamName']} vs {row['awayTeamName']} in {row['season']}")
                     skipped += 1
                     continue
 
-                # If multiple matches found (unlikely in league play), use score to disambiguate
+                # If multiple matches found, use score to disambiguate
                 match_id = None
                 if len(result) > 1:
                     score_str = row.get('score')
@@ -222,6 +347,7 @@ class DataImporter:
                             for match in result:
                                 if match['home_goals'] == expected_home and match['away_goals'] == expected_away:
                                     match_id = match['match_id']
+                                    logger.debug(f"Matched by score: {row['homeTeamName']} vs {row['awayTeamName']} ({expected_home}-{expected_away})")
                                     break
                         except (ValueError, IndexError):
                             pass
@@ -229,7 +355,7 @@ class DataImporter:
                     if not match_id:
                         # Use first match if score doesn't help
                         match_id = result[0]['match_id']
-                        logger.debug(f"Multiple matches found for {row['homeTeamName']} vs {row['awayTeamName']}, using first")
+                        logger.warning(f"Multiple matches found for {row['homeTeamName']} vs {row['awayTeamName']} in {row['season']}, using first (matchday {result[0].get('matchday', 'unknown')})")
                 else:
                     match_id = result[0]['match_id']
 

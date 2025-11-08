@@ -2,39 +2,39 @@
 3. LIGA ML DATASET SUMMARY
 ============================================================
 
-Generated: 2025-11-07 17:36:11
+Generated: 2025-11-08 19:50:05
 
 DATASET SIZES:
-  Full dataset: 4,063 matches
-  Train set: 2,925 matches
-  Validation set: 325 matches
-  Test set: 813 matches
+  Full dataset: 17,643 matches
+  Train set: 12,702 matches
+  Validation set: 1,412 matches
+  Test set: 3,529 matches
 
 TEMPORAL COVERAGE:
-  Date range: 1970-01-01 00:00:00 to 2025-11-02 19:30:00
-  Seasons: 12
-  Season list: 2014-2015, 2015-2016, 2016-2017, 2017-2018, 2018-2019, 2019-2020, 2020-2021, 2021-2022, 2022-2023, 2023-2024, 2024-2025, 2025-2026
+  Date range: 1970-01-01 00:00:00 to 2025-11-08 16:30:00
+  Seasons: 14
+  Season list: 2012-2013, 2013-2014, 2014-2015, 2015-2016, 2016-2017, 2017-2018, 2018-2019, 2019-2020, 2020-2021, 2021-2022, 2022-2023, 2023-2024, 2024-2025, 2025-2026
 
 DATA QUALITY:
-  Matches with ratings: 4,063 (100.0%)
-  Matches with detailed stats: 2,179 (53.6%)
-  Matches with betting odds: 761 (18.7%)
+  Matches with ratings: 0 (0.0%)
+  Matches with detailed stats: 9,356 (53.0%)
+  Matches with betting odds: 16,973 (96.2%)
 
 TARGET DISTRIBUTION (Full Dataset):
-  Home wins: 1,726 (42.5%)
-  Draws: 1,109 (27.3%)
-  Away wins: 1,228 (30.2%)
+  Home wins: 7,538 (42.7%)
+  Draws: 4,860 (27.5%)
+  Away wins: 5,245 (29.7%)
 
 FEATURE STATISTICS:
-  Total features: 73
+  Total features: 97
   Missing data:
-    home_shots: 4,063 (100.0%)
-    home_passes: 4,063 (100.0%)
-    is_midweek: 4,063 (100.0%)
-    is_derby: 4,063 (100.0%)
-    away_passes: 4,063 (100.0%)
-    away_pass_accuracy: 4,063 (100.0%)
-    away_tackles: 4,063 (100.0%)
-    home_fouls: 4,063 (100.0%)
-    attendance: 4,063 (100.0%)
-    home_tackles: 4,063 (100.0%)
+    home_fouls: 17,643 (100.0%)
+    precipitation_mm: 17,643 (100.0%)
+    home_tackles: 17,643 (100.0%)
+    away_shots: 17,643 (100.0%)
+    away_passes: 17,643 (100.0%)
+    away_pass_accuracy: 17,643 (100.0%)
+    away_tackles: 17,643 (100.0%)
+    away_fouls: 17,643 (100.0%)
+    temperature_celsius: 17,643 (100.0%)
+    humidity_percent: 17,643 (100.0%)
