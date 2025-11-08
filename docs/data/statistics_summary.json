@@ -1,0 +1,109 @@
+{
+  "tables": {
+    "teams": "70",
+    "matches": "6290",
+    "match_statistics": "4446",
+    "match_events": "0",
+    "league_standings": "320",
+    "betting_odds": "4319",
+    "player_season_stats": "0",
+    "squad_memberships": "0",
+    "transfers": "0",
+    "team_ratings": "9646",
+    "head_to_head": "0",
+    "collection_logs": "21",
+    "squad_values": "200",
+    "players": "7756"
+  },
+  "matches": {
+    "total": 6290,
+    "finished": "5969",
+    "seasons": 17,
+    "date_range": [
+      "1970-01-01 00:00:00",
+      "2026-05-16 13:30:00"
+    ],
+    "result_distribution": {
+      "H": 2063,
+      "A": 1438,
+      "D": 1322
+    },
+    "completeness": {
+      "attendance": 0.0,
+      "temperature_celsius": 94.88076311605724,
+      "humidity_percent": 94.88076311605724,
+      "wind_speed_kmh": 94.88076311605724,
+      "precipitation_mm": 94.88076311605724,
+      "weather_condition": 94.88076311605724
+    }
+  },
+  "match_statistics": {
+    "total_records": 4446,
+    "unique_matches": 2223,
+    "completeness": {
+      "possession_percent": 100.0,
+      "shots_total": 0.0,
+      "shots_on_target": 100.0,
+      "passes_total": 0.0,
+      "pass_accuracy_percent": 0.0,
+      "tackles_total": 0.0,
+      "corners": 100.0,
+      "fouls_committed": 0.0,
+      "yellow_cards": 97.75078722447144
+    }
+  },
+  "team_ratings": {
+    "total_records": 9646,
+    "teams": 66,
+    "elo_stats": {
+      "count": 9646.0,
+      "mean": 1509.4653299864558,
+      "std": 61.358418729100734,
+      "min": 1318.8429398178891,
+      "25%": 1466.6189377658843,
+      "50%": 1505.0283372722956,
+      "75%": 1548.304156605837,
+      "max": 1725.2525000779397
+    },
+    "pi_stats": {
+      "count": 9646.0,
+      "mean": 0.45429737918306384,
+      "std": 0.16890096177152747,
+      "min": 0.0,
+      "25%": 0.33777068777857905,
+      "50%": 0.4506155833602001,
+      "75%": 0.5666608242531992,
+      "max": 1.0
+    }
+  },
+  "betting_odds": {
+    "total_records": 4261,
+    "unique_matches": 4261,
+    "avg_odds": {
+      "home": 2.308082609716029,
+      "draw": 3.4849917859657356,
+      "away": 3.5006007979347573
+    }
+  },
+  "ml_datasets": {
+    "splits": {
+      "train": 2925,
+      "val": 325,
+      "test": 813,
+      "full": 4063
+    },
+    "total_features": 73,
+    "feature_groups": {
+      "ratings": 6,
+      "form": 10,
+      "stats": 10,
+      "odds": 4,
+      "context": 42
+    },
+    "completeness_summary": {
+      "min": 0.0,
+      "max": 100.0,
+      "mean": 61.60920054594679
+    }
+  }
+}
