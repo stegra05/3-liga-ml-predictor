@@ -57,6 +57,8 @@ class MLDataExporter:
             -- Teams
             ht.team_name as home_team,
             at.team_name as away_team,
+            m.home_team_id,
+            m.away_team_id,
 
             -- Match result (target variables)
             m.home_goals,
@@ -126,7 +128,19 @@ class MLDataExporter:
             m.humidity_percent,
             m.wind_speed_kmh,
             m.precipitation_mm,
-            m.weather_condition
+            m.weather_condition,
+
+            -- Derived features
+            m.rest_days_home,
+            m.rest_days_away,
+            m.travel_distance_km,
+
+            -- Head-to-head statistics (raw values, will be adjusted in feature engineering)
+            h2h.total_matches as h2h_total_matches,
+            h2h.team_a_wins as h2h_team_a_wins,
+            h2h.draws as h2h_draws,
+            h2h.team_b_wins as h2h_team_b_wins,
+            h2h.team_a_id as h2h_team_a_id
 
         FROM matches m
 
@@ -144,6 +158,12 @@ class MLDataExporter:
         -- Join match statistics (these are POST-match, for analysis only)
         LEFT JOIN match_statistics hms ON m.match_id = hms.match_id AND m.home_team_id = hms.team_id
         LEFT JOIN match_statistics ams ON m.match_id = ams.match_id AND m.away_team_id = ams.team_id
+
+        -- Join head-to-head (team_a_id < team_b_id in h2h table)
+        LEFT JOIN head_to_head h2h ON (
+            (h2h.team_a_id = m.home_team_id AND h2h.team_b_id = m.away_team_id) OR
+            (h2h.team_a_id = m.away_team_id AND h2h.team_b_id = m.home_team_id)
+        )
 
         WHERE m.is_finished = 1
             AND m.home_goals IS NOT NULL
@@ -188,6 +208,66 @@ class MLDataExporter:
         # Goal difference indicators
         df['goal_diff_l5'] = (df['home_goals_scored_l5'] - df['home_goals_conceded_l5']) - \
                              (df['away_goals_scored_l5'] - df['away_goals_conceded_l5'])
+
+        # Head-to-head features (adjust from team_a perspective to home team perspective)
+        if 'h2h_total_matches' in df.columns and 'h2h_team_a_id' in df.columns:
+            # Determine if home team is team_a (team_a_id < team_b_id in h2h table)
+            is_home_team_a = (df['h2h_team_a_id'] == df['home_team_id']).fillna(False)
+            
+            # Adjust H2H stats to home team perspective
+            df['h2h_home_wins'] = np.where(
+                is_home_team_a,
+                df['h2h_team_a_wins'].fillna(0),
+                df['h2h_team_b_wins'].fillna(0)
+            )
+            df['h2h_away_wins'] = np.where(
+                is_home_team_a,
+                df['h2h_team_b_wins'].fillna(0),
+                df['h2h_team_a_wins'].fillna(0)
+            )
+            
+            # Calculate H2H win rates
+            df['h2h_home_win_rate'] = np.where(
+                df['h2h_total_matches'].fillna(0) > 0,
+                df['h2h_home_wins'] / df['h2h_total_matches'],
+                np.nan
+            )
+            df['h2h_draw_rate'] = np.where(
+                df['h2h_total_matches'].fillna(0) > 0,
+                df['h2h_draws'].fillna(0) / df['h2h_total_matches'],
+                np.nan
+            )
+            
+            # H2H match count (useful for new matchups)
+            df['h2h_match_count'] = df['h2h_total_matches'].fillna(0)
+
+        # Rest days features
+        if 'rest_days_home' in df.columns:
+            df['rest_days_diff'] = df['rest_days_home'] - df['rest_days_away']
+            df['home_rest_advantage'] = (df['rest_days_home'] > df['rest_days_away']).astype(int)
+            df['away_rest_advantage'] = (df['rest_days_away'] > df['rest_days_home']).astype(int)
+            # Categorize rest days
+            df['home_rest_category'] = pd.cut(
+                df['rest_days_home'],
+                bins=[-1, 2, 4, 7, float('inf')],
+                labels=['short', 'medium', 'normal', 'long']
+            )
+            df['away_rest_category'] = pd.cut(
+                df['rest_days_away'],
+                bins=[-1, 2, 4, 7, float('inf')],
+                labels=['short', 'medium', 'normal', 'long']
+            )
+
+        # Travel distance features
+        if 'travel_distance_km' in df.columns:
+            # Categorize travel distance
+            df['travel_category'] = pd.cut(
+                df['travel_distance_km'],
+                bins=[0, 50, 200, float('inf')],
+                labels=['local', 'regional', 'long']
+            )
+            df['is_long_travel'] = (df['travel_distance_km'] > 200).astype(int)
+            df['is_local_match'] = (df['travel_distance_km'] < 50).astype(int)
 
         # Date features
         df['match_datetime'] = pd.to_datetime(df['match_datetime'])

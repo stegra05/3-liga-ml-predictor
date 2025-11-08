@@ -1,0 +1,274 @@
+{
+  "mapping": {
+    "17": {
+      "database_name": "1. FC Heidenheim 1846",
+      "sofascore_id": 5885
+    },
+    "52": {
+      "database_name": "1. FC Kaiserslautern",
+      "sofascore_id": 2675
+    },
+    "44": {
+      "database_name": "1. FC Magdeburg",
+      "sofascore_id": 2591
+    },
+    "21": {
+      "database_name": "1. FC Saarbrücken",
+      "sofascore_id": 2554
+    },
+    "70": {
+      "database_name": "1. FC Schweinfurt 05",
+      "sofascore_id": 2544
+    },
+    "40": {
+      "database_name": "1. FSV Mainz 05 II",
+      "sofascore_id": 2571
+    },
+    "32": {
+      "database_name": "Alemannia Aachen",
+      "sofascore_id": 2546
+    },
+    "30": {
+      "database_name": "Arminia Bielefeld",
+      "sofascore_id": 2540
+    },
+    "16": {
+      "database_name": "Borussia Dortmund II",
+      "sofascore_id": 2535
+    },
+    "28": {
+      "database_name": "Chemnitzer FC",
+      "sofascore_id": 2592
+    },
+    "3": {
+      "database_name": "Dynamo Dresden",
+      "sofascore_id": 2595
+    },
+    "13": {
+      "database_name": "Eintracht Braunschweig",
+      "sofascore_id": 2557
+    },
+    "41": {
+      "database_name": "Energie Cottbus",
+      "sofascore_id": 2532
+    },
+    "10": {
+      "database_name": "Erzgebirge Aue",
+      "sofascore_id": 2566
+    },
+    "20": {
+      "database_name": "FC Bayern München II",
+      "sofascore_id": 2568
+    },
+    "5": {
+      "database_name": "FC Carl Zeiss Jena",
+      "sofascore_id": 354615
+    },
+    "19": {
+      "database_name": "FC Ingolstadt 04",
+      "sofascore_id": 5880
+    },
+    "12": {
+      "database_name": "FC Rot-Weiß Erfurt",
+      "sofascore_id": 2578
+    },
+    "48": {
+      "database_name": "FSV Frankfurt",
+      "sofascore_id": 5777
+    },
+    "49": {
+      "database_name": "FSV Zwickau",
+      "sofascore_id": 2620
+    },
+    "46": {
+      "database_name": "Fortuna Köln",
+      "sofascore_id": 2683
+    },
+    "33": {
+      "database_name": "Hallescher FC",
+      "sofascore_id": 2582
+    },
+    "68": {
+      "database_name": "Hannover II",
+      "sofascore_id": 5801
+    },
+    "24": {
+      "database_name": "Hansa Rostock",
+      "sofascore_id": 2533
+    },
+    "2": {
+      "database_name": "Holstein Kiel",
+      "sofascore_id": 2573
+    },
+    "1": {
+      "database_name": "Jahn Regensburg",
+      "sofascore_id": 2567
+    },
+    "54": {
+      "database_name": "KFC Uerdingen 05",
+      "sofascore_id": 2575
+    },
+    "36": {
+      "database_name": "Karlsruher SC",
+      "sofascore_id": 2553
+    },
+    "9": {
+      "database_name": "Kickers Offenbach",
+      "sofascore_id": 2586
+    },
+    "39": {
+      "database_name": "MSV Duisburg",
+      "sofascore_id": 2543
+    },
+    "27": {
+      "database_name": "Preußen Münster",
+      "sofascore_id": 2590
+    },
+    "37": {
+      "database_name": "RB Leipzig",
+      "sofascore_id": 36360
+    },
+    "66": {
+      "database_name": "Rot-Weiss Essen",
+      "sofascore_id": 2562
+    },
+    "35": {
+      "database_name": "Rot-Weiß Erfurt",
+      "sofascore_id": 2578
+    },
+    "43": {
+      "database_name": "SC Fortuna Köln",
+      "sofascore_id": 2683
+    },
+    "63": {
+      "database_name": "SC Freiburg II",
+      "sofascore_id": 5889
+    },
+    "47": {
+      "database_name": "SC Paderborn 07",
+      "sofascore_id": 2561
+    },
+    "59": {
+      "database_name": "SC Verl",
+      "sofascore_id": 2593
+    },
+    "42": {
+      "database_name": "SG Sonnenhof Großaspach",
+      "sofascore_id": 5894
+    },
+    "67": {
+      "database_name": "SSV Ulm 1846",
+      "sofascore_id": 2580
+    },
+    "38": {
+      "database_name": "SV 07 Elversberg",
+      "sofascore_id": 2598
+    },
+    "26": {
+      "database_name": "SV Babelsberg 03",
+      "sofascore_id": 2549
+    },
+    "31": {
+      "database_name": "SV Darmstadt 98",
+      "sofascore_id": 2576
+    },
+    "51": {
+      "database_name": "SV Meppen",
+      "sofascore_id": 5804
+    },
+    "8": {
+      "database_name": "SV Sandhausen",
+      "sofascore_id": 6157
+    },
+    "56": {
+      "database_name": "SV Waldhof Mannheim",
+      "sofascore_id": 2680
+    },
+    "6": {
+      "database_name": "SV Wehen Wiesbaden",
+      "sofascore_id": 2597
+    },
+    "7": {
+      "database_name": "SpVgg Unterhaching",
+      "sofascore_id": 2555
+    },
+    "50": {
+      "database_name": "Sportfreunde Lotte",
+      "sofascore_id": 5844
+    },
+    "34": {
+      "database_name": "Stuttgarter Kickers",
+      "sofascore_id": 2682
+    },
+    "53": {
+      "database_name": "TSV 1860 München",
+      "sofascore_id": 2536
+    },
+    "60": {
+      "database_name": "TSV Havelse",
+      "sofascore_id": 7827
+    },
+    "22": {
+      "database_name": "TuS Koblenz",
+      "sofascore_id": 4899
+    },
+    "57": {
+      "database_name": "Türkgücü München",
+      "sofascore_id": 275608
+    },
+    "58": {
+      "database_name": "VfB Lübeck",
+      "sofascore_id": 2560
+    },
+    "64": {
+      "database_name": "VfB Oldenburg",
+      "sofascore_id": 7870
+    },
+    "4": {
+      "database_name": "VfB Stuttgart II",
+      "sofascore_id": 2522
+    },
+    "14": {
+      "database_name": "VfL Osnabrück",
+      "sofascore_id": 2581
+    },
+    "25": {
+      "database_name": "VfR Aalen",
+      "sofascore_id": 2550
+    },
+    "55": {
+      "database_name": "Viktoria Köln",
+      "sofascore_id": 53365
+    },
+    "15": {
+      "database_name": "Wacker Burghausen",
+      "sofascore_id": 2559
+    },
+    "11": {
+      "database_name": "Werder Bremen II",
+      "sofascore_id": 2577
+    },
+    "18": {
+      "database_name": "Wuppertaler SV",
+      "sofascore_id": 4505
+    },
+    "61": {
+      "database_name": "Würzburger Kickers",
+      "sofascore_id": 23947
+    }
+  },
+  "not_found": [
+    "FC Kickers Würzburg",
+    "FC Viktoria 1889 Berlin",
+    "Rot-Weiss Ahlen",
+    "Rot-Weiss Oberhausen",
+    "SpVgg Oberfranken Bayreuth",
+    "TSG 1899 Hoffenheim II"
+  ],
+  "metadata": {
+    "total_teams": 70,
+    "mapped": 64,
+    "not_found": 6,
+    "coverage": "91.4%"
+  }
+}

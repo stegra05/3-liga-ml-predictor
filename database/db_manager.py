@@ -63,6 +63,19 @@ class DatabaseManager:
             conn.executescript(schema_sql)
             conn.commit()
             logger.success("Database schema initialized successfully")
+
+            # --- Schema Migrations ---
+            # Add 'updated_at' column to match_statistics if it doesn't exist
+            cursor = conn.cursor()
+            cursor.execute("PRAGMA table_info(match_statistics)")
+            columns = [col[1] for col in cursor.fetchall()]
+            if 'updated_at' not in columns:
+                logger.info("Adding 'updated_at' column to 'match_statistics' table...")
+                cursor.execute("ALTER TABLE match_statistics ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+                conn.commit()
+                logger.success("'updated_at' column added to 'match_statistics' table.")
+            # --- End Schema Migrations ---
+
         except sqlite3.Error as e:
             logger.error(f"Error initializing schema: {e}")
             raise

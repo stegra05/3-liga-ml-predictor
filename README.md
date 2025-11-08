@@ -60,12 +60,19 @@ From FotMob:
 - Duels and aerial battles
 - Fouls, cards, corners, offsides
 
-### 4. **Betting Odds** (18.7% coverage, 2009-2025)
+### 4. **Attendance Data** (Collection in progress, 2009-2025)
+From Transfermarkt:
+- Match attendance figures for all seasons
+- Automated collection system
+- See `docs/ATTENDANCE_COLLECTION.md` for details
+
+### 5. **Betting Odds** (18.7% coverage, 2009-2025)
 From OddsPortal:
 - Closing odds for Home/Draw/Away
 - Implied probabilities
 - Market expectations baseline
 
+### 6. **League Standings** (2009-2025)
 ### 5. **League Standings** (2009-2025)
 - Historical standings after each matchday
 - Position, points, wins/draws/losses

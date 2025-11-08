@@ -16,6 +16,8 @@ pydantic>=2.0.0
 # Web scraping
 selenium>=4.15.0
 fake-useragent>=1.4.0
+undetected-chromedriver>=3.5.0
+setuptools>=69.0.0
 
 # Scheduling and automation
 schedule>=1.2.0
