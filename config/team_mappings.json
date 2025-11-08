@@ -1,0 +1,940 @@
+{
+  "metadata": {
+    "total_teams": 99,
+    "generated_at": "2025-11-06T18:21:10.813789",
+    "sources": [
+      "matches",
+      "fotmob",
+      "oddsportal",
+      "all_unique"
+    ],
+    "similar_names_to_review": [
+      {
+        "name1": "SG Sonnenhof Großaspach",
+        "name2": "Sonnenhof Großaspach",
+        "similarity": 0.93
+      },
+      {
+        "name1": "VfL Osnabruck",
+        "name2": "VfL Osnabrück",
+        "similarity": 0.923
+      },
+      {
+        "name1": "Bayern München II",
+        "name2": "FC Bayern München II",
+        "similarity": 0.919
+      },
+      {
+        "name1": "SV Waldhof Mannheim",
+        "name2": "Waldhof Mannheim",
+        "similarity": 0.914
+      },
+      {
+        "name1": "Carl Zeiss Jena",
+        "name2": "FC Carl Zeiss Jena",
+        "similarity": 0.909
+      },
+      {
+        "name1": "FC Rot-Weiß Erfurt",
+        "name2": "Rot-Weiß Erfurt",
+        "similarity": 0.909
+      },
+      {
+        "name1": "SV Wehen Wiesbaden",
+        "name2": "Wehen Wiesbaden",
+        "similarity": 0.909
+      },
+      {
+        "name1": "Dynamo Dresden",
+        "name2": "SG Dynamo Dresden",
+        "similarity": 0.903
+      },
+      {
+        "name1": "Preussen Münster",
+        "name2": "Preußen Münster",
+        "similarity": 0.903
+      },
+      {
+        "name1": "KFC Uerdingen",
+        "name2": "KFC Uerdingen 05",
+        "similarity": 0.897
+      },
+      {
+        "name1": "Fortuna Köln",
+        "name2": "SC Fortuna Köln",
+        "similarity": 0.889
+      },
+      {
+        "name1": "Freiburg II",
+        "name2": "SC Freiburg II",
+        "similarity": 0.88
+      },
+      {
+        "name1": "Hannover 96 II",
+        "name2": "Hannover II",
+        "similarity": 0.88
+      },
+      {
+        "name1": "SV Sandhausen",
+        "name2": "Sandhausen",
+        "similarity": 0.87
+      },
+      {
+        "name1": "1860 München",
+        "name2": "TSV 1860 München",
+        "similarity": 0.857
+      },
+      {
+        "name1": "Stuttgart II",
+        "name2": "VfB Stuttgart II",
+        "similarity": 0.857
+      },
+      {
+        "name1": "Viktoria Köln",
+        "name2": "Viktoria Köln 1904",
+        "similarity": 0.839
+      },
+      {
+        "name1": "1. FC Kaiserslautern",
+        "name2": "Kaiserslautern",
+        "similarity": 0.824
+      },
+      {
+        "name1": "1. FC Schweinfurt 05",
+        "name2": "FC Schweinfurt",
+        "similarity": 0.824
+      },
+      {
+        "name1": "Oldenburg",
+        "name2": "VfB Oldenburg",
+        "similarity": 0.818
+      }
+    ],
+    "total_aliases": 17,
+    "cleaned": true
+  },
+  "teams": {
+    "1. FC Heidenheim 1846": {
+      "standard_name": "1. FC Heidenheim 1846",
+      "short_name": "1. FC Heidenheim 184",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "1. FC Kaiserslautern": {
+      "standard_name": "1. FC Kaiserslautern",
+      "short_name": "1. FC Kaiserslautern",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "1. FC Magdeburg": {
+      "standard_name": "1. FC Magdeburg",
+      "short_name": "1. FC Magdeburg",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "1. FC Saarbrücken": {
+      "standard_name": "1. FC Saarbrücken",
+      "short_name": "1. FC Saarbrücken",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "1. FC Schweinfurt 05": {
+      "standard_name": "1. FC Schweinfurt 05",
+      "short_name": "1. FC Schweinfurt 05",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "1. FSV Mainz 05 II": {
+      "standard_name": "1. FSV Mainz 05 II",
+      "short_name": "1. FSV Mainz 05 II",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "TSV 1860 München": {
+      "standard_name": "TSV 1860 München",
+      "short_name": "TSV 1860 München",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Aalen": {
+      "standard_name": "Aalen",
+      "short_name": "Aalen",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Alemannia Aachen": {
+      "standard_name": "Alemannia Aachen",
+      "short_name": "Alemannia Aachen",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Arminia Bielefeld": {
+      "standard_name": "Arminia Bielefeld",
+      "short_name": "Arminia Bielefeld",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Erzgebirge Aue": {
+      "standard_name": "Erzgebirge Aue",
+      "short_name": "Erzgebirge Aue",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Bayern II": {
+      "standard_name": "Bayern II",
+      "short_name": "Bayern II",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "FC Bayern München II": {
+      "standard_name": "FC Bayern München II",
+      "short_name": "FC Bayern München II",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Borussia Dortmund II": {
+      "standard_name": "Borussia Dortmund II",
+      "short_name": "Borussia Dortmund II",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Braunschweig": {
+      "standard_name": "Braunschweig",
+      "short_name": "Braunschweig",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Burghausen": {
+      "standard_name": "Burghausen",
+      "short_name": "Burghausen",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "FC Carl Zeiss Jena": {
+      "standard_name": "FC Carl Zeiss Jena",
+      "short_name": "FC Carl Zeiss Jena",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Chemnitzer FC": {
+      "standard_name": "Chemnitzer FC",
+      "short_name": "Chemnitzer FC",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Dortmund II": {
+      "standard_name": "Dortmund II",
+      "short_name": "Dortmund II",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Dynamo Dresden": {
+      "standard_name": "Dynamo Dresden",
+      "short_name": "Dynamo Dresden",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Eintracht Braunschweig": {
+      "standard_name": "Eintracht Braunschweig",
+      "short_name": "Eintracht Braunschwe",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Elversberg": {
+      "standard_name": "Elversberg",
+      "short_name": "Elversberg",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Energie Cottbus": {
+      "standard_name": "Energie Cottbus",
+      "short_name": "Energie Cottbus",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Erfurt": {
+      "standard_name": "Erfurt",
+      "short_name": "Erfurt",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "FC Ingolstadt 04": {
+      "standard_name": "FC Ingolstadt 04",
+      "short_name": "FC Ingolstadt 04",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "FC Kickers Würzburg": {
+      "standard_name": "FC Kickers Würzburg",
+      "short_name": "FC Kickers Würzburg",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "FC Rot-Weiß Erfurt": {
+      "standard_name": "FC Rot-Weiß Erfurt",
+      "short_name": "FC Rot-Weiß Erfurt",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "FC Schweinfurt": {
+      "standard_name": "FC Schweinfurt",
+      "short_name": "FC Schweinfurt",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "FC Viktoria 1889 Berlin": {
+      "standard_name": "FC Viktoria 1889 Berlin",
+      "short_name": "FC Viktoria 1889 Ber",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "FSV Frankfurt": {
+      "standard_name": "FSV Frankfurt",
+      "short_name": "FSV Frankfurt",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "FSV Zwickau": {
+      "standard_name": "FSV Zwickau",
+      "short_name": "FSV Zwickau",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Fortuna Köln": {
+      "standard_name": "Fortuna Köln",
+      "short_name": "Fortuna Köln",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Freiburg II": {
+      "standard_name": "Freiburg II",
+      "short_name": "Freiburg II",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Hallescher FC": {
+      "standard_name": "Hallescher FC",
+      "short_name": "Hallescher FC",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Hannover 96 II": {
+      "standard_name": "Hannover 96 II",
+      "short_name": "Hannover 96 II",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Hannover II": {
+      "standard_name": "Hannover II",
+      "short_name": "Hannover II",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Hansa Rostock": {
+      "standard_name": "Hansa Rostock",
+      "short_name": "Hansa Rostock",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Heidenheim": {
+      "standard_name": "Heidenheim",
+      "short_name": "Heidenheim",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Hoffenheim II": {
+      "standard_name": "Hoffenheim II",
+      "short_name": "Hoffenheim II",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Holstein Kiel": {
+      "standard_name": "Holstein Kiel",
+      "short_name": "Holstein Kiel",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Jahn Regensburg": {
+      "standard_name": "Jahn Regensburg",
+      "short_name": "Jahn Regensburg",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Jena": {
+      "standard_name": "Jena",
+      "short_name": "Jena",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "KFC Uerdingen 05": {
+      "standard_name": "KFC Uerdingen 05",
+      "short_name": "KFC Uerdingen 05",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Kaiserslautern": {
+      "standard_name": "Kaiserslautern",
+      "short_name": "Kaiserslautern",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Karlsruher SC": {
+      "standard_name": "Karlsruher SC",
+      "short_name": "Karlsruher SC",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Kickers Offenbach": {
+      "standard_name": "Kickers Offenbach",
+      "short_name": "Kickers Offenbach",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Lübeck": {
+      "standard_name": "Lübeck",
+      "short_name": "Lübeck",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "MSV Duisburg": {
+      "standard_name": "MSV Duisburg",
+      "short_name": "MSV Duisburg",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Mainz 05 II": {
+      "standard_name": "Mainz 05 II",
+      "short_name": "Mainz 05 II",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Meppen": {
+      "standard_name": "Meppen",
+      "short_name": "Meppen",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Offenbach": {
+      "standard_name": "Offenbach",
+      "short_name": "Offenbach",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Oldenburg": {
+      "standard_name": "Oldenburg",
+      "short_name": "Oldenburg",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Paderborn": {
+      "standard_name": "Paderborn",
+      "short_name": "Paderborn",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Preußen Münster": {
+      "standard_name": "Preußen Münster",
+      "short_name": "Preußen Münster",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "RB Leipzig": {
+      "standard_name": "RB Leipzig",
+      "short_name": "RB Leipzig",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "RW Essen": {
+      "standard_name": "RW Essen",
+      "short_name": "RW Essen",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Regensburg": {
+      "standard_name": "Regensburg",
+      "short_name": "Regensburg",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Rot-Weiss Ahlen": {
+      "standard_name": "Rot-Weiss Ahlen",
+      "short_name": "Rot-Weiss Ahlen",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Rot-Weiss Essen": {
+      "standard_name": "Rot-Weiss Essen",
+      "short_name": "Rot-Weiss Essen",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Rot-Weiss Oberhausen": {
+      "standard_name": "Rot-Weiss Oberhausen",
+      "short_name": "Rot-Weiss Oberhausen",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "SC Fortuna Köln": {
+      "standard_name": "SC Fortuna Köln",
+      "short_name": "SC Fortuna Köln",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "SC Freiburg II": {
+      "standard_name": "SC Freiburg II",
+      "short_name": "SC Freiburg II",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "SC Paderborn 07": {
+      "standard_name": "SC Paderborn 07",
+      "short_name": "SC Paderborn 07",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "SC Verl": {
+      "standard_name": "SC Verl",
+      "short_name": "SC Verl",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "SG Sonnenhof Großaspach": {
+      "standard_name": "SG Sonnenhof Großaspach",
+      "short_name": "SG Sonnenhof Großasp",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "SSV Ulm 1846": {
+      "standard_name": "SSV Ulm 1846",
+      "short_name": "SSV Ulm 1846",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "SV 07 Elversberg": {
+      "standard_name": "SV 07 Elversberg",
+      "short_name": "SV 07 Elversberg",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "SV Babelsberg 03": {
+      "standard_name": "SV Babelsberg 03",
+      "short_name": "SV Babelsberg 03",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "SV Darmstadt 98": {
+      "standard_name": "SV Darmstadt 98",
+      "short_name": "SV Darmstadt 98",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "SV Meppen": {
+      "standard_name": "SV Meppen",
+      "short_name": "SV Meppen",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "SV Sandhausen": {
+      "standard_name": "SV Sandhausen",
+      "short_name": "SV Sandhausen",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "SV Waldhof Mannheim": {
+      "standard_name": "SV Waldhof Mannheim",
+      "short_name": "SV Waldhof Mannheim",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "SV Wehen Wiesbaden": {
+      "standard_name": "SV Wehen Wiesbaden",
+      "short_name": "SV Wehen Wiesbaden",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Saarbrücken": {
+      "standard_name": "Saarbrücken",
+      "short_name": "Saarbrücken",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Sandhausen": {
+      "standard_name": "Sandhausen",
+      "short_name": "Sandhausen",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "SpVgg Bayreuth": {
+      "standard_name": "SpVgg Bayreuth",
+      "short_name": "SpVgg Bayreuth",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "SpVgg Oberfranken Bayreuth": {
+      "standard_name": "SpVgg Oberfranken Bayreuth",
+      "short_name": "SpVgg Oberfranken Ba",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "SpVgg Unterhaching": {
+      "standard_name": "SpVgg Unterhaching",
+      "short_name": "SpVgg Unterhaching",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Sportfreunde Lotte": {
+      "standard_name": "Sportfreunde Lotte",
+      "short_name": "Sportfreunde Lotte",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Stuttgart II": {
+      "standard_name": "Stuttgart II",
+      "short_name": "Stuttgart II",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Stuttgarter Kickers": {
+      "standard_name": "Stuttgarter Kickers",
+      "short_name": "Stuttgarter Kickers",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "TSG 1899 Hoffenheim II": {
+      "standard_name": "TSG 1899 Hoffenheim II",
+      "short_name": "TSG 1899 Hoffenheim ",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "TSV Havelse": {
+      "standard_name": "TSV Havelse",
+      "short_name": "TSV Havelse",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "TuS Koblenz": {
+      "standard_name": "TuS Koblenz",
+      "short_name": "TuS Koblenz",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Türkgücü München": {
+      "standard_name": "Türkgücü München",
+      "short_name": "Türkgücü München",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Ulm": {
+      "standard_name": "Ulm",
+      "short_name": "Ulm",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "VfB Lübeck": {
+      "standard_name": "VfB Lübeck",
+      "short_name": "VfB Lübeck",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "VfB Oldenburg": {
+      "standard_name": "VfB Oldenburg",
+      "short_name": "VfB Oldenburg",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "VfB Stuttgart II": {
+      "standard_name": "VfB Stuttgart II",
+      "short_name": "VfB Stuttgart II",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "VfL Osnabrück": {
+      "standard_name": "VfL Osnabrück",
+      "short_name": "VfL Osnabrück",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "VfR Aalen": {
+      "standard_name": "VfR Aalen",
+      "short_name": "VfR Aalen",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "FC Viktoria Köln": {
+      "standard_name": "FC Viktoria Köln",
+      "short_name": "Viktoria Köln",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Viktoria Köln 1904": {
+      "standard_name": "Viktoria Köln 1904",
+      "short_name": "Viktoria Köln 1904",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Wacker Burghausen": {
+      "standard_name": "Wacker Burghausen",
+      "short_name": "Wacker Burghausen",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Wehen": {
+      "standard_name": "Wehen",
+      "short_name": "Wehen",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Werder Bremen II": {
+      "standard_name": "Werder Bremen II",
+      "short_name": "Werder Bremen II",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Wuppertal": {
+      "standard_name": "Wuppertal",
+      "short_name": "Wuppertal",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Wuppertaler SV": {
+      "standard_name": "Wuppertaler SV",
+      "short_name": "Wuppertaler SV",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    },
+    "Würzburger Kickers": {
+      "standard_name": "Würzburger Kickers",
+      "short_name": "Würzburger Kickers",
+      "openligadb_id": null,
+      "transfermarkt_id": null,
+      "founded": null,
+      "stadium": null
+    }
+  },
+  "aliases": {
+    "1860 München": "TSV 1860 München",
+    "Aue": "Erzgebirge Aue",
+    "Bayern München II": "FC Bayern München II",
+    "Carl Zeiss Jena": "FC Carl Zeiss Jena",
+    "Duisburg": "MSV Duisburg",
+    "Hallescher": "Hallescher FC",
+    "Ingolstadt": "FC Ingolstadt 04",
+    "KFC Uerdingen": "KFC Uerdingen 05",
+    "Lubeck": "VfB Lübeck",
+    "Magdeburg": "1. FC Magdeburg",
+    "Mannheim": "SV Waldhof Mannheim",
+    "Munich 1860": "TSV 1860 München",
+    "Preussen Münster": "Preußen Münster",
+    "RW Erfurt": "FC Rot-Weiß Erfurt",
+    "Rot-Weiß Erfurt": "FC Rot-Weiß Erfurt",
+    "Saarbrucken": "1. FC Saarbrücken",
+    "SG Dynamo Dresden": "Dynamo Dresden",
+    "Sonnenhof Großaspach": "SG Sonnenhof Großaspach",
+    "Turkgucu Munchen": "Türkgücü München",
+    "Uerdingen": "KFC Uerdingen 05",
+    "Unterhaching": "SpVgg Unterhaching",
+    "Verl": "SC Verl",
+    "VfL Osnabruck": "VfL Osnabrück",
+    "Viktoria Koln": "FC Viktoria Köln",
+    "Viktoria Köln": "FC Viktoria Köln",
+    "Waldhof Mannheim": "SV Waldhof Mannheim",
+    "Wehen Wiesbaden": "SV Wehen Wiesbaden",
+    "Zwickau": "FSV Zwickau"
+  }
+}

@@ -1,0 +1,101 @@
+=== 3. Liga ML Dataset Feature Documentation ===
+
+
+CATEGORICAL:
+  - home_team
+  - away_team
+  - venue
+  - day_of_week
+  - month
+  - is_midweek
+  - is_derby
+
+RATING_FEATURES:
+  - home_elo
+  - away_elo
+  - elo_diff
+  - home_pi
+  - away_pi
+  - pi_diff
+
+FORM_FEATURES:
+  - home_points_l5
+  - away_points_l5
+  - form_diff_l5
+  - home_points_l10
+  - away_points_l10
+  - home_goals_scored_l5
+  - home_goals_conceded_l5
+  - away_goals_scored_l5
+  - away_goals_conceded_l5
+  - goal_diff_l5
+
+ODDS_FEATURES:
+  - odds_home
+  - odds_draw
+  - odds_away
+  - implied_prob_home
+  - implied_prob_draw
+  - implied_prob_away
+
+TARGETS:
+  - target_home_win
+  - target_draw
+  - target_away_win
+  - target_multiclass
+  - target_home_goals
+  - target_away_goals
+  - target_total_goals
+
+IDENTIFIERS:
+  - match_id
+  - season
+  - matchday
+  - match_datetime
+  - home_team
+  - away_team
+
+POST_MATCH_STATS:
+  - home_possession
+  - away_possession
+  - home_shots
+  - away_shots
+  - home_shots_on_target
+  - away_shots_on_target
+  - home_pass_accuracy
+  - away_pass_accuracy
+  - home_corners
+  - away_corners
+  - home_fouls
+  - away_fouls
+
+ALL_PREDICTIVE:
+  - home_team
+  - away_team
+  - venue
+  - day_of_week
+  - month
+  - is_midweek
+  - is_derby
+  - home_elo
+  - away_elo
+  - elo_diff
+  - home_pi
+  - away_pi
+  - pi_diff
+  - home_points_l5
+  - away_points_l5
+  - form_diff_l5
+  - home_points_l10
+  - away_points_l10
+  - home_goals_scored_l5
+  - home_goals_conceded_l5
+  - away_goals_scored_l5
+  - away_goals_conceded_l5
+  - goal_diff_l5
+  - odds_home
+  - odds_draw
+  - odds_away
+  - implied_prob_home
+  - implied_prob_draw
+  - implied_prob_away

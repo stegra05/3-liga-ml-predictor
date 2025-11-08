@@ -1,0 +1,383 @@
+matchDateTime,homeTeamName,awayTeamName,odds_home,odds_draw,odds_away,score,season
+27 May 2025 20:30,Braunschweig,Saarbrucken,2.06,3.63,3.38,2-2,2024-2025
+23 May 2025 20:30,Saarbrucken,Braunschweig,2.29,3.43,3.04,0-2,2024-2025
+17 May 2025 13:30,Arminia Bielefeld,Mannheim,1.45,4.59,6.13,1-0,2024-2025
+Unknown 13:30,SG Dynamo Dresden,Unterhaching,1.22,6.62,10.25,3-0,2024-2025
+Unknown 13:30,Cottbus,Ingolstadt,1.51,4.83,5.0,1-4,2024-2025
+Unknown 13:30,Hannover II,Hansa Rostock,4.05,4.12,1.73,2-1,2024-2025
+Unknown 13:30,Munich 1860,Aue,1.55,4.41,5.02,1-1,2024-2025
+Unknown 13:30,Saarbrucken,Dortmund II,1.47,4.8,5.5,2-1,2024-2025
+Unknown 13:30,Sandhausen,Viktoria Koln,2.79,3.66,2.28,0-4,2024-2025
+Unknown 13:30,Stuttgart II,RW Essen,2.2,3.52,3.02,1-1,2024-2025
+Unknown 13:30,VfL Osnabruck,Verl,2.35,3.72,2.66,0-3,2024-2025
+Unknown 13:30,Wehen,Alemannia Aachen,2.34,3.52,2.79,2-1,2024-2025
+11 May 2025 19:30,Viktoria Koln,Hannover II,1.51,4.48,5.43,2-0,2024-2025
+Unknown 16:30,RW Essen,VfL Osnabruck,2.21,3.55,2.99,3-1,2024-2025
+Unknown 13:30,Unterhaching,Arminia Bielefeld,7.19,4.86,1.38,1-2,2024-2025
+10 May 2025 16:30,Ingolstadt,Wehen,2.18,3.89,2.9,2-3,2024-2025
+Unknown 14:00,Alemannia Aachen,Saarbrucken,3.07,3.41,2.24,4-2,2024-2025
+Unknown 14:00,Aue,Sandhausen,2.08,3.65,3.27,2-3,2024-2025
+Unknown 14:00,Hansa Rostock,Cottbus,1.77,3.89,4.14,1-3,2024-2025
+Unknown 14:00,Mannheim,SG Dynamo Dresden,2.96,3.32,2.37,1-0,2024-2025
+Unknown 14:00,Verl,Munich 1860,2.03,3.75,3.3,2-2,2024-2025
+09 May 2025 19:00,Dortmund II,Stuttgart II,2.43,3.48,2.76,0-1,2024-2025
+07 May 2025 19:00,Unterhaching,Hansa Rostock,6.12,4.48,1.47,0-2,2024-2025
+04 May 2025 19:30,Hannover II,Unterhaching,1.77,3.96,4.01,0-0,2024-2025
+Unknown 16:30,Aue,Ingolstadt,2.24,3.59,2.94,1-0,2024-2025
+Unknown 13:30,Cottbus,Mannheim,2.2,3.5,3.06,2-4,2024-2025
+03 May 2025 16:30,Arminia Bielefeld,SG Dynamo Dresden,1.96,3.62,3.61,1-1,2024-2025
+Unknown 14:00,Munich 1860,RW Essen,2.17,3.49,3.16,1-3,2024-2025
+Unknown 14:00,Saarbrucken,Verl,2.04,3.45,3.48,4-3,2024-2025
+Unknown 14:00,Sandhausen,Hansa Rostock,3.35,3.57,2.06,0-3,2024-2025
+Unknown 14:00,Stuttgart II,Alemannia Aachen,2.73,3.34,2.5,2-1,2024-2025
+Unknown 14:00,Wehen,Dortmund II,2.34,3.53,2.84,4-2,2024-2025
+02 May 2025 19:00,VfL Osnabruck,Viktoria Koln,2.11,3.49,3.26,2-0,2024-2025
+27 Apr 2025 19:30,Mannheim,Stuttgart II,2.08,3.51,3.35,0-0,2024-2025
+Unknown 16:30,Alemannia Aachen,VfL Osnabruck,2.32,3.04,3.28,1-0,2024-2025
+Unknown 13:30,Ingolstadt,Arminia Bielefeld,3.28,3.75,2.03,0-3,2024-2025
+26 Apr 2025 16:30,Verl,Aue,1.87,3.63,3.92,5-1,2024-2025
+Unknown 14:00,Dortmund II,Hannover II,1.93,3.94,3.39,0-4,2024-2025
+Unknown 14:00,SG Dynamo Dresden,Sandhausen,1.39,4.87,6.91,2-1,2024-2025
+Unknown 14:00,Viktoria Koln,Wehen,2.21,3.45,3.12,2-0,2024-2025
+Unknown 14:00,RW Essen,Saarbrucken,2.49,3.47,2.67,0-3,2024-2025
+Unknown 14:00,Unterhaching,Cottbus,4.17,4.04,1.73,1-1,2024-2025
+25 Apr 2025 19:00,Hansa Rostock,Munich 1860,2.18,3.31,3.31,1-0,2024-2025
+20 Apr 2025 19:30,Aue,Dortmund II,2.54,3.14,2.88,2-1,2024-2025
+Unknown 16:30,Hannover II,Mannheim,2.87,3.57,2.33,1-1,2024-2025
+Unknown 13:30,Saarbrucken,SG Dynamo Dresden,2.31,3.38,3.05,1-4,2024-2025
+19 Apr 2025 16:30,Stuttgart II,Verl,2.62,3.51,2.53,1-1,2024-2025
+Unknown 16:30,VfL Osnabruck,Ingolstadt,2.14,3.56,3.2,1-0,2024-2025
+Unknown 14:00,Munich 1860,Alemannia Aachen,2.31,3.1,3.32,2-1,2024-2025
+Unknown 14:00,Sandhausen,RW Essen,2.88,3.45,2.35,0-2,2024-2025
+19 Apr 2025 14:00,Arminia Bielefeld,Hansa Rostock,1.89,3.64,3.9,4-0,2024-2025
+Unknown 14:00,Cottbus,Viktoria Koln,2.15,3.62,3.16,1-0,2024-2025
+Unknown 14:00,Wehen,Unterhaching,1.63,4.01,4.97,3-0,2024-2025
+13 Apr 2025 19:30,Viktoria Koln,Arminia Bielefeld,3.21,3.45,2.15,0-2,2024-2025
+Unknown 16:30,Dortmund II,Cottbus,2.69,3.52,2.42,4-1,2024-2025
+Unknown 13:30,Mannheim,Munich 1860,2.32,3.29,3.0,0-3,2024-2025
+12 Apr 2025 16:30,Alemannia Aachen,Sandhausen,1.93,3.5,3.76,2-1,2024-2025
+Unknown 14:00,SG Dynamo Dresden,VfL Osnabruck,1.88,3.89,3.52,0-1,2024-2025
+Unknown 14:00,Hansa Rostock,Verl,2.21,3.29,3.21,4-0,2024-2025
+Unknown 14:00,Ingolstadt,Hannover II,1.63,4.22,4.54,3-3,2024-2025
+Unknown 14:00,RW Essen,Aue,1.83,3.6,4.09,4-2,2024-2025
+Unknown 14:00,Unterhaching,Stuttgart II,2.81,3.63,2.28,2-2,2024-2025
+11 Apr 2025 19:00,Wehen,Saarbrucken,3.16,3.24,2.26,1-1,2024-2025
+09 Apr 2025 19:00,SG Dynamo Dresden,Ingolstadt,1.73,4.02,4.08,2-2,2024-2025
+Unknown 19:00,Cottbus,RW Essen,2.13,3.5,3.18,0-1,2024-2025
+Unknown 19:00,Munich 1860,Sandhausen,2.21,3.56,2.97,2-0,2024-2025
+Unknown 19:00,Verl,Dortmund II,1.77,3.74,4.21,0-1,2024-2025
+Unknown 19:00,VfL Osnabruck,Hansa Rostock,2.13,3.38,3.29,0-1,2024-2025
+08 Apr 2025 19:00,Arminia Bielefeld,Wehen,1.64,3.87,4.88,4-2,2024-2025
+Unknown 19:00,Hannover II,Alemannia Aachen,3.07,3.5,2.18,1-1,2024-2025
+Unknown 19:00,Mannheim,Unterhaching,1.5,4.32,5.75,0-2,2024-2025
+Unknown 19:00,Saarbrucken,Aue,1.72,3.74,4.5,2-0,2024-2025
+Unknown 19:00,Stuttgart II,Viktoria Koln,2.45,3.51,2.65,1-2,2024-2025
+06 Apr 2025 19:30,RW Essen,Hansa Rostock,2.28,3.31,3.06,2-1,2024-2025
+Unknown 16:30,Sandhausen,Verl,2.92,3.42,2.31,1-3,2024-2025
+Unknown 13:30,Dortmund II,Ingolstadt,2.91,3.45,2.3,3-3,2024-2025
+05 Apr 2025 16:30,Alemannia Aachen,Arminia Bielefeld,2.75,3.22,2.54,0-1,2024-2025
+Unknown 14:00,Aue,Stuttgart II,2.21,3.33,3.17,2-1,2024-2025
+Unknown 14:00,Viktoria Koln,Unterhaching,1.71,3.83,4.49,3-1,2024-2025
+Unknown 14:00,Munich 1860,Cottbus,2.54,3.41,2.63,5-1,2024-2025
+Unknown 14:00,Saarbrucken,VfL Osnabruck,2.1,3.5,3.27,1-1,2024-2025
+Unknown 14:00,Wehen,Mannheim,2.71,3.22,2.57,2-2,2024-2025
+04 Apr 2025 19:00,Hannover II,SG Dynamo Dresden,4.26,4.36,1.66,2-3,2024-2025
+30 Mar 2025 19:30,Stuttgart II,Sandhausen,2.41,3.53,2.7,2-1,2024-2025
+Unknown 16:30,SG Dynamo Dresden,Wehen,1.69,3.84,4.65,2-0,2024-2025
+Unknown 13:30,Ingolstadt,Viktoria Koln,2.1,3.51,3.25,3-1,2024-2025
+29 Mar 2025 16:30,Arminia Bielefeld,Hannover II,1.42,4.77,6.58,2-2,2024-2025
+Unknown 14:00,Cottbus,Aue,1.82,3.77,3.95,1-0,2024-2025
+Unknown 14:00,Hansa Rostock,Saarbrucken,2.1,3.29,3.51,0-0,2024-2025
+Unknown 14:00,Mannheim,Dortmund II,1.85,3.69,3.9,0-0,2024-2025
+Unknown 14:00,Unterhaching,Alemannia Aachen,3.53,3.37,2.04,0-2,2024-2025
+Unknown 14:00,VfL Osnabruck,Munich 1860,2.14,3.38,3.29,1-0,2024-2025
+28 Mar 2025 19:00,Verl,RW Essen,2.22,3.43,3.08,3-0,2024-2025
+16 Mar 2025 19:30,Alemannia Aachen,Hansa Rostock,2.29,3.05,3.33,2-1,2024-2025
+Unknown 16:30,Aue,Mannheim,2.65,3.39,2.55,0-1,2024-2025
+Unknown 13:30,Sandhausen,Cottbus,2.88,3.78,2.21,0-1,2024-2025
+15 Mar 2025 16:30,Munich 1860,Unterhaching,1.8,3.8,4.09,2-1,2024-2025
+Unknown 14:00,RW Essen,SG Dynamo Dresden,3.03,3.3,2.33,1-1,2024-2025
+Unknown 14:00,Verl,Ingolstadt,2.12,3.4,3.35,1-4,2024-2025
+Unknown 14:00,VfL Osnabruck,Arminia Bielefeld,3.26,3.41,2.16,0-1,2024-2025
+15 Mar 2025 14:00,Dortmund II,Viktoria Koln,2.33,3.56,2.85,1-1,2024-2025
+Unknown 14:00,Hannover II,Wehen,2.87,3.5,2.33,3-2,2024-2025
+14 Mar 2025 19:00,Saarbrucken,Stuttgart II,1.66,3.86,4.95,0-2,2024-2025
+12 Mar 2025 19:00,SG Dynamo Dresden,Dortmund II,1.45,4.79,5.9,0-0,2024-2025
+Unknown 19:00,Viktoria Koln,RW Essen,2.7,3.29,2.58,1-0,2024-2025
+Unknown 19:00,Hansa Rostock,Aue,2.02,3.25,3.84,4-1,2024-2025
+Unknown 19:00,Mannheim,Sandhausen,2.04,3.55,3.44,3-2,2024-2025
+Unknown 19:00,Wehen,Munich 1860,2.33,3.28,3.02,0-0,2024-2025
+11 Mar 2025 19:00,Arminia Bielefeld,Saarbrucken,2.17,3.29,3.34,3-1,2024-2025
+Unknown 19:00,Cottbus,Hannover II,1.47,4.7,5.86,2-2,2024-2025
+Unknown 19:00,Ingolstadt,Alemannia Aachen,2.41,3.25,2.92,0-3,2024-2025
+Unknown 19:00,Unterhaching,Verl,3.04,3.47,2.24,1-2,2024-2025
+Unknown 19:00,Stuttgart II,VfL Osnabruck,2.99,3.46,2.25,1-2,2024-2025
+09 Mar 2025 19:30,RW Essen,Mannheim,2.16,3.43,3.23,1-0,2024-2025
+Unknown 16:45,Aue,Viktoria Koln,2.14,3.49,3.19,2-1,2024-2025
+Unknown 13:30,Munich 1860,Dortmund II,2.03,3.67,3.33,1-0,2024-2025
+08 Mar 2025 16:30,Verl,Arminia Bielefeld,3.08,3.26,2.32,2-1,2024-2025
+Unknown 14:00,Alemannia Aachen,SG Dynamo Dresden,3.0,3.3,2.34,0-1,2024-2025
+Unknown 14:00,Hansa Rostock,Ingolstadt,2.2,3.44,3.14,2-0,2024-2025
+Unknown 14:00,Saarbrucken,Cottbus,2.12,3.42,3.4,2-1,2024-2025
+Unknown 14:00,Sandhausen,Unterhaching,1.84,3.79,3.94,2-2,2024-2025
+Unknown 14:00,Stuttgart II,Hannover II,1.86,3.81,3.76,2-1,2024-2025
+07 Mar 2025 19:00,VfL Osnabruck,Wehen,1.97,3.46,3.79,0-1,2024-2025
+02 Mar 2025 19:30,Arminia Bielefeld,Stuttgart II,1.69,3.75,4.82,4-1,2024-2025
+Unknown 13:30,Mannheim,Alemannia Aachen,2.06,3.27,3.64,2-1,2024-2025
+01 Mar 2025 16:30,SG Dynamo Dresden,Verl,1.86,3.83,3.72,3-0,2024-2025
+Unknown 14:00,Dortmund II,RW Essen,2.84,3.57,2.3,0-1,2024-2025
+Unknown 14:00,Cottbus,VfL Osnabruck,2.21,3.43,3.12,1-2,2024-2025
+Unknown 14:00,Hannover II,Munich 1860,2.98,3.59,2.22,1-3,2024-2025
+Unknown 14:00,Ingolstadt,Sandhausen,2.0,3.64,3.43,2-1,2024-2025
+Unknown 14:00,Wehen,Aue,2.23,3.39,3.11,0-2,2024-2025
+28 Feb 2025 19:00,Viktoria Koln,Saarbrucken,3.46,3.26,2.14,1-2,2024-2025
+23 Feb 2025 19:30,Sandhausen,Wehen,2.46,3.41,2.72,0-1,2024-2025
+Unknown 16:30,VfL Osnabruck,Mannheim,2.14,3.39,3.25,1-1,2024-2025
+Unknown 13:30,Stuttgart II,Cottbus,2.91,3.63,2.22,2-0,2024-2025
+22 Feb 2025 16:30,Saarbrucken,Hannover II,1.41,4.61,6.87,4-1,2024-2025
+Unknown 14:00,Alemannia Aachen,Dortmund II,2.13,3.34,3.36,2-2,2024-2025
+Unknown 14:00,Aue,Unterhaching,1.74,3.8,4.31,1-0,2024-2025
+Unknown 14:00,Hansa Rostock,SG Dynamo Dresden,2.6,3.4,2.55,1-0,2024-2025
+Unknown 14:00,RW Essen,Ingolstadt,2.32,3.5,2.86,2-0,2024-2025
+Unknown 14:00,Verl,Viktoria Koln,2.12,3.23,3.53,1-1,2024-2025
+21 Feb 2025 19:00,Munich 1860,Arminia Bielefeld,3.17,3.33,2.21,0-3,2024-2025
+16 Feb 2025 19:30,SG Dynamo Dresden,Munich 1860,1.59,4.32,4.83,5-2,2024-2025
+Unknown 16:30,Cottbus,Verl,2.25,3.61,2.9,1-0,2024-2025
+Unknown 13:30,Unterhaching,Saarbrucken,4.45,3.85,1.71,2-0,2024-2025
+15 Feb 2025 16:30,Dortmund II,Sandhausen,2.33,3.78,2.67,1-0,2024-2025
+Unknown 14:00,Hannover II,VfL Osnabruck,3.14,3.52,2.16,1-5,2024-2025
+Unknown 14:00,Ingolstadt,Stuttgart II,1.82,3.77,4.0,1-1,2024-2025
+Unknown 14:00,Mannheim,Hansa Rostock,2.79,3.24,2.51,5-0,2024-2025
+Unknown 14:00,Wehen,RW Essen,2.33,3.41,2.92,1-3,2024-2025
+15 Feb 2025 14:00,Arminia Bielefeld,Aue,1.69,3.95,4.56,2-1,2024-2025
+14 Feb 2025 19:00,Viktoria Koln,Alemannia Aachen,2.44,3.16,2.95,3-1,2024-2025
+09 Feb 2025 19:30,VfL Osnabruck,Dortmund II,1.92,3.78,3.6,1-0,2024-2025
+Unknown 16:30,Verl,Hannover II,1.72,3.87,4.36,1-0,2024-2025
+Unknown 13:30,Hansa Rostock,Viktoria Koln,1.89,3.55,3.93,1-1,2024-2025
+08 Feb 2025 16:30,Munich 1860,Ingolstadt,2.92,3.28,2.39,1-1,2024-2025
+Unknown 14:00,Aue,Alemannia Aachen,2.34,3.25,3.02,1-1,2024-2025
+Unknown 14:00,Cottbus,Wehen,1.97,3.71,3.5,2-1,2024-2025
+Unknown 14:00,RW Essen,Unterhaching,1.63,4.16,4.66,1-1,2024-2025
+Unknown 14:00,Saarbrucken,Mannheim,2.12,3.4,3.31,2-1,2024-2025
+Unknown 14:00,Stuttgart II,SG Dynamo Dresden,3.93,3.85,1.81,2-1,2024-2025
+07 Feb 2025 19:00,Sandhausen,Arminia Bielefeld,3.12,3.61,2.13,1-0,2024-2025
+02 Feb 2025 19:30,Hannover II,Sandhausen,3.06,3.58,2.2,2-2,2024-2025
+Unknown 16:30,Unterhaching,VfL Osnabruck,3.24,3.52,2.14,2-3,2024-2025
+Unknown 13:30,Arminia Bielefeld,RW Essen,1.69,4.0,4.57,1-2,2024-2025
+01 Feb 2025 16:30,Viktoria Koln,Munich 1860,2.14,3.39,3.36,1-2,2024-2025
+Unknown 14:00,Dortmund II,Hansa Rostock,3.3,3.34,2.18,0-2,2024-2025
+Unknown 14:00,SG Dynamo Dresden,Aue,1.67,4.15,4.43,2-1,2024-2025
+Unknown 14:00,Ingolstadt,Saarbrucken,2.34,3.34,3.01,1-0,2024-2025
+Unknown 14:00,Mannheim,Verl,2.54,3.36,2.72,2-2,2024-2025
+Unknown 14:00,Wehen,Stuttgart II,2.02,3.54,3.53,2-0,2024-2025
+31 Jan 2025 19:00,Alemannia Aachen,Cottbus,2.45,3.41,2.78,0-0,2024-2025
+26 Jan 2025 19:30,Dortmund II,Arminia Bielefeld,3.12,3.45,2.22,0-4,2024-2025
+Unknown 16:30,Ingolstadt,Unterhaching,1.51,4.39,5.65,3-1,2024-2025
+Unknown 13:30,RW Essen,Hannover II,1.77,3.89,4.17,5-1,2024-2025
+25 Jan 2025 16:30,Sandhausen,Saarbrucken,3.26,3.5,2.14,3-4,2024-2025
+Unknown 14:00,Aue,VfL Osnabruck,2.82,3.45,2.38,0-0,2024-2025
+Unknown 14:00,Cottbus,SG Dynamo Dresden,2.94,3.55,2.27,1-1,2024-2025
+Unknown 14:00,Hansa Rostock,Wehen,1.89,3.53,4.0,1-4,2024-2025
+Unknown 14:00,Munich 1860,Stuttgart II,2.11,3.53,3.29,1-1,2024-2025
+Unknown 14:00,Verl,Alemannia Aachen,2.15,3.17,3.51,2-1,2024-2025
+24 Jan 2025 19:00,Viktoria Koln,Mannheim,2.51,3.38,2.73,1-0,2024-2025
+19 Jan 2025 19:30,Mannheim,Ingolstadt,3.0,3.45,2.25,0-0,2024-2025
+Unknown 16:30,Alemannia Aachen,RW Essen,2.31,3.23,3.09,2-0,2024-2025
+Unknown 13:30,SG Dynamo Dresden,Viktoria Koln,1.58,4.29,4.89,2-3,2024-2025
+18 Jan 2025 16:30,Wehen,Verl,2.67,3.26,2.57,0-1,2024-2025
+Unknown 14:00,Arminia Bielefeld,Cottbus,1.87,3.8,3.7,0-2,2024-2025
+Unknown 14:00,Saarbrucken,Munich 1860,1.67,4.01,4.65,4-0,2024-2025
+Unknown 14:00,Unterhaching,Dortmund II,3.03,3.58,2.19,1-2,2024-2025
+Unknown 14:00,Stuttgart II,Hansa Rostock,2.85,3.37,2.4,0-3,2024-2025
+Unknown 14:00,VfL Osnabruck,Sandhausen,2.15,3.53,3.17,3-2,2024-2025
+17 Jan 2025 19:00,Hannover II,Aue,3.11,3.67,2.11,2-1,2024-2025
+22 Dec 2024 19:30,Hansa Rostock,Hannover II,1.51,4.36,5.75,1-0,2024-2025
+Unknown 16:30,Verl,VfL Osnabruck,1.97,3.66,3.51,1-1,2024-2025
+Unknown 13:30,Mannheim,Arminia Bielefeld,3.1,3.39,2.24,1-1,2024-2025
+21 Dec 2024 16:30,Alemannia Aachen,Wehen,2.3,3.36,3.06,0-0,2024-2025
+Unknown 14:00,Aue,Munich 1860,2.3,3.6,2.87,3-1,2024-2025
+Unknown 14:00,Dortmund II,Saarbrucken,2.94,3.61,2.27,0-0,2024-2025
+Unknown 14:00,Viktoria Koln,Sandhausen,2.59,3.56,2.53,2-0,2024-2025
+Unknown 14:00,RW Essen,Stuttgart II,2.08,3.72,3.22,2-2,2024-2025
+21 Dec 2024 14:00,Unterhaching,SG Dynamo Dresden,5.19,4.38,1.55,0-3,2024-2025
+20 Dec 2024 19:00,Ingolstadt,Cottbus,2.02,3.93,3.22,1-1,2024-2025
+15 Dec 2024 19:30,Saarbrucken,Alemannia Aachen,2.01,3.57,3.62,1-1,2024-2025
+Unknown 16:30,VfL Osnabruck,RW Essen,1.83,3.76,4.03,2-0,2024-2025
+Unknown 13:30,Cottbus,Hansa Rostock,2.63,3.28,2.69,3-1,2024-2025
+14 Dec 2024 16:30,Munich 1860,Verl,2.53,3.57,2.61,0-4,2024-2025
+Unknown 14:00,Arminia Bielefeld,Unterhaching,1.43,4.59,6.98,3-3,2024-2025
+Unknown 14:00,Hannover II,Viktoria Koln,2.65,3.63,2.48,1-2,2024-2025
+Unknown 14:00,Sandhausen,Aue,2.11,3.72,3.21,4-6,2024-2025
+Unknown 14:00,Stuttgart II,Dortmund II,2.47,3.7,2.59,0-3,2024-2025
+Unknown 14:00,Wehen,Ingolstadt,2.57,3.69,2.52,2-5,2024-2025
+13 Dec 2024 19:00,SG Dynamo Dresden,Mannheim,1.5,4.43,5.92,2-1,2024-2025
+08 Dec 2024 19:30,Viktoria Koln,VfL Osnabruck,2.17,3.42,3.24,2-0,2024-2025
+Unknown 16:30,SG Dynamo Dresden,Arminia Bielefeld,2.22,3.4,3.19,3-0,2024-2025
+Unknown 13:30,RW Essen,Munich 1860,2.21,3.49,3.12,0-3,2024-2025
+07 Dec 2024 16:30,Alemannia Aachen,Stuttgart II,2.12,3.41,3.39,2-1,2024-2025
+Unknown 14:00,Dortmund II,Wehen,2.82,3.65,2.32,2-2,2024-2025
+Unknown 14:00,Hansa Rostock,Sandhausen,1.99,3.58,3.58,1-0,2024-2025
+Unknown 14:00,Ingolstadt,Aue,2.02,3.76,3.35,1-0,2024-2025
+Unknown 14:00,Mannheim,Cottbus,1.98,3.69,3.53,0-1,2024-2025
+Unknown 14:00,Unterhaching,Hannover II,2.04,3.65,3.38,1-2,2024-2025
+06 Dec 2024 19:00,Verl,Saarbrucken,2.55,3.47,2.63,1-1,2024-2025
+01 Dec 2024 19:30,Wehen,Viktoria Koln,2.11,3.55,3.29,3-1,2024-2025
+Unknown 16:30,Saarbrucken,RW Essen,1.86,3.77,3.89,1-0,2024-2025
+Unknown 13:30,VfL Osnabruck,Alemannia Aachen,2.48,3.39,2.76,1-1,2024-2025
+30 Nov 2024 16:30,Stuttgart II,Mannheim,2.8,3.43,2.43,2-0,2024-2025
+Unknown 14:00,Aue,Verl,2.58,3.53,2.56,2-5,2024-2025
+Unknown 14:00,Cottbus,Unterhaching,1.51,4.64,5.42,2-0,2024-2025
+Unknown 14:00,Hannover II,Dortmund II,2.65,3.78,2.36,2-0,2024-2025
+Unknown 14:00,Munich 1860,Hansa Rostock,2.48,3.37,2.76,1-2,2024-2025
+Unknown 14:00,Sandhausen,SG Dynamo Dresden,2.92,3.55,2.28,2-4,2024-2025
+29 Nov 2024 19:00,Arminia Bielefeld,Ingolstadt,1.87,3.72,3.89,1-0,2024-2025
+24 Nov 2024 19:30,Dortmund II,Aue,2.41,3.52,2.8,3-1,2024-2025
+Unknown 16:30,Ingolstadt,VfL Osnabruck,1.87,3.9,3.75,4-2,2024-2025
+Unknown 13:30,Mannheim,Hannover II,1.91,3.77,3.79,2-1,2024-2025
+23 Nov 2024 16:30,Unterhaching,Wehen,2.91,3.58,2.31,1-1,2024-2025
+Unknown 14:00,Alemannia Aachen,Munich 1860,2.66,3.35,2.61,1-1,2024-2025
+Unknown 14:00,SG Dynamo Dresden,Saarbrucken,1.89,3.81,3.81,1-1,2024-2025
+Unknown 14:00,Hansa Rostock,Arminia Bielefeld,2.58,3.32,2.74,2-1,2024-2025
+Unknown 14:00,RW Essen,Sandhausen,2.45,3.54,2.74,1-1,2024-2025
+Unknown 14:00,Verl,Stuttgart II,1.76,3.79,4.41,2-2,2024-2025
+22 Nov 2024 19:00,Viktoria Koln,Cottbus,2.47,3.71,2.63,0-1,2024-2025
+10 Nov 2024 19:30,Stuttgart II,Unterhaching,1.92,3.82,3.59,3-2,2024-2025
+Unknown 16:30,Aue,RW Essen,2.4,3.53,2.81,2-1,2024-2025
+Unknown 13:30,Hannover II,Ingolstadt,3.02,3.88,2.13,0-4,2024-2025
+09 Nov 2024 16:30,Arminia Bielefeld,Viktoria Koln,1.82,3.79,4.11,2-0,2024-2025
+Unknown 14:00,Cottbus,Dortmund II,1.76,4.28,3.93,3-3,2024-2025
+Unknown 14:00,Saarbrucken,Wehen,2.08,3.64,3.36,3-1,2024-2025
+Unknown 14:00,Sandhausen,Alemannia Aachen,2.36,3.29,3.05,4-0,2024-2025
+Unknown 14:00,VfL Osnabruck,SG Dynamo Dresden,2.97,3.79,2.19,0-3,2024-2025
+09 Nov 2024 14:00,Munich 1860,Mannheim,2.09,3.6,3.36,3-0,2024-2025
+08 Nov 2024 19:00,Verl,Hansa Rostock,2.43,3.47,2.8,1-0,2024-2025
+03 Nov 2024 19:30,Dortmund II,Verl,2.95,3.71,2.22,3-1,2024-2025
+Unknown 16:30,Wehen,Arminia Bielefeld,2.79,3.43,2.46,0-0,2024-2025
+Unknown 13:30,Unterhaching,Mannheim,3.21,3.55,2.16,1-1,2024-2025
+02 Nov 2024 16:30,Alemannia Aachen,Hannover II,2.11,3.73,3.22,0-0,2024-2025
+Unknown 14:00,Aue,Saarbrucken,2.7,3.45,2.53,1-1,2024-2025
+Unknown 14:00,Hansa Rostock,VfL Osnabruck,2.13,3.61,3.25,2-0,2024-2025
+Unknown 14:00,Ingolstadt,SG Dynamo Dresden,2.86,3.82,2.23,1-1,2024-2025
+Unknown 14:00,RW Essen,Cottbus,2.36,4.08,2.57,4-0,2024-2025
+Unknown 14:00,Sandhausen,Munich 1860,2.19,3.65,3.06,0-3,2024-2025
+01 Nov 2024 19:00,Viktoria Koln,Stuttgart II,2.31,3.51,2.94,2-0,2024-2025
+27 Oct 2024 19:30,Mannheim,Wehen,2.42,3.48,2.78,2-2,2024-2025
+Unknown 16:30,Stuttgart II,Aue,2.48,3.55,2.66,0-1,2024-2025
+Unknown 13:30,Cottbus,Munich 1860,2.14,3.77,3.05,5-1,2024-2025
+26 Oct 2024 16:30,Verl,Sandhausen,2.31,3.63,2.85,1-1,2024-2025
+Unknown 14:30,Hansa Rostock,RW Essen,1.99,3.71,3.49,4-0,2024-2025
+Unknown 14:00,Arminia Bielefeld,Alemannia Aachen,1.65,3.92,4.99,1-1,2024-2025
+Unknown 14:00,SG Dynamo Dresden,Hannover II,1.44,4.87,6.21,2-1,2024-2025
+Unknown 14:00,Unterhaching,Viktoria Koln,2.73,3.57,2.42,1-1,2024-2025
+Unknown 14:00,VfL Osnabruck,Saarbrucken,2.6,3.65,2.49,1-1,2024-2025
+25 Oct 2024 19:00,Ingolstadt,Dortmund II,1.96,3.97,3.36,5-3,2024-2025
+23 Oct 2024 19:02,Munich 1860,VfL Osnabruck,2.29,3.58,2.91,2-2,2024-2025
+Unknown 19:00,Alemannia Aachen,Unterhaching,1.79,3.82,4.17,3-1,2024-2025
+Unknown 19:00,Hannover II,Arminia Bielefeld,3.32,3.77,2.03,1-4,2024-2025
+Unknown 19:00,RW Essen,Verl,2.23,3.72,2.93,1-3,2024-2025
+Unknown 19:00,Wehen,SG Dynamo Dresden,3.02,3.63,2.18,1-0,2024-2025
+22 Oct 2024 19:00,Aue,Cottbus,2.28,3.59,2.95,1-3,2024-2025
+Unknown 19:00,Dortmund II,Mannheim,2.63,3.61,2.5,0-1,2024-2025
+Unknown 19:00,Viktoria Koln,Ingolstadt,2.93,3.77,2.22,4-4,2024-2025
+Unknown 19:00,Saarbrucken,Hansa Rostock,1.89,3.62,3.97,2-0,2024-2025
+Unknown 19:00,Sandhausen,Stuttgart II,1.64,4.14,4.81,1-1,2024-2025
+20 Oct 2024 19:30,Unterhaching,Munich 1860,2.8,3.54,2.4,2-2,2024-2025
+Unknown 16:30,Arminia Bielefeld,VfL Osnabruck,2.07,3.53,3.42,3-1,2024-2025
+Unknown 13:30,SG Dynamo Dresden,RW Essen,1.6,4.34,4.9,3-3,2024-2025
+19 Oct 2024 16:30,Stuttgart II,Saarbrucken,3.68,3.88,1.91,2-3,2024-2025
+Unknown 14:00,Cottbus,Sandhausen,2.43,3.49,2.84,1-1,2024-2025
+Unknown 14:00,Viktoria Koln,Dortmund II,2.32,3.46,2.98,3-5,2024-2025
+Unknown 14:00,Hansa Rostock,Alemannia Aachen,2.05,3.39,3.71,1-2,2024-2025
+Unknown 14:00,Ingolstadt,Verl,2.23,3.76,2.93,1-1,2024-2025
+Unknown 14:00,Wehen,Hannover II,1.77,4.07,4.14,1-5,2024-2025
+18 Oct 2024 19:00,Mannheim,Aue,2.3,3.57,2.94,3-0,2024-2025
+06 Oct 2024 19:30,VfL Osnabruck,Stuttgart II,1.74,4.06,4.13,1-0,2024-2025
+Unknown 16:30,Saarbrucken,Arminia Bielefeld,2.16,3.54,3.14,0-0,2024-2025
+Unknown 13:30,Hannover II,Cottbus,2.88,3.81,2.22,0-0,2024-2025
+05 Oct 2024 16:30,Alemannia Aachen,Ingolstadt,2.77,3.45,2.44,1-1,2024-2025
+Unknown 14:00,Aue,Hansa Rostock,2.26,3.46,3.01,1-2,2024-2025
+Unknown 14:00,Munich 1860,Wehen,2.54,3.41,2.67,2-3,2024-2025
+Unknown 14:00,RW Essen,Viktoria Koln,1.95,3.69,3.64,2-1,2024-2025
+Unknown 14:00,Sandhausen,Mannheim,2.06,3.67,3.3,2-1,2024-2025
+05 Oct 2024 14:00,Verl,Unterhaching,1.72,3.99,4.45,2-0,2024-2025
+04 Oct 2024 19:00,Dortmund II,SG Dynamo Dresden,4.5,4.0,1.7,2-1,2024-2025
+29 Sep 2024 19:30,Arminia Bielefeld,Verl,1.94,3.75,3.67,2-1,2024-2025
+Unknown 16:30,SG Dynamo Dresden,Alemannia Aachen,1.44,4.85,6.47,0-0,2024-2025
+Unknown 13:30,Ingolstadt,Hansa Rostock,2.09,3.58,3.32,2-1,2024-2025
+28 Sep 2024 16:30,Cottbus,Saarbrucken,3.07,3.87,2.13,4-1,2024-2025
+Unknown 14:00,Dortmund II,Munich 1860,2.41,3.65,2.72,1-2,2024-2025
+Unknown 14:00,Viktoria Koln,Aue,3.08,3.59,2.2,2-0,2024-2025
+Unknown 14:00,Hannover II,Stuttgart II,2.32,3.76,2.79,3-1,2024-2025
+Unknown 14:00,Mannheim,RW Essen,2.26,3.67,2.94,1-0,2024-2025
+Unknown 14:00,Wehen,VfL Osnabruck,2.25,3.6,2.97,2-1,2024-2025
+27 Sep 2024 19:00,Unterhaching,Sandhausen,2.73,3.61,2.42,0-0,2024-2025
+25 Sep 2024 19:00,Alemannia Aachen,Mannheim,2.47,3.46,2.73,0-0,2024-2025
+Unknown 19:00,Munich 1860,Hannover II,1.82,3.79,4.11,1-0,2024-2025
+Unknown 19:00,RW Essen,Dortmund II,2.31,3.68,2.83,3-1,2024-2025
+Unknown 19:00,Saarbrucken,Viktoria Koln,1.61,4.2,4.96,1-0,2024-2025
+Unknown 19:00,Verl,SG Dynamo Dresden,3.34,3.63,2.08,0-3,2024-2025
+24 Sep 2024 19:00,Aue,Wehen,2.14,3.66,3.17,2-1,2024-2025
+Unknown 19:00,Hansa Rostock,Unterhaching,1.64,4.03,5.03,4-1,2024-2025
+Unknown 19:00,Sandhausen,Ingolstadt,2.91,3.66,2.28,4-3,2024-2025
+Unknown 19:00,Stuttgart II,Arminia Bielefeld,4.08,3.76,1.84,3-0,2024-2025
+Unknown 19:00,VfL Osnabruck,Cottbus,1.84,4.1,3.73,2-5,2024-2025
+22 Sep 2024 19:30,Dortmund II,Alemannia Aachen,2.18,3.51,3.17,3-0,2024-2025
+Unknown 16:30,Viktoria Koln,Verl,2.53,3.52,2.64,2-1,2024-2025
+Unknown 13:30,Hannover II,Saarbrucken,3.66,3.93,1.88,1-3,2024-2025
+21 Sep 2024 16:30,Arminia Bielefeld,Munich 1860,1.69,3.82,4.72,0-1,2024-2025
+Unknown 14:00,SG Dynamo Dresden,Hansa Rostock,1.63,3.98,5.07,1-1,2024-2025
+Unknown 14:00,Cottbus,Stuttgart II,2.07,3.79,3.2,4-0,2024-2025
+Unknown 14:00,Ingolstadt,RW Essen,1.7,4.1,4.3,2-2,2024-2025
+Unknown 14:00,Mannheim,VfL Osnabruck,2.2,3.65,3.04,3-2,2024-2025
+Unknown 14:00,Wehen,Sandhausen,1.97,3.73,3.5,1-3,2024-2025
+20 Sep 2024 19:00,Unterhaching,Aue,3.53,3.57,1.97,2-2,2024-2025
+15 Sep 2024 19:30,Alemannia Aachen,Viktoria Koln,2.05,3.51,3.42,1-0,2024-2025
+Unknown 16:30,Verl,Cottbus,1.96,3.67,3.6,0-3,2024-2025
+Unknown 13:30,Aue,Arminia Bielefeld,2.63,3.31,2.6,1-3,2024-2025
+14 Sep 2024 16:30,VfL Osnabruck,Hannover II,1.74,4.12,4.02,1-1,2024-2025
+Unknown 14:00,Hansa Rostock,Mannheim,2.08,3.62,3.25,1-1,2024-2025
+Unknown 14:00,Munich 1860,SG Dynamo Dresden,3.04,3.5,2.23,2-3,2024-2025
+Unknown 14:00,RW Essen,Wehen,2.41,3.66,2.65,0-3,2024-2025
+Unknown 14:00,Saarbrucken,Unterhaching,1.52,4.35,5.58,1-1,2024-2025
+Unknown 14:00,Stuttgart II,Ingolstadt,3.58,3.84,1.91,3-2,2024-2025
+13 Sep 2024 19:00,Sandhausen,Dortmund II,2.06,3.58,3.39,3-1,2024-2025
+01 Sep 2024 19:30,Hannover II,Verl,2.82,3.75,2.24,1-2,2024-2025
+Unknown 16:30,Unterhaching,RW Essen,2.77,3.54,2.35,2-0,2024-2025
+Unknown 13:30,Wehen,Cottbus,1.67,3.89,4.55,2-1,2024-2025
+31 Aug 2024 16:30,Dortmund II,VfL Osnabruck,3.09,3.63,2.16,1-1,2024-2025
+Unknown 14:00,Alemannia Aachen,Aue,2.51,3.44,2.62,1-2,2024-2025
+Unknown 14:00,Arminia Bielefeld,Sandhausen,1.92,3.71,3.6,1-1,2024-2025
+Unknown 14:00,SG Dynamo Dresden,Stuttgart II,1.37,4.96,7.13,2-0,2024-2025
+Unknown 14:00,Mannheim,Saarbrucken,2.82,3.66,2.31,0-1,2024-2025
+31 Aug 2024 14:00,Ingolstadt,Munich 1860,1.82,3.76,3.94,1-2,2024-2025
+30 Aug 2024 19:00,Viktoria Koln,Hansa Rostock,2.99,3.47,2.24,3-0,2024-2025
+25 Aug 2024 19:30,Stuttgart II,Wehen,3.13,3.53,2.17,2-2,2024-2025
+Unknown 16:30,Verl,Mannheim,2.59,3.68,2.46,1-1,2024-2025
+Unknown 13:30,Munich 1860,Viktoria Koln,1.83,3.79,3.98,1-3,2024-2025
+24 Aug 2024 16:30,Cottbus,Alemannia Aachen,2.67,3.6,2.43,2-1,2024-2025
+Unknown 14:00,Hansa Rostock,Dortmund II,1.89,3.73,3.77,1-1,2024-2025
+Unknown 14:00,RW Essen,Arminia Bielefeld,2.55,3.52,2.59,0-0,2024-2025
+Unknown 14:00,Saarbrucken,Ingolstadt,2.15,3.75,3.1,2-3,2024-2025
+Unknown 14:00,Sandhausen,Hannover II,1.57,4.32,5.09,0-1,2024-2025
+Unknown 14:00,VfL Osnabruck,Unterhaching,1.71,4.05,4.28,4-2,2024-2025
+23 Aug 2024 19:00,Aue,SG Dynamo Dresden,3.38,3.56,2.06,2-0,2024-2025
+11 Aug 2024 19:30,Saarbrucken,Sandhausen,1.76,3.78,4.36,0-1,2024-2025
+Unknown 16:30,Stuttgart II,Munich 1860,2.89,3.47,2.29,3-1,2024-2025
+Unknown 13:30,Hannover II,RW Essen,2.77,3.74,2.27,1-3,2024-2025
+10 Aug 2024 16:30,Arminia Bielefeld,Dortmund II,1.73,3.95,4.25,1-0,2024-2025
+Unknown 14:00,Alemannia Aachen,Verl,2.23,3.42,3.04,1-1,2024-2025
+Unknown 14:00,Mannheim,Viktoria Koln,1.66,4.23,4.38,1-2,2024-2025
+Unknown 14:00,Unterhaching,Ingolstadt,3.74,3.72,1.89,2-1,2024-2025
+Unknown 14:00,VfL Osnabruck,Aue,2.0,3.55,3.47,0-2,2024-2025
+Unknown 14:00,Wehen,Hansa Rostock,2.21,3.34,3.16,1-0,2024-2025
+09 Aug 2024 19:00,SG Dynamo Dresden,Cottbus,1.38,4.87,7.0,4-2,2024-2025
+04 Aug 2024 19:30,Ingolstadt,Mannheim,1.92,3.67,3.67,2-1,2024-2025
+Unknown 16:30,Cottbus,Arminia Bielefeld,3.05,3.51,2.2,1-2,2024-2025
+Unknown 13:30,Viktoria Koln,SG Dynamo Dresden,4.1,3.86,1.77,1-2,2024-2025
+03 Aug 2024 16:30,Hansa Rostock,Stuttgart II,1.7,3.98,4.35,1-1,2024-2025
+Unknown 14:00,Aue,Hannover II,1.79,3.76,4.08,2-1,2024-2025
+Unknown 14:00,Dortmund II,Unterhaching,1.8,3.77,4.12,3-0,2024-2025
+Unknown 14:00,RW Essen,Alemannia Aachen,2.06,3.47,3.41,1-2,2024-2025
+Unknown 14:00,Sandhausen,VfL Osnabruck,2.14,3.62,3.09,1-0,2024-2025
+Unknown 14:00,Verl,Wehen,2.72,3.54,2.4,2-2,2024-2025
+02 Aug 2024 19:00,Munich 1860,Saarbrucken,3.49,3.41,2.08,0-1,2024-2025

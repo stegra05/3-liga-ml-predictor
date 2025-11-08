@@ -1,0 +1,383 @@
+matchDateTime,homeTeamName,awayTeamName,odds_home,odds_draw,odds_away,score,season
+24 May 2011 20:30,VfL Osnabruck,SG Dynamo Dresden,2.18,3.41,3.18,1-3,2010-2011
+20 May 2011 20:30,SG Dynamo Dresden,VfL Osnabruck,2.03,3.38,3.64,1-1,2010-2011
+14 May 2011 13:30,Babelsberg,Sandhausen,2.36,3.2,2.7,0-0,2010-2011
+Unknown 13:30,Braunschweig,Heidenheim,1.53,3.75,5.22,4-0,2010-2011
+Unknown 13:30,Burghausen,Saarbrucken,1.9,3.53,3.35,3-4,2010-2011
+Unknown 13:30,Erfurt,Aalen,1.66,3.6,4.33,1-0,2010-2011
+Unknown 13:30,Hansa Rostock,Ahlen,1.92,3.53,3.27,2-0,2010-2011
+Unknown 13:30,Offenbach,SG Dynamo Dresden,3.85,3.57,1.77,2-3,2010-2011
+Unknown 13:30,TuS Koblenz,Regensburg,2.08,3.3,3.08,0-2,2010-2011
+Unknown 13:30,Unterhaching,Bayern II,1.65,3.65,4.39,0-4,2010-2011
+Unknown 13:30,Stuttgart II,Jena,1.89,3.35,3.6,3-2,2010-2011
+Unknown 13:30,Werder Bremen II,Wehen,3.17,3.5,1.97,1-4,2010-2011
+07 May 2011 13:30,Aalen,Stuttgart II,1.9,3.53,3.82,1-1,2010-2011
+Unknown 13:30,Ahlen,Erfurt,3.2,3.48,2.09,4-3,2010-2011
+Unknown 13:30,Bayern II,Werder Bremen II,2.6,3.37,2.54,0-1,2010-2011
+Unknown 13:30,SG Dynamo Dresden,Burghausen,1.46,4.21,6.73,2-0,2010-2011
+Unknown 13:30,Heidenheim,Offenbach,2.83,3.39,2.34,2-1,2010-2011
+Unknown 13:30,Jena,Braunschweig,3.41,3.43,2.07,2-2,2010-2011
+Unknown 13:30,Regensburg,Hansa Rostock,2.87,3.32,2.36,2-2,2010-2011
+Unknown 13:30,Saarbrucken,Babelsberg,1.9,3.45,3.84,3-1,2010-2011
+Unknown 13:30,Sandhausen,Unterhaching,1.81,3.49,4.22,0-0,2010-2011
+Unknown 13:30,Wehen,TuS Koblenz,1.58,3.9,5.54,1-0,2010-2011
+30 Apr 2011 14:00,Aalen,Ahlen,1.85,3.52,3.91,3-0,2010-2011
+Unknown 14:00,Braunschweig,Stuttgart II,1.5,4.03,6.38,2-1,2010-2011
+Unknown 14:00,Burghausen,Heidenheim,2.01,3.45,3.48,2-2,2010-2011
+Unknown 14:00,Erfurt,Regensburg,1.48,4.1,6.5,0-1,2010-2011
+Unknown 14:00,Hansa Rostock,Wehen,2.27,3.34,2.95,3-1,2010-2011
+Unknown 14:00,TuS Koblenz,Bayern II,1.54,3.97,5.83,1-3,2010-2011
+Unknown 14:00,Werder Bremen II,Sandhausen,2.38,3.39,2.77,1-1,2010-2011
+29 Apr 2011 19:00,Offenbach,Jena,1.56,3.9,5.57,0-2,2010-2011
+Unknown 19:00,Unterhaching,Saarbrucken,2.26,3.3,3.04,0-2,2010-2011
+Unknown 18:00,Babelsberg,SG Dynamo Dresden,3.53,3.34,2.04,1-1,2010-2011
+24 Apr 2011 14:00,Bayern II,Hansa Rostock,4.91,3.74,1.66,0-0,2010-2011
+Unknown 14:00,Stuttgart II,Ahlen,2.26,3.3,3.04,5-1,2010-2011
+23 Apr 2011 14:00,Braunschweig,Offenbach,1.9,3.47,3.83,2-1,2010-2011
+Unknown 14:00,SG Dynamo Dresden,Unterhaching,1.63,3.71,5.15,4-0,2010-2011
+Unknown 14:00,Heidenheim,Babelsberg,2.06,3.36,3.43,1-1,2010-2011
+Unknown 14:00,Jena,Burghausen,2.04,3.32,3.51,1-0,2010-2011
+Unknown 14:00,Regensburg,Aalen,2.59,3.19,2.66,1-1,2010-2011
+Unknown 14:00,Saarbrucken,Werder Bremen II,1.78,3.64,4.15,1-0,2010-2011
+Unknown 14:00,Sandhausen,TuS Koblenz,1.94,3.33,3.89,0-0,2010-2011
+Unknown 14:00,Wehen,Erfurt,1.87,3.5,3.99,0-1,2010-2011
+20 Apr 2011 19:00,Aalen,Wehen,2.67,3.24,2.54,1-2,2010-2011
+Unknown 19:00,Ahlen,Regensburg,1.99,3.36,3.62,2-0,2010-2011
+Unknown 19:00,Erfurt,Bayern II,1.38,4.52,8.13,2-0,2010-2011
+Unknown 19:00,Hansa Rostock,Sandhausen,1.62,3.79,5.23,0-1,2010-2011
+Unknown 19:00,Offenbach,Stuttgart II,1.61,3.72,5.41,2-2,2010-2011
+Unknown 19:00,Unterhaching,Heidenheim,2.07,3.41,3.34,1-1,2010-2011
+19 Apr 2011 19:00,Burghausen,Braunschweig,3.58,3.41,2.0,0-0,2010-2011
+Unknown 19:00,TuS Koblenz,Saarbrucken,2.0,3.34,3.61,1-2,2010-2011
+19 Apr 2011 19:00,Babelsberg,Jena,2.08,3.27,3.47,4-1,2010-2011
+Unknown 18:30,Werder Bremen II,SG Dynamo Dresden,2.69,3.33,2.47,0-3,2010-2011
+16 Apr 2011 14:00,Bayern II,Aalen,2.83,3.29,2.4,0-1,2010-2011
+Unknown 14:00,SG Dynamo Dresden,TuS Koblenz,1.88,3.41,3.99,1-0,2010-2011
+Unknown 14:00,Heidenheim,Werder Bremen II,1.89,3.49,3.88,3-1,2010-2011
+Unknown 14:00,Jena,Unterhaching,2.16,3.33,3.22,1-2,2010-2011
+Unknown 14:00,Offenbach,Burghausen,1.55,3.86,5.81,2-0,2010-2011
+Unknown 14:00,Saarbrucken,Hansa Rostock,3.18,3.38,2.16,3-0,2010-2011
+Unknown 14:00,Stuttgart II,Regensburg,2.01,3.34,3.53,1-2,2010-2011
+Unknown 14:00,Wehen,Ahlen,1.57,3.76,5.72,3-0,2010-2011
+15 Apr 2011 19:00,Braunschweig,Babelsberg,1.49,4.05,6.52,1-1,2010-2011
+Unknown 18:30,Sandhausen,Erfurt,2.39,3.3,2.83,3-2,2010-2011
+10 Apr 2011 14:00,Unterhaching,Braunschweig,3.5,3.3,2.06,0-1,2010-2011
+09 Apr 2011 14:00,Aalen,Sandhausen,2.54,3.25,2.69,0-0,2010-2011
+Unknown 14:00,Ahlen,Bayern II,2.05,3.3,3.49,2-0,2010-2011
+Unknown 14:00,Babelsberg,Offenbach,2.85,3.22,2.43,2-0,2010-2011
+Unknown 14:00,Burghausen,Stuttgart II,2.18,3.26,3.22,3-4,2010-2011
+Unknown 14:00,Erfurt,Saarbrucken,1.57,3.8,5.65,1-2,2010-2011
+Unknown 14:00,Hansa Rostock,SG Dynamo Dresden,1.8,3.51,4.26,1-0,2010-2011
+Unknown 14:00,Regensburg,Wehen,3.09,3.23,2.27,0-0,2010-2011
+Unknown 14:00,TuS Koblenz,Heidenheim,2.07,3.31,3.47,4-0,2010-2011
+Unknown 14:00,Werder Bremen II,Jena,2.1,3.33,3.35,0-0,2010-2011
+06 Apr 2011 20:15,SG Dynamo Dresden,Erfurt,1.97,3.38,3.68,1-3,2010-2011
+Unknown 19:00,Braunschweig,Werder Bremen II,1.29,4.88,9.92,1-2,2010-2011
+Unknown 19:00,Heidenheim,Hansa Rostock,2.91,3.34,2.31,1-2,2010-2011
+Unknown 19:00,Offenbach,Unterhaching,1.74,3.54,4.59,1-0,2010-2011
+Unknown 19:00,Sandhausen,Ahlen,2.02,3.29,3.62,5-0,2010-2011
+05 Apr 2011 19:00,Bayern II,Regensburg,2.32,3.28,2.95,0-2,2010-2011
+Unknown 19:00,Burghausen,Babelsberg,2.09,3.28,3.43,1-2,2010-2011
+Unknown 19:00,Saarbrucken,Aalen,2.0,3.33,3.61,3-2,2010-2011
+Unknown 19:00,Stuttgart II,Wehen,2.82,3.24,2.43,3-3,2010-2011
+Unknown 18:30,Jena,TuS Koblenz,2.38,3.33,2.78,2-2,2010-2011
+02 Apr 2011 14:00,Aalen,SG Dynamo Dresden,2.64,3.26,2.59,1-0,2010-2011
+Unknown 14:00,Ahlen,Saarbrucken,2.08,3.33,3.4,0-2,2010-2011
+Unknown 14:00,Babelsberg,Stuttgart II,2.4,3.22,2.87,3-0,2010-2011
+Unknown 14:00,Erfurt,Heidenheim,1.85,3.48,4.06,0-0,2010-2011
+Unknown 14:00,Hansa Rostock,Jena,1.46,4.2,6.68,2-1,2010-2011
+Unknown 14:00,Regensburg,Sandhausen,2.53,3.2,2.73,0-0,2010-2011
+Unknown 14:00,TuS Koblenz,Braunschweig,3.33,3.33,2.11,0-2,2010-2011
+Unknown 14:00,Unterhaching,Burghausen,2.0,3.38,3.56,2-0,2010-2011
+Unknown 14:00,Wehen,Bayern II,1.56,3.76,5.98,3-0,2010-2011
+01 Apr 2011 19:00,Werder Bremen II,Offenbach,3.14,3.29,2.22,0-0,2010-2011
+26 Mar 2011 14:00,Bayern II,Babelsberg,2.0,3.29,3.69,1-2,2010-2011
+Unknown 14:00,SG Dynamo Dresden,Heidenheim,1.71,3.58,4.79,0-0,2010-2011
+Unknown 14:00,Regensburg,Jena,2.28,3.2,3.09,0-0,2010-2011
+20 Mar 2011 13:15,Braunschweig,Hansa Rostock,2.0,3.36,3.62,2-1,2010-2011
+19 Mar 2011 14:10,Jena,Erfurt,2.69,3.24,2.53,1-3,2010-2011
+Unknown 14:00,SG Dynamo Dresden,Ahlen,1.67,3.67,4.91,3-0,2010-2011
+Unknown 14:00,Heidenheim,Aalen,1.84,3.51,4.04,0-0,2010-2011
+Unknown 14:00,Saarbrucken,Regensburg,1.83,3.47,4.13,0-0,2010-2011
+19 Mar 2011 14:00,Babelsberg,Unterhaching,2.25,3.25,3.08,0-4,2010-2011
+Unknown 14:00,Burghausen,Werder Bremen II,2.09,3.34,3.36,2-1,2010-2011
+Unknown 14:00,Offenbach,TuS Koblenz,1.92,3.32,3.89,0-0,2010-2011
+Unknown 14:00,Sandhausen,Wehen,2.35,3.25,2.91,0-0,2010-2011
+Unknown 14:00,Stuttgart II,Bayern II,1.82,3.5,4.19,0-0,2010-2011
+15 Mar 2011 19:00,Regensburg,Babelsberg,2.12,3.25,3.27,1-1,2010-2011
+12 Mar 2011 14:00,Aalen,Jena,2.31,3.26,2.97,2-1,2010-2011
+Unknown 14:00,Ahlen,Heidenheim,2.39,3.25,2.84,3-1,2010-2011
+Unknown 14:00,Erfurt,Braunschweig,3.16,3.3,2.22,3-1,2010-2011
+Unknown 14:00,Hansa Rostock,Offenbach,1.76,3.52,4.52,0-0,2010-2011
+Unknown 14:00,Regensburg,SG Dynamo Dresden,3.03,3.21,2.3,0-1,2010-2011
+Unknown 14:00,TuS Koblenz,Burghausen,1.57,3.72,5.85,0-4,2010-2011
+Unknown 14:00,Unterhaching,Stuttgart II,2.17,3.16,3.42,0-1,2010-2011
+Unknown 14:00,Wehen,Saarbrucken,1.71,3.54,4.79,2-1,2010-2011
+11 Mar 2011 19:00,Bayern II,Sandhausen,2.32,3.29,2.93,0-1,2010-2011
+Unknown 19:00,Werder Bremen II,Babelsberg,2.2,3.26,3.18,1-0,2010-2011
+08 Mar 2011 18:30,Ahlen,Stuttgart II,2.1,3.29,3.38,2-0,2010-2011
+Unknown 18:00,Bayern II,Offenbach,3.82,3.38,1.97,1-0,2010-2011
+05 Mar 2011 14:15,Burghausen,Hansa Rostock,3.7,3.32,1.94,1-4,2010-2011
+Unknown 14:00,Babelsberg,TuS Koblenz,2.48,3.09,2.85,0-1,2010-2011
+Unknown 14:00,Braunschweig,Aalen,1.31,4.85,9.54,2-0,2010-2011
+Unknown 14:00,SG Dynamo Dresden,Wehen,2.1,3.25,3.4,3-0,2010-2011
+Unknown 14:00,Heidenheim,Regensburg,1.63,3.71,5.24,0-1,2010-2011
+Unknown 14:00,Jena,Ahlen,1.92,3.35,3.94,3-3,2010-2011
+Unknown 14:00,Saarbrucken,Bayern II,1.89,3.4,3.99,4-1,2010-2011
+Unknown 14:00,Unterhaching,Werder Bremen II,1.85,3.44,4.1,2-0,2010-2011
+04 Mar 2011 19:00,Offenbach,Erfurt,1.77,3.44,4.56,2-1,2010-2011
+Unknown 19:00,Stuttgart II,Sandhausen,2.3,3.22,3.05,0-1,2010-2011
+27 Feb 2011 14:00,Bayern II,SG Dynamo Dresden,2.88,3.17,2.42,1-2,2010-2011
+26 Feb 2011 14:00,Aalen,Offenbach,3.04,3.24,2.29,1-1,2010-2011
+Unknown 14:00,Ahlen,Braunschweig,4.55,3.45,1.78,0-3,2010-2011
+Unknown 14:00,Erfurt,Burghausen,1.63,3.74,5.21,1-1,2010-2011
+Unknown 14:00,Hansa Rostock,Babelsberg,1.44,4.07,7.35,3-0,2010-2011
+Unknown 14:00,TuS Koblenz,Unterhaching,1.85,3.42,4.19,1-1,2010-2011
+Unknown 14:00,Wehen,Heidenheim,2.18,3.3,3.19,5-2,2010-2011
+Unknown 14:00,Werder Bremen II,Stuttgart II,2.4,3.19,2.89,1-1,2010-2011
+25 Feb 2011 19:00,Sandhausen,Saarbrucken,2.05,3.34,3.47,3-1,2010-2011
+22 Feb 2011 19:00,Stuttgart II,Heidenheim,2.77,3.25,2.46,2-1,2010-2011
+20 Feb 2011 14:00,SG Dynamo Dresden,Sandhausen,1.85,3.42,4.29,3-1,2010-2011
+19 Feb 2011 14:00,Babelsberg,Erfurt,2.6,3.2,2.74,1-1,2010-2011
+Unknown 14:00,Braunschweig,Regensburg,1.28,5.18,10.6,2-0,2010-2011
+Unknown 14:00,Burghausen,Aalen,2.29,3.23,3.14,3-2,2010-2011
+Unknown 14:00,Heidenheim,Bayern II,1.59,3.87,5.56,3-1,2010-2011
+Unknown 14:00,Jena,Wehen,2.42,3.19,2.93,1-0,2010-2011
+Unknown 14:00,Offenbach,Ahlen,1.43,4.16,7.8,1-2,2010-2011
+Unknown 14:00,Unterhaching,Hansa Rostock,3.85,3.38,1.96,3-0,2010-2011
+Unknown 14:00,Stuttgart II,Saarbrucken,2.12,3.28,3.47,2-2,2010-2011
+Unknown 14:00,Werder Bremen II,TuS Koblenz,2.57,3.22,2.77,0-2,2010-2011
+16 Feb 2011 19:00,Aalen,Hansa Rostock,3.62,3.41,1.97,1-1,2010-2011
+Unknown 19:00,Regensburg,Werder Bremen II,2.09,3.31,3.4,0-2,2010-2011
+16 Feb 2011 18:30,Erfurt,Stuttgart II,1.69,3.63,4.84,1-2,2010-2011
+15 Feb 2011 19:00,Bayern II,Unterhaching,2.44,3.26,2.79,1-0,2010-2011
+Unknown 19:00,Saarbrucken,Offenbach,3.15,3.32,2.21,2-0,2010-2011
+12 Feb 2011 14:00,Aalen,Babelsberg,2.18,3.24,3.28,3-2,2010-2011
+Unknown 14:00,Ahlen,Burghausen,2.03,3.3,3.61,0-1,2010-2011
+Unknown 14:00,Hansa Rostock,Werder Bremen II,1.36,4.57,8.32,2-0,2010-2011
+Unknown 14:00,Regensburg,Offenbach,3.15,3.28,2.24,0-2,2010-2011
+Unknown 14:00,Sandhausen,Heidenheim,2.41,3.27,2.79,1-2,2010-2011
+Unknown 14:00,TuS Koblenz,Stuttgart II,2.05,3.27,3.56,2-0,2010-2011
+11 Feb 2011 19:00,Wehen,Braunschweig,2.87,3.17,2.42,0-2,2010-2011
+Unknown 18:45,Saarbrucken,SG Dynamo Dresden,2.59,3.15,2.68,3-2,2010-2011
+Unknown 18:40,Erfurt,Unterhaching,1.7,3.58,4.74,4-0,2010-2011
+Unknown 18:30,Bayern II,Jena,2.12,3.38,3.24,1-2,2010-2011
+09 Feb 2011 19:00,Ahlen,Hansa Rostock,3.66,3.4,1.96,0-2,2010-2011
+06 Feb 2011 14:00,Burghausen,Regensburg,2.28,3.29,3.01,0-1,2010-2011
+Unknown 14:00,TuS Koblenz,Hansa Rostock,2.78,3.27,2.43,0-2,2010-2011
+05 Feb 2011 14:00,Babelsberg,Ahlen,2.21,3.24,3.21,1-0,2010-2011
+Unknown 14:00,Braunschweig,Bayern II,1.36,4.66,7.78,2-0,2010-2011
+Unknown 14:00,Jena,Sandhausen,2.24,3.26,3.1,3-0,2010-2011
+Unknown 14:00,Offenbach,Wehen,1.91,3.46,3.86,0-0,2010-2011
+Unknown 14:00,Unterhaching,Aalen,2.01,3.32,3.6,2-0,2010-2011
+Unknown 14:00,Stuttgart II,SG Dynamo Dresden,2.58,3.23,2.66,1-0,2010-2011
+Unknown 14:00,Werder Bremen II,Erfurt,2.51,3.26,2.73,1-2,2010-2011
+04 Feb 2011 19:00,Heidenheim,Saarbrucken,1.66,3.72,4.83,2-0,2010-2011
+02 Feb 2011 19:00,Regensburg,TuS Koblenz,2.42,3.14,2.9,0-2,2010-2011
+Unknown 19:00,Wehen,Unterhaching,1.87,3.42,4.03,3-0,2010-2011
+29 Jan 2011 14:00,Aalen,Werder Bremen II,1.87,3.43,4.07,1-1,2010-2011
+Unknown 14:00,Ahlen,Unterhaching,2.07,3.29,3.48,1-1,2010-2011
+Unknown 14:00,Erfurt,TuS Koblenz,2.03,3.33,3.52,3-0,2010-2011
+Unknown 14:00,Hansa Rostock,Stuttgart II,1.42,4.23,7.48,0-1,2010-2011
+Unknown 14:00,Saarbrucken,Jena,1.98,3.39,3.67,1-3,2010-2011
+Unknown 14:00,Wehen,Burghausen,1.58,3.74,5.75,3-0,2010-2011
+28 Jan 2011 19:00,Sandhausen,Braunschweig,3.56,3.3,2.03,0-2,2010-2011
+25 Jan 2011 19:00,Sandhausen,Burghausen,1.7,3.63,4.71,1-1,2010-2011
+Unknown 19:00,Stuttgart II,Aalen,2.18,3.27,3.24,1-1,2010-2011
+Unknown 19:00,Werder Bremen II,Ahlen,2.44,3.28,2.78,3-1,2010-2011
+22 Jan 2011 14:20,Unterhaching,Regensburg,1.93,3.36,3.95,0-0,2010-2011
+Unknown 14:00,Ahlen,TuS Koblenz,2.23,3.22,3.28,2-3,2010-2011
+Unknown 14:00,Babelsberg,Wehen,2.59,3.15,2.74,0-0,2010-2011
+Unknown 14:00,Burghausen,Bayern II,2.37,3.18,3.01,2-0,2010-2011
+Unknown 14:00,Offenbach,Sandhausen,1.67,3.81,4.93,1-2,2010-2011
+Unknown 13:30,SG Dynamo Dresden,Braunschweig,2.98,3.33,2.33,1-1,2010-2011
+Unknown 13:30,Hansa Rostock,Erfurt,1.64,3.71,5.38,3-0,2010-2011
+Unknown 13:30,Jena,Stuttgart II,2.22,3.25,3.23,1-1,2010-2011
+18 Dec 2010 14:00,Heidenheim,Jena,1.76,3.65,4.51,2-0,2010-2011
+11 Dec 2010 14:00,Braunschweig,Saarbrucken,1.35,4.74,8.35,1-0,2010-2011
+Unknown 14:00,Jena,SG Dynamo Dresden,2.69,3.28,2.51,1-0,2010-2011
+Unknown 14:00,TuS Koblenz,Aalen,1.77,3.51,4.44,1-0,2010-2011
+08 Dec 2010 19:00,Saarbrucken,Burghausen,1.93,3.38,3.83,2-1,2010-2011
+07 Dec 2010 18:00,Sandhausen,Babelsberg,1.8,3.56,4.18,0-0,2010-2011
+05 Dec 2010 14:00,Heidenheim,Braunschweig,2.64,3.25,2.57,1-4,2010-2011
+04 Dec 2010 14:00,Aalen,Erfurt,2.49,3.27,2.73,0-4,2010-2011
+Unknown 14:00,SG Dynamo Dresden,Offenbach,2.44,3.24,2.8,2-0,2010-2011
+Unknown 14:00,Wehen,Werder Bremen II,1.6,3.64,5.67,1-1,2010-2011
+28 Nov 2010 14:00,Unterhaching,Sandhausen,2.06,3.38,3.37,1-1,2010-2011
+27 Nov 2010 14:00,Braunschweig,Jena,1.4,4.23,7.87,6-0,2010-2011
+Unknown 14:00,Burghausen,SG Dynamo Dresden,2.68,3.25,2.54,0-2,2010-2011
+Unknown 14:00,Erfurt,Ahlen,2.02,3.39,3.61,4-0,2010-2011
+Unknown 14:00,Hansa Rostock,Regensburg,1.55,3.83,5.95,5-0,2010-2011
+Unknown 14:00,Offenbach,Heidenheim,1.73,3.62,4.57,1-0,2010-2011
+Unknown 14:00,TuS Koblenz,Wehen,2.51,3.22,2.73,3-2,2010-2011
+Unknown 13:00,Babelsberg,Saarbrucken,2.36,3.27,2.88,0-2,2010-2011
+26 Nov 2010 19:00,Werder Bremen II,Bayern II,2.46,3.21,2.8,2-0,2010-2011
+21 Nov 2010 14:00,Wehen,Hansa Rostock,2.61,3.25,2.61,1-2,2010-2011
+20 Nov 2010 14:00,Ahlen,Aalen,1.97,3.34,3.68,4-2,2010-2011
+Unknown 14:00,Bayern II,TuS Koblenz,2.25,3.24,3.11,1-1,2010-2011
+Unknown 14:00,SG Dynamo Dresden,Babelsberg,1.64,3.71,5.16,0-1,2010-2011
+Unknown 14:00,Heidenheim,Burghausen,1.71,3.62,4.68,4-1,2010-2011
+Unknown 14:00,Jena,Offenbach,3.38,3.38,2.07,1-0,2010-2011
+Unknown 14:00,Regensburg,Erfurt,2.15,3.31,3.25,0-0,2010-2011
+Unknown 14:00,Saarbrucken,Unterhaching,2.26,3.26,3.05,2-3,2010-2011
+Unknown 14:00,Sandhausen,Werder Bremen II,2.0,3.33,3.64,5-1,2010-2011
+Unknown 14:00,Stuttgart II,Braunschweig,3.81,3.42,1.92,0-0,2010-2011
+14 Nov 2010 14:00,TuS Koblenz,Sandhausen,2.15,3.38,3.2,3-0,2010-2011
+Unknown 14:00,Werder Bremen II,Saarbrucken,2.36,3.24,2.94,2-0,2010-2011
+13 Nov 2010 14:00,Aalen,Regensburg,2.08,3.35,3.39,2-3,2010-2011
+Unknown 14:00,Babelsberg,Heidenheim,2.86,3.25,2.4,4-3,2010-2011
+Unknown 14:00,Burghausen,Jena,2.01,3.34,3.57,2-3,2010-2011
+Unknown 14:00,Erfurt,Wehen,2.16,3.29,3.26,0-0,2010-2011
+Unknown 14:00,Hansa Rostock,Bayern II,1.47,4.05,6.69,0-2,2010-2011
+12 Nov 2010 20:15,Offenbach,Braunschweig,2.3,3.25,3.01,2-2,2010-2011
+Unknown 19:00,Unterhaching,SG Dynamo Dresden,2.26,3.23,3.11,0-1,2010-2011
+06 Nov 2010 14:00,Bayern II,Erfurt,2.53,3.24,2.69,1-0,2010-2011
+Unknown 14:00,Braunschweig,Burghausen,1.4,4.29,8.02,3-0,2010-2011
+Unknown 14:00,SG Dynamo Dresden,Werder Bremen II,1.55,3.8,5.91,1-1,2010-2011
+Unknown 14:00,Heidenheim,Unterhaching,2.04,3.35,3.44,5-1,2010-2011
+Unknown 14:00,Jena,Babelsberg,2.16,3.21,3.36,0-0,2010-2011
+Unknown 14:00,Regensburg,Ahlen,2.27,3.26,3.04,1-2,2010-2011
+Unknown 14:00,Saarbrucken,TuS Koblenz,2.2,3.27,3.15,0-0,2010-2011
+Unknown 14:00,Stuttgart II,Offenbach,3.01,3.27,2.27,0-2,2010-2011
+Unknown 14:00,Wehen,Aalen,1.72,3.46,4.76,1-3,2010-2011
+05 Nov 2010 19:00,Sandhausen,Hansa Rostock,2.98,3.27,2.29,1-2,2010-2011
+31 Oct 2010 14:00,TuS Koblenz,SG Dynamo Dresden,2.32,3.31,2.96,0-1,2010-2011
+30 Oct 2010 14:00,Aalen,Bayern II,2.07,3.41,3.39,2-2,2010-2011
+Unknown 14:00,Ahlen,Wehen,2.84,3.3,2.37,4-1,2010-2011
+Unknown 14:00,Babelsberg,Braunschweig,3.64,3.35,2.0,0-3,2010-2011
+Unknown 14:00,Burghausen,Offenbach,3.41,3.33,2.07,4-3,2010-2011
+Unknown 14:00,Regensburg,Stuttgart II,1.91,3.41,3.89,1-2,2010-2011
+Unknown 14:00,Unterhaching,Jena,1.69,3.62,4.89,1-1,2010-2011
+Unknown 14:00,Werder Bremen II,Heidenheim,2.74,3.31,2.44,0-1,2010-2011
+30 Oct 2010 14:00,Erfurt,Sandhausen,1.82,3.5,4.23,2-1,2010-2011
+Unknown 14:00,Hansa Rostock,Saarbrucken,1.46,4.2,6.53,2-1,2010-2011
+23 Oct 2010 14:00,Bayern II,Ahlen,2.09,3.27,3.41,2-3,2010-2011
+Unknown 14:00,Braunschweig,Unterhaching,1.65,3.63,5.05,3-0,2010-2011
+Unknown 14:00,SG Dynamo Dresden,Hansa Rostock,2.39,3.32,2.78,2-2,2010-2011
+Unknown 14:00,Heidenheim,TuS Koblenz,2.0,3.36,3.66,3-1,2010-2011
+Unknown 14:00,Jena,Werder Bremen II,2.08,3.36,3.36,1-1,2010-2011
+Unknown 14:00,Saarbrucken,Erfurt,2.07,3.37,3.33,1-3,2010-2011
+Unknown 14:00,Sandhausen,Aalen,1.75,3.49,4.45,1-3,2010-2011
+Unknown 14:00,Stuttgart II,Burghausen,2.06,3.32,3.46,1-1,2010-2011
+Unknown 14:00,Wehen,Regensburg,1.93,3.38,3.8,2-0,2010-2011
+22 Oct 2010 19:00,Offenbach,Babelsberg,1.31,4.94,9.42,2-1,2010-2011
+16 Oct 2010 14:00,Aalen,Saarbrucken,2.26,3.28,3.08,1-1,2010-2011
+Unknown 14:00,Ahlen,Sandhausen,2.43,3.31,2.77,1-1,2010-2011
+Unknown 14:00,Babelsberg,Burghausen,1.96,3.43,3.61,0-2,2010-2011
+Unknown 14:00,Erfurt,SG Dynamo Dresden,2.39,3.3,2.85,3-0,2010-2011
+Unknown 14:00,Hansa Rostock,Heidenheim,1.66,3.68,4.91,2-1,2010-2011
+Unknown 14:00,Regensburg,Bayern II,1.69,3.64,4.81,0-0,2010-2011
+Unknown 14:00,Unterhaching,Offenbach,2.74,3.29,2.46,1-1,2010-2011
+Unknown 14:00,Wehen,Stuttgart II,1.77,3.51,4.42,2-1,2010-2011
+15 Oct 2010 19:00,TuS Koblenz,Jena,1.86,3.35,4.03,1-0,2010-2011
+Unknown 19:00,Werder Bremen II,Braunschweig,3.38,3.35,2.09,0-5,2010-2011
+02 Oct 2010 14:00,Bayern II,Wehen,2.45,3.25,2.79,0-1,2010-2011
+Unknown 14:00,Braunschweig,TuS Koblenz,1.64,3.69,5.23,4-1,2010-2011
+Unknown 14:00,Burghausen,Unterhaching,2.56,3.21,2.68,1-3,2010-2011
+Unknown 14:00,Heidenheim,Erfurt,1.87,3.5,3.95,1-1,2010-2011
+Unknown 14:00,Jena,Hansa Rostock,3.5,3.4,2.01,1-3,2010-2011
+Unknown 14:00,Offenbach,Werder Bremen II,1.39,4.39,7.51,3-1,2010-2011
+Unknown 14:00,Saarbrucken,Ahlen,1.92,3.47,3.8,0-0,2010-2011
+Unknown 14:00,Sandhausen,Regensburg,2.03,3.34,3.55,2-2,2010-2011
+Unknown 14:00,Stuttgart II,Babelsberg,1.99,3.36,3.65,1-1,2010-2011
+01 Oct 2010 19:00,SG Dynamo Dresden,Aalen,1.7,3.58,4.81,1-0,2010-2011
+26 Sep 2010 14:00,Bayern II,Stuttgart II,2.2,3.34,3.1,1-1,2010-2011
+Unknown 13:30,Hansa Rostock,Braunschweig,2.25,3.3,3.03,2-1,2010-2011
+25 Sep 2010 14:00,Aalen,Heidenheim,2.68,3.32,2.49,2-1,2010-2011
+Unknown 14:00,Erfurt,Jena,1.86,3.41,4.07,2-1,2010-2011
+Unknown 14:00,Regensburg,Saarbrucken,1.93,3.38,3.81,2-2,2010-2011
+Unknown 14:00,TuS Koblenz,Offenbach,3.03,3.32,2.26,0-1,2010-2011
+Unknown 14:00,Wehen,Sandhausen,2.03,3.37,3.5,2-0,2010-2011
+Unknown 14:00,Werder Bremen II,Burghausen,2.03,3.39,3.46,1-1,2010-2011
+24 Sep 2010 19:00,Ahlen,SG Dynamo Dresden,2.41,3.27,2.79,0-1,2010-2011
+Unknown 19:00,Unterhaching,Babelsberg,1.67,3.59,5.07,1-0,2010-2011
+22 Sep 2010 19:00,Burghausen,TuS Koblenz,2.58,3.26,2.64,3-1,2010-2011
+Unknown 19:00,Saarbrucken,Wehen,2.42,3.27,2.83,0-0,2010-2011
+Unknown 19:00,Sandhausen,Bayern II,1.81,3.51,4.25,1-0,2010-2011
+Unknown 18:30,Jena,Aalen,2.02,3.31,3.55,0-0,2010-2011
+21 Sep 2010 19:00,Babelsberg,Werder Bremen II,2.17,3.26,3.28,2-0,2010-2011
+Unknown 19:00,SG Dynamo Dresden,Regensburg,2.01,3.35,3.55,1-1,2010-2011
+Unknown 19:00,Offenbach,Hansa Rostock,1.97,3.4,3.65,3-2,2010-2011
+Unknown 19:00,Stuttgart II,Unterhaching,2.27,3.28,3.04,1-1,2010-2011
+21 Sep 2010 19:00,Heidenheim,Ahlen,1.8,3.54,4.27,3-0,2010-2011
+Unknown 18:45,Braunschweig,Erfurt,1.72,3.51,4.78,4-0,2010-2011
+18 Sep 2010 14:00,Aalen,Braunschweig,3.17,3.34,2.17,0-0,2010-2011
+Unknown 14:00,Ahlen,Jena,2.17,3.31,3.2,3-0,2010-2011
+Unknown 14:00,Erfurt,Offenbach,2.95,3.28,2.32,3-1,2010-2011
+Unknown 14:00,Hansa Rostock,Burghausen,1.41,4.39,7.24,1-1,2010-2011
+Unknown 14:00,Regensburg,Heidenheim,2.35,3.31,2.84,2-1,2010-2011
+Unknown 14:00,Sandhausen,Stuttgart II,1.78,3.53,4.38,0-1,2010-2011
+Unknown 14:00,TuS Koblenz,Babelsberg,1.83,3.49,4.15,1-0,2010-2011
+Unknown 14:00,Wehen,SG Dynamo Dresden,2.02,3.35,3.52,2-2,2010-2011
+17 Sep 2010 19:00,Bayern II,Saarbrucken,2.08,3.39,3.32,0-0,2010-2011
+Unknown 19:00,Werder Bremen II,Unterhaching,2.43,3.35,2.74,1-3,2010-2011
+12 Sep 2010 14:00,Jena,Regensburg,2.01,3.41,3.5,1-2,2010-2011
+11 Sep 2010 14:00,Babelsberg,Hansa Rostock,3.09,3.3,2.23,0-2,2010-2011
+Unknown 14:00,Braunschweig,Ahlen,1.58,3.74,5.71,2-0,2010-2011
+Unknown 14:00,Burghausen,Erfurt,2.4,3.25,2.76,1-0,2010-2011
+Unknown 14:00,SG Dynamo Dresden,Bayern II,1.93,3.38,3.84,3-1,2010-2011
+Unknown 14:00,Heidenheim,Wehen,2.09,3.35,3.36,0-2,2010-2011
+Unknown 14:00,Offenbach,Aalen,1.4,4.29,7.68,2-0,2010-2011
+Unknown 14:00,Saarbrucken,Sandhausen,2.46,3.29,2.71,3-1,2010-2011
+Unknown 14:00,Unterhaching,TuS Koblenz,2.19,3.27,3.21,1-1,2010-2011
+Unknown 14:00,Stuttgart II,Werder Bremen II,1.79,3.42,4.21,0-3,2010-2011
+29 Aug 2010 14:00,Wehen,Jena,1.8,3.46,4.35,2-1,2010-2011
+28 Aug 2010 14:00,Aalen,Burghausen,1.96,3.42,3.62,1-0,2010-2011
+Unknown 14:00,Ahlen,Offenbach,3.25,3.31,2.13,3-3,2010-2011
+Unknown 14:00,Bayern II,Heidenheim,2.1,3.36,3.28,2-3,2010-2011
+Unknown 14:00,Erfurt,Babelsberg,1.86,3.39,4.1,4-2,2010-2011
+Unknown 14:00,Hansa Rostock,Unterhaching,1.77,3.47,4.43,7-2,2010-2011
+Unknown 14:00,Regensburg,Braunschweig,2.64,3.16,2.63,0-3,2010-2011
+Unknown 14:00,Saarbrucken,Stuttgart II,1.99,3.45,3.54,1-0,2010-2011
+Unknown 14:00,Sandhausen,SG Dynamo Dresden,2.19,3.34,3.14,4-1,2010-2011
+27 Aug 2010 19:00,TuS Koblenz,Werder Bremen II,1.59,3.73,5.67,0-0,2010-2011
+25 Aug 2010 19:00,Bayern II,Braunschweig,2.62,3.29,2.54,1-0,2010-2011
+21 Aug 2010 14:00,Babelsberg,Aalen,2.2,3.23,3.24,3-1,2010-2011
+Unknown 14:00,Braunschweig,Wehen,1.58,3.74,5.61,1-2,2010-2011
+Unknown 14:00,Burghausen,Ahlen,2.45,3.27,2.76,1-1,2010-2011
+Unknown 14:00,Heidenheim,Sandhausen,2.04,3.41,3.41,1-1,2010-2011
+Unknown 14:00,Jena,Bayern II,2.26,3.24,3.04,1-1,2010-2011
+Unknown 14:00,Offenbach,Regensburg,1.59,3.8,5.48,2-1,2010-2011
+Unknown 14:00,Unterhaching,Erfurt,1.93,3.43,3.82,3-1,2010-2011
+Unknown 14:00,Werder Bremen II,Hansa Rostock,2.89,3.28,2.36,0-2,2010-2011
+20 Aug 2010 19:15,SG Dynamo Dresden,Saarbrucken,2.02,3.36,3.57,3-0,2010-2011
+Unknown 19:00,Stuttgart II,TuS Koblenz,2.1,3.33,3.34,1-2,2010-2011
+11 Aug 2010 19:00,Jena,Saarbrucken,1.73,3.55,4.75,0-7,2010-2011
+08 Aug 2010 14:00,Aalen,Unterhaching,2.4,3.27,2.83,0-0,2010-2011
+Unknown 14:00,Hansa Rostock,TuS Koblenz,1.88,3.47,4.07,2-0,2010-2011
+07 Aug 2010 14:00,Ahlen,Babelsberg,1.86,3.39,4.08,0-2,2010-2011
+Unknown 14:00,Regensburg,Burghausen,1.69,3.54,4.75,2-0,2010-2011
+Unknown 14:00,Sandhausen,Jena,1.84,3.43,4.18,0-2,2010-2011
+Unknown 14:00,Wehen,Offenbach,2.77,3.28,2.43,1-2,2010-2011
+07 Aug 2010 14:00,SG Dynamo Dresden,Stuttgart II,2.2,3.28,3.16,1-1,2010-2011
+Unknown 14:00,Erfurt,Werder Bremen II,1.94,3.36,3.68,2-1,2010-2011
+Unknown 14:00,Saarbrucken,Heidenheim,2.55,3.28,2.66,3-4,2010-2011
+04 Aug 2010 19:00,Babelsberg,Regensburg,2.5,3.23,2.74,0-1,2010-2011
+Unknown 19:00,Burghausen,Wehen,2.89,3.23,2.41,1-1,2010-2011
+Unknown 19:00,TuS Koblenz,Erfurt,1.86,3.43,4.05,1-1,2010-2011
+Unknown 19:00,Stuttgart II,Hansa Rostock,2.3,3.31,3.04,3-0,2010-2011
+Unknown 18:30,Heidenheim,SG Dynamo Dresden,2.02,3.36,3.51,3-0,2010-2011
+03 Aug 2010 19:00,Braunschweig,Sandhausen,1.87,3.47,4.02,2-0,2010-2011
+Unknown 19:00,Offenbach,Bayern II,1.57,3.84,5.6,4-1,2010-2011
+Unknown 19:00,Unterhaching,Ahlen,2.24,3.32,3.07,0-0,2010-2011
+Unknown 19:00,Werder Bremen II,Aalen,2.04,3.33,3.44,1-1,2010-2011
+01 Aug 2010 14:00,Erfurt,Hansa Rostock,2.61,3.31,2.62,0-1,2010-2011
+Unknown 14:00,Wehen,Babelsberg,1.79,3.44,4.34,1-0,2010-2011
+31 Jul 2010 14:00,Aalen,TuS Koblenz,2.71,3.25,2.51,1-2,2010-2011
+Unknown 14:00,Ahlen,Werder Bremen II,1.84,3.46,4.12,1-1,2010-2011
+Unknown 14:00,Bayern II,Burghausen,2.06,3.31,3.45,1-1,2010-2011
+Unknown 14:00,SG Dynamo Dresden,Jena,2.11,3.28,3.35,2-0,2010-2011
+Unknown 14:00,Heidenheim,Stuttgart II,2.2,3.28,3.16,0-0,2010-2011
+Unknown 14:00,Regensburg,Unterhaching,2.1,3.31,3.34,3-0,2010-2011
+Unknown 14:00,Saarbrucken,Braunschweig,3.23,3.27,2.17,0-3,2010-2011
+Unknown 14:00,Sandhausen,Offenbach,2.23,3.33,3.13,0-2,2010-2011
+25 Jul 2010 14:00,Babelsberg,Bayern II,2.1,3.32,3.31,1-0,2010-2011
+24 Jul 2010 14:00,Braunschweig,SG Dynamo Dresden,1.79,3.51,4.38,2-1,2010-2011
+Unknown 14:00,Burghausen,Sandhausen,2.55,3.33,2.61,1-4,2010-2011
+Unknown 14:00,Hansa Rostock,Aalen,1.82,3.53,4.37,3-0,2010-2011
+Unknown 14:00,Jena,Heidenheim,2.27,3.34,2.97,2-1,2010-2011
+Unknown 14:00,TuS Koblenz,Ahlen,1.93,3.51,4.2,0-0,2010-2011
+Unknown 14:00,Unterhaching,Wehen,2.02,3.41,3.51,0-1,2010-2011
+Unknown 14:00,Stuttgart II,Erfurt,2.26,3.34,3.02,3-1,2010-2011
+Unknown 14:00,Werder Bremen II,Regensburg,2.33,3.41,2.81,0-1,2010-2011
+23 Jul 2010 20:15,Offenbach,Saarbrucken,1.79,3.45,4.46,2-0,2010-2011

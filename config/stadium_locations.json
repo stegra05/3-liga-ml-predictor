@@ -1,0 +1,430 @@
+{
+  "metadata": {
+    "description": "Stadium locations for 3. Liga teams (2009-2025)",
+    "coordinate_system": "WGS84 (latitude, longitude)",
+    "source": "OpenStreetMap, Wikipedia, Google Maps",
+    "last_updated": "2025-11-07"
+  },
+  "stadiums": {
+    "1. FC Heidenheim 1846": {
+      "stadium": "Voith-Arena",
+      "city": "Heidenheim",
+      "latitude": 48.6766,
+      "longitude": 10.1581
+    },
+    "1. FC Kaiserslautern": {
+      "stadium": "Fritz-Walter-Stadion",
+      "city": "Kaiserslautern",
+      "latitude": 49.4347,
+      "longitude": 7.7768
+    },
+    "1. FC Magdeburg": {
+      "stadium": "MDCC-Arena",
+      "city": "Magdeburg",
+      "latitude": 52.1256,
+      "longitude": 11.6710
+    },
+    "1. FC Saarbrücken": {
+      "stadium": "Ludwigspark-Stadion",
+      "city": "Saarbrücken",
+      "latitude": 49.2409,
+      "longitude": 7.0409
+    },
+    "1. FC Schweinfurt 05": {
+      "stadium": "Sachs-Stadion",
+      "city": "Schweinfurt",
+      "latitude": 50.0435,
+      "longitude": 10.2175
+    },
+    "1. FSV Mainz 05 II": {
+      "stadium": "Bruchwegstadion",
+      "city": "Mainz",
+      "latitude": 49.9844,
+      "longitude": 8.2391
+    },
+    "Alemannia Aachen": {
+      "stadium": "Tivoli",
+      "city": "Aachen",
+      "latitude": 50.7809,
+      "longitude": 6.1108
+    },
+    "Arminia Bielefeld": {
+      "stadium": "Schüco Arena",
+      "city": "Bielefeld",
+      "latitude": 52.0307,
+      "longitude": 8.5166
+    },
+    "Borussia Dortmund II": {
+      "stadium": "Stadion Rote Erde",
+      "city": "Dortmund",
+      "latitude": 51.4926,
+      "longitude": 7.4516
+    },
+    "Chemnitzer FC": {
+      "stadium": "Stadion an der Gellertstraße",
+      "city": "Chemnitz",
+      "latitude": 50.8392,
+      "longitude": 12.9331
+    },
+    "Dynamo Dresden": {
+      "stadium": "Rudolf-Harbig-Stadion",
+      "city": "Dresden",
+      "latitude": 51.0403,
+      "longitude": 13.7474
+    },
+    "Eintracht Braunschweig": {
+      "stadium": "Eintracht-Stadion",
+      "city": "Braunschweig",
+      "latitude": 52.2903,
+      "longitude": 10.5214
+    },
+    "Energie Cottbus": {
+      "stadium": "Stadion der Freundschaft",
+      "city": "Cottbus",
+      "latitude": 51.7784,
+      "longitude": 14.3294
+    },
+    "Erzgebirge Aue": {
+      "stadium": "Erzgebirgsstadion",
+      "city": "Aue",
+      "latitude": 50.5951,
+      "longitude": 12.7045
+    },
+    "FC Bayern München II": {
+      "stadium": "Grünwalder Stadion",
+      "city": "Munich",
+      "latitude": 48.1105,
+      "longitude": 11.5949
+    },
+    "FC Carl Zeiss Jena": {
+      "stadium": "Ernst-Abbe-Sportfeld",
+      "city": "Jena",
+      "latitude": 50.9125,
+      "longitude": 11.5864
+    },
+    "FC Ingolstadt 04": {
+      "stadium": "Audi Sportpark",
+      "city": "Ingolstadt",
+      "latitude": 48.7568,
+      "longitude": 11.4611
+    },
+    "FC Kickers Würzburg": {
+      "stadium": "Flyeralarm Arena",
+      "city": "Würzburg",
+      "latitude": 49.7268,
+      "longitude": 9.9614
+    },
+    "FC Rot-Weiß Erfurt": {
+      "stadium": "Steigerwaldstadion",
+      "city": "Erfurt",
+      "latitude": 50.9680,
+      "longitude": 11.0386
+    },
+    "FC Viktoria 1889 Berlin": {
+      "stadium": "Friedrich-Ludwig-Jahn-Sportpark",
+      "city": "Berlin",
+      "latitude": 52.5419,
+      "longitude": 13.4050
+    },
+    "FSV Frankfurt": {
+      "stadium": "PSD Bank Arena",
+      "city": "Frankfurt (Oder)",
+      "latitude": 52.3332,
+      "longitude": 14.5333
+    },
+    "FSV Zwickau": {
+      "stadium": "GGZ-Arena",
+      "city": "Zwickau",
+      "latitude": 50.7116,
+      "longitude": 12.4851
+    },
+    "Fortuna Köln": {
+      "stadium": "Südstadion",
+      "city": "Cologne",
+      "latitude": 50.9084,
+      "longitude": 6.9609
+    },
+    "Hallescher FC": {
+      "stadium": "Erdgas Sportpark",
+      "city": "Halle",
+      "latitude": 51.4768,
+      "longitude": 11.9724
+    },
+    "Hannover II": {
+      "stadium": "Eilenriedestadion",
+      "city": "Hannover",
+      "latitude": 52.3847,
+      "longitude": 9.7811
+    },
+    "Hansa Rostock": {
+      "stadium": "Ostseestadion",
+      "city": "Rostock",
+      "latitude": 54.0831,
+      "longitude": 12.0998
+    },
+    "Holstein Kiel": {
+      "stadium": "Holstein-Stadion",
+      "city": "Kiel",
+      "latitude": 54.3492,
+      "longitude": 10.1150
+    },
+    "Jahn Regensburg": {
+      "stadium": "Jahnstadion Regensburg",
+      "city": "Regensburg",
+      "latitude": 49.0239,
+      "longitude": 12.0894
+    },
+    "KFC Uerdingen 05": {
+      "stadium": "Grotenburg-Stadion",
+      "city": "Krefeld",
+      "latitude": 51.3395,
+      "longitude": 6.5659
+    },
+    "Karlsruher SC": {
+      "stadium": "Wildparkstadion",
+      "city": "Karlsruhe",
+      "latitude": 49.0201,
+      "longitude": 8.4126
+    },
+    "Kickers Offenbach": {
+      "stadium": "Sparda-Bank-Hessen-Stadion",
+      "city": "Offenbach",
+      "latitude": 50.0955,
+      "longitude": 8.8044
+    },
+    "MSV Duisburg": {
+      "stadium": "Schauinsland-Reisen-Arena",
+      "city": "Duisburg",
+      "latitude": 51.4094,
+      "longitude": 6.7785
+    },
+    "Preußen Münster": {
+      "stadium": "Preußenstadion",
+      "city": "Münster",
+      "latitude": 51.9313,
+      "longitude": 7.6310
+    },
+    "RB Leipzig": {
+      "stadium": "Red Bull Arena",
+      "city": "Leipzig",
+      "latitude": 51.3458,
+      "longitude": 12.3481
+    },
+    "Rot-Weiss Ahlen": {
+      "stadium": "Wersestadion",
+      "city": "Ahlen",
+      "latitude": 51.7658,
+      "longitude": 7.8883
+    },
+    "Rot-Weiss Essen": {
+      "stadium": "Stadion Essen",
+      "city": "Essen",
+      "latitude": 51.4869,
+      "longitude": 6.9776
+    },
+    "Rot-Weiss Oberhausen": {
+      "stadium": "Stadion Niederrhein",
+      "city": "Oberhausen",
+      "latitude": 51.4957,
+      "longitude": 6.8513
+    },
+    "Rot-Weiß Erfurt": {
+      "stadium": "Steigerwaldstadion",
+      "city": "Erfurt",
+      "latitude": 50.9680,
+      "longitude": 11.0386
+    },
+    "SC Fortuna Köln": {
+      "stadium": "Südstadion",
+      "city": "Cologne",
+      "latitude": 50.9084,
+      "longitude": 6.9609
+    },
+    "SC Freiburg II": {
+      "stadium": "Dreisamstadion",
+      "city": "Freiburg",
+      "latitude": 47.9886,
+      "longitude": 7.8931
+    },
+    "SC Paderborn 07": {
+      "stadium": "Benteler-Arena",
+      "city": "Paderborn",
+      "latitude": 51.7329,
+      "longitude": 8.7189
+    },
+    "SC Verl": {
+      "stadium": "Sportclub-Arena",
+      "city": "Verl",
+      "latitude": 51.8834,
+      "longitude": 8.5152
+    },
+    "SG Sonnenhof Großaspach": {
+      "stadium": "Mechatronik Arena",
+      "city": "Aspach",
+      "latitude": 48.9669,
+      "longitude": 9.4116
+    },
+    "SSV Ulm 1846": {
+      "stadium": "Donaustadion",
+      "city": "Ulm",
+      "latitude": 48.3788,
+      "longitude": 9.9815
+    },
+    "SV 07 Elversberg": {
+      "stadium": "URSAPHARM-Arena an der Kaiserlinde",
+      "city": "Spiesen-Elversberg",
+      "latitude": 49.3064,
+      "longitude": 7.1311
+    },
+    "SV Babelsberg 03": {
+      "stadium": "Karl-Liebknecht-Stadion",
+      "city": "Potsdam",
+      "latitude": 52.4055,
+      "longitude": 13.0663
+    },
+    "SV Darmstadt 98": {
+      "stadium": "Merck-Stadion am Böllenfalltor",
+      "city": "Darmstadt",
+      "latitude": 49.8577,
+      "longitude": 8.6739
+    },
+    "SV Meppen": {
+      "stadium": "Hänsch-Arena",
+      "city": "Meppen",
+      "latitude": 52.6916,
+      "longitude": 7.2919
+    },
+    "SV Sandhausen": {
+      "stadium": "BWT-Stadion am Hardtwald",
+      "city": "Sandhausen",
+      "latitude": 49.3442,
+      "longitude": 8.6604
+    },
+    "SV Waldhof Mannheim": {
+      "stadium": "Carl-Benz-Stadion",
+      "city": "Mannheim",
+      "latitude": 49.4745,
+      "longitude": 8.5147
+    },
+    "SV Wehen Wiesbaden": {
+      "stadium": "BRITA-Arena",
+      "city": "Wiesbaden",
+      "latitude": 50.0487,
+      "longitude": 8.2407
+    },
+    "SpVgg Oberfranken Bayreuth": {
+      "stadium": "Hans-Walter-Wild-Stadion",
+      "city": "Bayreuth",
+      "latitude": 49.9447,
+      "longitude": 11.5793
+    },
+    "SpVgg Unterhaching": {
+      "stadium": "Sportpark Unterhaching",
+      "city": "Unterhaching",
+      "latitude": 48.0661,
+      "longitude": 11.6193
+    },
+    "Sportfreunde Lotte": {
+      "stadium": "Frimo Stadion",
+      "city": "Lotte",
+      "latitude": 52.2834,
+      "longitude": 7.9220
+    },
+    "Stuttgarter Kickers": {
+      "stadium": "Gazi-Stadion auf der Waldau",
+      "city": "Stuttgart",
+      "latitude": 48.7495,
+      "longitude": 9.1821
+    },
+    "TSG 1899 Hoffenheim II": {
+      "stadium": "Dietmar-Hopp-Stadion",
+      "city": "Hoffenheim",
+      "latitude": 49.2388,
+      "longitude": 8.8883
+    },
+    "TSV 1860 München": {
+      "stadium": "Grünwalder Stadion",
+      "city": "Munich",
+      "latitude": 48.1105,
+      "longitude": 11.5949
+    },
+    "TSV Havelse": {
+      "stadium": "Platz am Bad",
+      "city": "Garbsen",
+      "latitude": 52.4230,
+      "longitude": 9.5961
+    },
+    "TuS Koblenz": {
+      "stadium": "Stadion Oberwerth",
+      "city": "Koblenz",
+      "latitude": 50.3563,
+      "longitude": 7.6062
+    },
+    "Türkgücü München": {
+      "stadium": "Olympiastadion München",
+      "city": "Munich",
+      "latitude": 48.1751,
+      "longitude": 11.5494
+    },
+    "VfB Lübeck": {
+      "stadium": "Stadion Lohmühle",
+      "city": "Lübeck",
+      "latitude": 53.8782,
+      "longitude": 10.7173
+    },
+    "VfB Oldenburg": {
+      "stadium": "Marschwegstadion",
+      "city": "Oldenburg",
+      "latitude": 53.1442,
+      "longitude": 8.1942
+    },
+    "VfB Stuttgart II": {
+      "stadium": "Gazi-Stadion auf der Waldau",
+      "city": "Stuttgart",
+      "latitude": 48.7495,
+      "longitude": 9.1821
+    },
+    "VfL Osnabrück": {
+      "stadium": "Stadion an der Bremer Brücke",
+      "city": "Osnabrück",
+      "latitude": 52.2816,
+      "longitude": 8.0544
+    },
+    "VfR Aalen": {
+      "stadium": "Scholz Arena",
+      "city": "Aalen",
+      "latitude": 48.8463,
+      "longitude": 10.0930
+    },
+    "Viktoria Köln": {
+      "stadium": "Sportpark Höhenberg",
+      "city": "Cologne",
+      "latitude": 50.9829,
+      "longitude": 7.0295
+    },
+    "Wacker Burghausen": {
+      "stadium": "Wacker-Arena",
+      "city": "Burghausen",
+      "latitude": 48.1653,
+      "longitude": 12.8365
+    },
+    "Werder Bremen II": {
+      "stadium": "Weserstadion Platz 11",
+      "city": "Bremen",
+      "latitude": 53.0664,
+      "longitude": 8.8372
+    },
+    "Wuppertaler SV": {
+      "stadium": "Stadion am Zoo",
+      "city": "Wuppertal",
+      "latitude": 51.2397,
+      "longitude": 7.1186
+    },
+    "Würzburger Kickers": {
+      "stadium": "Flyeralarm Arena",
+      "city": "Würzburg",
+      "latitude": 49.7268,
+      "longitude": 9.9614
+    }
+  }
+}
