@@ -139,32 +139,38 @@ class DataImporter:
             "VfL Osnabrück": "VfL Osnabrück",
             "Wehen": "SV Wehen Wiesbaden",
             "Wuppertal": "Wuppertaler SV",
-            # Additional mappings for newer seasons
-            "Viktoria Koln": "Viktoria Köln",
-            "Viktoria Köln": "Viktoria Köln",
-            "RW Essen": "Rot-Weiss Essen",
-            "Rot-Weiss Essen": "Rot-Weiss Essen",
-            "Preussen Munster": "Preußen Münster",
-            "Preussen Münster": "Preußen Münster",
-            "Preußen Munster": "Preußen Münster",
-            "Wurzburger Kickers": "FC Kickers Würzburg",
-            "Würzburger Kickers": "FC Kickers Würzburg",
-            "Viktoria Berlin": "FC Viktoria 1889 Berlin",
-            "Grossaspach": "SG Sonnenhof Großaspach",
-            "Großaspach": "SG Sonnenhof Großaspach",
-            "Saarbrucken": "1. FC Saarbrücken",
-            "Saarbrücken": "1. FC Saarbrücken",
-            "Kaiserslautern": "1. FC Kaiserslautern",
+            # Additional mappings for newer seasons (allow multiple candidates)
+            "Viktoria Koln": ["Viktoria Köln"],
+            "Viktoria Köln": ["Viktoria Köln"],
+            "RW Essen": ["Rot-Weiss Essen"],
+            "Rot-Weiss Essen": ["Rot-Weiss Essen"],
+            "Preussen Munster": ["Preußen Münster"],
+            "Preussen Münster": ["Preußen Münster"],
+            "Preußen Munster": ["Preußen Münster"],
+            "Wurzburger Kickers": ["Würzburger Kickers", "FC Kickers Würzburg"],
+            "Würzburger Kickers": ["Würzburger Kickers", "FC Kickers Würzburg"],
+            "Viktoria Berlin": ["FC Viktoria 1889 Berlin"],
+            "Grossaspach": ["SG Sonnenhof Großaspach"],
+            "Großaspach": ["SG Sonnenhof Großaspach"],
+            "Saarbrucken": ["1. FC Saarbrücken"],
+            "Saarbrücken": ["1. FC Saarbrücken"],
+            "Kaiserslautern": ["1. FC Kaiserslautern"],
+            "Fortuna Koln": ["Fortuna Köln", "SC Fortuna Köln"],
+            "Stutt. Kickers": ["Stuttgarter Kickers"],
+            "Mainz II": ["1. FSV Mainz 05 II"],
         }
         
         # Check known mappings first
         if team_name in known_mappings:
-            mapped_name = known_mappings[team_name]
-            query = "SELECT team_id FROM teams WHERE team_name = ? LIMIT 1"
-            result = self.db.execute_query(query, (mapped_name,))
-            if result:
-                logger.debug(f"Mapped '{team_name}' -> '{mapped_name}'")
-                return result[0]['team_id']
+            candidates = known_mappings[team_name]
+            if isinstance(candidates, str):
+                candidates = [candidates]
+            for mapped_name in candidates:
+                query = "SELECT team_id FROM teams WHERE team_name = ? LIMIT 1"
+                result = self.db.execute_query(query, (mapped_name,))
+                if result:
+                    logger.debug(f"Mapped '{team_name}' -> '{mapped_name}'")
+                    return result[0]['team_id']
         
         # Try direct database lookup (case-insensitive, partial match)
         query = """
@@ -184,6 +190,8 @@ class DataImporter:
             team_name.replace("SG ", "").replace("FC ", "").replace("TSV ", "").replace("SV ", "").strip(),
             team_name.replace(" 1860", "").strip(),
             team_name.replace("Osnabruck", "Osnabrück"),  # Handle umlaut
+            team_name.replace("Koln", "Köln").replace("Munster", "Münster").replace("Wurzburger", "Würzburger").replace("Grossaspach", "Großaspach"),
+            team_name.replace("Stutt. ", "Stuttgarter ").strip(),
         ]
         
         for variant in variations:
@@ -216,17 +224,42 @@ class DataImporter:
         def get_val(col):
             val = row.get(f'{prefix}_{col}')
             return None if pd.isna(val) else val
+        # Try multiple aliases for the same logical field
+        def get_val_multi(*cols):
+            for col in cols:
+                val = row.get(f'{prefix}_{col}')
+                if val is not None and not pd.isna(val):
+                    return val
+            return None
 
         params = (
             match_id, team_id, is_home,
             get_val('possession'),
-            get_val('total_shots'), get_val('shots_on_target'), get_val('shots_off_target'), get_val('blocked_shots'),
+            # Shots
+            get_val_multi('shots_total', 'total_shots'),
+            get_val('shots_on_target'),
+            get_val('shots_off_target'),
+            get_val('shots_blocked'),
             get_val('big_chances'), get_val('big_chances_missed'),
-            get_val('total_passes'), get_val('accurate_passes'), get_val('pass_accuracy'),
-            get_val('total_crosses'), get_val('accurate_crosses'),
-            get_val('total_tackles'), get_val('interceptions'), get_val('clearances'),
-            get_val('total_duels'), get_val('duels_won'), get_val('total_aerials'), get_val('aerials_won'),
-            get_val('fouls_committed'), get_val('fouls_won'), get_val('yellow_cards'), get_val('red_cards'),
+            # Passing
+            get_val_multi('passes', 'total_passes'),
+            get_val('passes_accurate'),
+            get_val_multi('pass_accuracy_pct', 'pass_accuracy'),
+            # Crosses (not available in CSV - keep None)
+            None, None,
+            # Defensive actions
+            get_val_multi('tackles', 'total_tackles'),
+            get_val('interceptions'),
+            get_val('clearances'),
+            # Duels / aerials
+            None,  # duels_total not available
+            get_val('duels_won'),
+            None,  # aerials_total not available
+            get_val('aerials_won'),
+            # Fouls/cards
+            get_val_multi('fouls', 'fouls_committed'),
+            None,  # fouls_won not available
+            get_val('yellow_cards'), get_val('red_cards'),
             get_val('corners'), get_val('offsides'),
             'fotmob', True
         )

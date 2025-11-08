@@ -198,12 +198,26 @@ class OpenLigaDBCollector:
         home_goals = None
         away_goals = None
 
-        # Find final result
-        for result in results:
-            if result.get('resultTypeID') == 2:  # Final result
-                home_goals = result.get('pointsTeam1')
-                away_goals = result.get('pointsTeam2')
+        # Find final result (different seasons use different resultTypeIDs/order)
+        final = None
+        # 1) Prefer explicit 'Endergebnis'
+        for r in results or []:
+            if str(r.get('resultName', '')).lower().startswith('endergebnis'):
+                final = r
                 break
+        # 2) Prefer typeID==2 (common in newer seasons)
+        if final is None:
+            for r in results or []:
+                if r.get('resultTypeID') == 2:
+                    final = r
+                    break
+        # 3) Fallback: smallest resultOrderID (often full-time)
+        if final is None and results:
+            final = sorted(results, key=lambda x: (x.get('resultOrderID', 99), x.get('resultID', 1e9)))[0]
+
+        if final:
+            home_goals = final.get('pointsTeam1')
+            away_goals = final.get('pointsTeam2')
 
         # Determine result
         result_code = None

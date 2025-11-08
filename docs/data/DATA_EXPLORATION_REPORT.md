@@ -1,6 +1,6 @@
 # 3. Liga Dataset - Comprehensive Data Exploration
 
-**Generated:** 2025-11-08 17:52:21
+**Generated:** 2025-11-08 21:57:59
 
 ---
 
@@ -14,46 +14,46 @@ This report provides a comprehensive analysis of the 3. Liga football dataset, i
 
 | Table | Record Count |
 |-------|-------------|
-| betting_odds | 4,319 |
-| collection_logs | 21 |
-| head_to_head | 0 |
+| betting_odds | 40,055 |
+| collection_logs | 26 |
+| head_to_head | 1,283 |
 | league_standings | 320 |
 | match_events | 0 |
-| match_statistics | 4,446 |
+| match_statistics | 4,574 |
 | matches | 6,290 |
 | player_season_stats | 0 |
-| players | 7,756 |
+| players | 0 |
 | squad_memberships | 0 |
-| squad_values | 200 |
-| team_ratings | 9,646 |
-| teams | 70 |
+| team_locations | 52 |
+| team_ratings | 11,940 |
+| teams | 68 |
 | transfers | 0 |
 
 ## 2. Match Data
 
 - **Total Matches:** 6,290
-- **Finished Matches:** 5,969
+- **Finished Matches:** 5,976
 - **Seasons Covered:** 17
-- **Date Range:** 1970-01-01 00:00:00 to 2026-05-16 13:30:00
+- **Date Range:** 2009-07-25 14:00:00 to 2026-05-16 13:30:00
 
 ### Result Distribution
 
 | Result | Count | Percentage |
 |--------|-------|------------|
-| Home Win | 2,063 | 42.8% |
-| Draw | 1,322 | 27.4% |
-| Away Win | 1,438 | 29.8% |
+| Home Win | 2,588 | 43.4% |
+| Draw | 1,643 | 27.5% |
+| Away Win | 1,739 | 29.1% |
 
 ### Field Completeness
 
 | Field | Completeness |
 |-------|-------------|
-| ✅ temperature_celsius | 94.9% |
-| ✅ humidity_percent | 94.9% |
-| ✅ wind_speed_kmh | 94.9% |
-| ✅ precipitation_mm | 94.9% |
-| ✅ weather_condition | 94.9% |
-| ❌ attendance | 0.0% |
+| ⚠️ precipitation_mm | 78.9% |
+| ⚠️ temperature_celsius | 78.7% |
+| ⚠️ humidity_percent | 78.7% |
+| ⚠️ wind_speed_kmh | 78.4% |
+| ❌ attendance | 2.2% |
+| ❌ weather_condition | 0.0% |
 
 ![Matches Timeline](figures/matches_timeline.png)
 
@@ -63,22 +63,22 @@ This report provides a comprehensive analysis of the 3. Liga football dataset, i
 
 ## 3. Match Statistics
 
-- **Total Records:** 4,446
-- **Unique Matches:** 2,223
+- **Total Records:** 4,574
+- **Unique Matches:** 2,287
 
 ### Statistics Completeness
 
 | Statistic | Completeness |
 |-----------|-------------|
 | ✅ possession_percent | 100.0% |
+| ✅ shots_total | 100.0% |
 | ✅ shots_on_target | 100.0% |
 | ✅ corners | 100.0% |
-| ✅ yellow_cards | 97.8% |
-| ❌ shots_total | 0.0% |
-| ❌ passes_total | 0.0% |
-| ❌ pass_accuracy_percent | 0.0% |
-| ❌ tackles_total | 0.0% |
-| ❌ fouls_committed | 0.0% |
+| ✅ fouls_committed | 100.0% |
+| ✅ passes_total | 97.5% |
+| ✅ tackles_total | 97.5% |
+| ✅ yellow_cards | 97.5% |
+| ✅ pass_accuracy_percent | 97.3% |
 
 ![Stats Coverage](figures/stats_coverage.png)
 
@@ -88,20 +88,20 @@ This report provides a comprehensive analysis of the 3. Liga football dataset, i
 
 ## 4. Team Ratings
 
-- **Total Records:** 9,646
-- **Teams:** 66
+- **Total Records:** 11,940
+- **Teams:** 68
 
 ### Elo Rating Statistics
 
-- Mean: 1509
-- Std: 61
-- Min: 1319
-- Max: 1725
+- Mean: 1500
+- Std: 48
+- Min: 1318
+- Max: 1674
 
 ### Pi-Rating Statistics
 
 - Mean: 0.45
-- Std: 0.17
+- Std: 0.19
 - Min: 0.00
 - Max: 1.00
 
@@ -111,8 +111,8 @@ This report provides a comprehensive analysis of the 3. Liga football dataset, i
 
 ## 5. Betting Odds
 
-- **Total Records:** 4,261
-- **Matches with Odds:** 4,261
+- **Total Records:** 39,547
+- **Matches with Odds:** 5,886
 
 ### Average Odds
 
@@ -128,22 +128,22 @@ This report provides a comprehensive analysis of the 3. Liga football dataset, i
 
 | Split | Matches |
 |-------|--------|
-| Train | 2,925 |
-| Val | 325 |
-| Test | 813 |
-| Full | 4,063 |
+| Train | 4,298 |
+| Val | 478 |
+| Test | 1,194 |
+| Full | 5,970 |
 
-- **Total Features:** 73
+- **Total Features:** 99
 
 ### Feature Groups
 
 | Group | Feature Count |
 |-------|---------------|
-| Ratings | 6 |
+| Ratings | 7 |
 | Form | 10 |
 | Stats | 10 |
 | Odds | 4 |
-| Context | 42 |
+| Context | 45 |
 
 ![Feature Completeness](figures/feature_completeness.png)
 

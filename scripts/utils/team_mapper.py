@@ -9,6 +9,8 @@ from pathlib import Path
 from typing import Dict, Optional, List, Tuple
 from loguru import logger
 import sys
+import unicodedata
+import re
 
 # Add parent directories to path
 sys.path.append(str(Path(__file__).parent.parent.parent))
@@ -28,6 +30,60 @@ class TeamMapper:
         self.config_path = Path(config_path)
         self.config_path.parent.mkdir(parents=True, exist_ok=True)
         self.mappings = self._load_mappings()
+        # Build normalized lookup tables
+        self._build_normalized_maps()
+
+    @staticmethod
+    def _normalize(name: str) -> str:
+        """
+        Normalize team names for robust matching:
+        - lowercase
+        - remove diacritics
+        - strip common prefixes (fc, sc, sg, tsv, sv, 1., 1)
+        - remove punctuation/dots/extra spaces
+        - unify common abbreviations
+        """
+        if not name:
+            return ""
+        s = name.strip()
+        # Replace abbreviations that appear in OddsPortal
+        s = s.replace("Stutt. ", "Stuttgarter ")
+        # Lowercase
+        s_lower = s.lower()
+        # Remove diacritics
+        s_norm = unicodedata.normalize("NFKD", s_lower)
+        s_ascii = "".join([c for c in s_norm if not unicodedata.combining(c)])
+        # Remove punctuation and dots
+        s_ascii = re.sub(r"[^\w\s]", " ", s_ascii)
+        # Strip common leading tokens
+        tokens = s_ascii.split()
+        drop = {"fc", "sc", "sg", "tsv", "sv", "1", "1."}
+        tokens = [t for t in tokens if t not in drop]
+        # Join and collapse spaces
+        s_final = re.sub(r"\s+", " ", " ".join(tokens)).strip()
+        return s_final
+
+    def _build_normalized_maps(self) -> None:
+        """Precompute normalized name -> canonical mappings from config and DB."""
+        self._norm_to_canonical: Dict[str, str] = {}
+        # From config teams
+        for original, data in self.mappings.get("teams", {}).items():
+            standard = data.get("standard_name", original)
+            self._norm_to_canonical[self._normalize(original)] = standard
+            self._norm_to_canonical[self._normalize(standard)] = standard
+        # From config aliases
+        for alias, standard in self.mappings.get("aliases", {}).items():
+            self._norm_to_canonical[self._normalize(alias)] = standard
+            self._norm_to_canonical[self._normalize(standard)] = standard
+        # From DB existing teams
+        try:
+            db = get_db()
+            rows = db.execute_query("SELECT team_name FROM teams")
+            for r in rows:
+                t = r["team_name"]
+                self._norm_to_canonical.setdefault(self._normalize(t), t)
+        except Exception as e:
+            logger.debug(f"Could not pre-load DB team names for normalization: {e}")
 
     def _load_mappings(self) -> Dict:
         """Load team mappings from config file"""
@@ -239,6 +295,11 @@ class TeamMapper:
         Returns:
             Standardized team name
         """
+        # Fast path: normalized canonical map
+        norm = self._normalize(team_name)
+        if norm in self._norm_to_canonical:
+            return self._norm_to_canonical[norm]
+
         # Check direct mapping
         if team_name in self.mappings.get("teams", {}):
             return self.mappings["teams"][team_name].get("standard_name", team_name)
@@ -264,7 +325,32 @@ class TeamMapper:
         """
         standard_name = self.get_standard_name(team_name)
         db = get_db()
-        return db.get_team_id_by_name(standard_name)
+        team_id = db.get_team_id_by_name(standard_name)
+        if team_id:
+            return team_id
+        # Attempt fallback lookups with normalized variants
+        # Try adding/removing common prefixes
+        candidates = [
+            standard_name,
+            standard_name.replace("Koln", "Köln"),
+            standard_name.replace("Munster", "Münster"),
+            standard_name.replace("Wurzburger", "Würzburger"),
+        ]
+        for c in candidates:
+            team_id = db.get_team_id_by_name(c)
+            if team_id:
+                return team_id
+        # Last resort: case-insensitive LIKE
+        try:
+            res = db.execute_query(
+                "SELECT team_id FROM teams WHERE LOWER(team_name)=LOWER(?) OR LOWER(team_name) LIKE LOWER(?) LIMIT 1",
+                (standard_name, f"%{standard_name}%"),
+            )
+            if res:
+                return res[0]["team_id"]
+        except Exception:
+            pass
+        return None
 
     def export_team_list(self, output_file: str = "data/processed/team_list.csv") -> None:
         """

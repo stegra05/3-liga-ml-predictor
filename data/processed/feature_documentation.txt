@@ -8,7 +8,6 @@ CATEGORICAL:
   - day_of_week
   - month
   - is_midweek
-  - is_derby
 
 RATING_FEATURES:
   - home_elo
@@ -76,7 +75,6 @@ ALL_PREDICTIVE:
   - day_of_week
   - month
   - is_midweek
-  - is_derby
   - home_elo
   - away_elo
   - elo_diff

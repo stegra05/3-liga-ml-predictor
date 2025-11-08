@@ -68,6 +68,19 @@ class MLDataExporter:
             FROM h2h_flat f
             JOIN most_recent mr
               ON mr.ta_id = f.ta_id AND mr.tb_id = f.tb_id AND mr.max_updated = f.last_updated
+        ),
+        odds_agg AS (
+            SELECT
+                match_id,
+                AVG(odds_home) AS odds_home,
+                AVG(odds_draw) AS odds_draw,
+                AVG(odds_away) AS odds_away,
+                AVG(implied_prob_home) AS implied_prob_home,
+                AVG(implied_prob_draw) AS implied_prob_draw,
+                AVG(implied_prob_away) AS implied_prob_away
+            FROM betting_odds
+            WHERE bookmaker = 'oddsportal_avg'
+            GROUP BY match_id
         )
         SELECT
             -- Match identifiers
@@ -90,8 +103,6 @@ class MLDataExporter:
             -- Match context
             m.venue,
             m.attendance,
-            m.is_midweek,
-            m.is_derby,
 
             -- Home team ratings (BEFORE match)
             htr.elo_rating as home_elo,
@@ -151,6 +162,11 @@ class MLDataExporter:
             m.wind_speed_kmh,
             m.precipitation_mm,
             m.weather_condition,
+ 
+            -- Derived features (rest/travel - placeholders when not stored in DB)
+            NULL as rest_days_home,
+            NULL as rest_days_away,
+            NULL as travel_distance_km,
 
             -- Head-to-head statistics (raw values, will be adjusted in feature engineering)
             h2h.total_matches as h2h_total_matches,
@@ -172,8 +188,8 @@ class MLDataExporter:
         LEFT JOIN team_ratings htr ON m.match_id = htr.match_id AND m.home_team_id = htr.team_id
         LEFT JOIN team_ratings atr ON m.match_id = atr.match_id AND m.away_team_id = atr.team_id
 
-        -- Join betting odds
-        LEFT JOIN betting_odds bo ON m.match_id = bo.match_id
+        -- Join betting odds (aggregated to one row per match)
+        LEFT JOIN odds_agg bo ON m.match_id = bo.match_id
 
         -- Join match statistics (these are POST-match, for analysis only)
         LEFT JOIN match_statistics hms ON m.match_id = hms.match_id AND m.home_team_id = hms.team_id
@@ -197,6 +213,8 @@ class MLDataExporter:
 
         # Engineer additional features
         df = self._engineer_features(df)
+        # Enrich with travel distance if coordinates available
+        df = self._add_travel_distance(df)
 
         # Add data quality flags
         df = self._add_quality_flags(df)
@@ -261,8 +279,8 @@ class MLDataExporter:
             # H2H match count (useful for new matchups)
             df['h2h_match_count'] = df['h2h_total_matches'].fillna(0)
 
-        # Rest days features
-        if 'rest_days_home' in df.columns:
+        # Rest days features (only if present and non-null)
+        if 'rest_days_home' in df.columns and df['rest_days_home'].notna().any() and 'rest_days_away' in df.columns:
             df['rest_days_diff'] = df['rest_days_home'] - df['rest_days_away']
             df['home_rest_advantage'] = (df['rest_days_home'] > df['rest_days_away']).astype(int)
             df['away_rest_advantage'] = (df['rest_days_away'] > df['rest_days_home']).astype(int)
@@ -278,8 +296,8 @@ class MLDataExporter:
                 labels=['short', 'medium', 'normal', 'long']
             )
 
-        # Travel distance features
-        if 'travel_distance_km' in df.columns:
+        # Travel distance features (only if present and non-null)
+        if 'travel_distance_km' in df.columns and df['travel_distance_km'].notna().any():
             # Categorize travel distance
             df['travel_category'] = pd.cut(
                 df['travel_distance_km'],
@@ -294,6 +312,8 @@ class MLDataExporter:
         df['day_of_week'] = df['match_datetime'].dt.dayofweek
         df['month'] = df['match_datetime'].dt.month
         df['year'] = df['match_datetime'].dt.year
+        # Derived context features
+        df['is_midweek'] = df['day_of_week'].isin([1, 2, 3]).astype(int)
 
         # Weather features
         if 'temperature_celsius' in df.columns:
@@ -334,6 +354,50 @@ class MLDataExporter:
 
         logger.info(f"Engineered {len(df.columns)} total features")
         return df
+
+    def _add_travel_distance(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Compute great-circle (haversine) distance between home and away team locations.
+        Requires team_locations table with lat/lon.
+        """
+        try:
+            locs = self.db.query_to_dataframe("SELECT team_id, lat, lon FROM team_locations WHERE lat IS NOT NULL AND lon IS NOT NULL")
+            if locs.empty:
+                return df
+            locs = locs.set_index('team_id')
+            # Map coordinates
+            df['home_lat'] = df['home_team_id'].map(locs['lat'])
+            df['home_lon'] = df['home_team_id'].map(locs['lon'])
+            df['away_lat'] = df['away_team_id'].map(locs['lat'])
+            df['away_lon'] = df['away_team_id'].map(locs['lon'])
+
+            import numpy as np
+            def haversine_np(lat1, lon1, lat2, lon2):
+                R = 6371.0  # km
+                lat1 = np.radians(lat1)
+                lon1 = np.radians(lon1)
+                lat2 = np.radians(lat2)
+                lon2 = np.radians(lon2)
+                dlat = lat2 - lat1
+                dlon = lon2 - lon1
+                a = np.sin(dlat/2.0)**2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon/2.0)**2
+                c = 2 * np.arcsin(np.sqrt(a))
+                return R * c
+
+            mask = df[['home_lat','home_lon','away_lat','away_lon']].notna().all(axis=1)
+            if mask.any():
+                df.loc[mask, 'travel_distance_km'] = haversine_np(
+                    df.loc[mask, 'home_lat'].values,
+                    df.loc[mask, 'home_lon'].values,
+                    df.loc[mask, 'away_lat'].values,
+                    df.loc[mask, 'away_lon'].values
+                )
+            # Cleanup helper columns
+            df = df.drop(columns=['home_lat','home_lon','away_lat','away_lon'])
+            return df
+        except Exception as e:
+            logger.warning(f"Travel distance computation failed: {e}")
+            return df
 
     def _add_quality_flags(self, df: pd.DataFrame) -> pd.DataFrame:
         """Add data quality indicators"""
@@ -411,7 +475,7 @@ class MLDataExporter:
         features = {
             'categorical': [
                 'home_team', 'away_team', 'venue',
-                'day_of_week', 'month', 'is_midweek', 'is_derby'
+                'day_of_week', 'month', 'is_midweek'
             ],
             'rating_features': [
                 'home_elo', 'away_elo', 'elo_diff',
