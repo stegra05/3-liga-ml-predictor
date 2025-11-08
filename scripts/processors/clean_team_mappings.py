@@ -140,7 +140,6 @@ def clean_team_mappings(input_file: str = "config/team_mappings.json",
                     "standard_name": standard_name,
                     "short_name": team_info.get("short_name", standard_name[:20]),
                     "openligadb_id": team_info.get("openligadb_id"),
-                    "transfermarkt_id": team_info.get("transfermarkt_id"),
                     "founded": team_info.get("founded"),
                     "stadium": team_info.get("stadium")
                 }

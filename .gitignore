@@ -1,3 +1,68 @@
-data/raw
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Database files - ignore temporary lock files only
+*.db-shm
+*.db-wal
+*.sqlite-shm
+*.sqlite-wal
+
+# Data files - allow CSVs and databases to be tracked
+# Only ignore large binary formats that are typically generated
+*.parquet
+*.feather
+
+# Note: .csv and .db files are tracked as they contain important project data
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
 .claude
 
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Model files (uncomment if you don't want to track models)
+# *.pkl
+# *.model
+# *.h5
+# *.joblib
+
+# OS
+.DS_Store
+Thumbs.db

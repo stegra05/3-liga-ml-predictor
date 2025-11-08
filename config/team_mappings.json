@@ -118,7 +118,6 @@
       "standard_name": "1. FC Heidenheim 1846",
       "short_name": "1. FC Heidenheim 184",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -126,7 +125,6 @@
       "standard_name": "1. FC Kaiserslautern",
       "short_name": "1. FC Kaiserslautern",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -134,7 +132,6 @@
       "standard_name": "1. FC Magdeburg",
       "short_name": "1. FC Magdeburg",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -142,7 +139,6 @@
       "standard_name": "1. FC Saarbrücken",
       "short_name": "1. FC Saarbrücken",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -150,7 +146,6 @@
       "standard_name": "1. FC Schweinfurt 05",
       "short_name": "1. FC Schweinfurt 05",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -158,7 +153,6 @@
       "standard_name": "1. FSV Mainz 05 II",
       "short_name": "1. FSV Mainz 05 II",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -166,7 +160,6 @@
       "standard_name": "TSV 1860 München",
       "short_name": "TSV 1860 München",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -174,7 +167,6 @@
       "standard_name": "Aalen",
       "short_name": "Aalen",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -182,7 +174,6 @@
       "standard_name": "Alemannia Aachen",
       "short_name": "Alemannia Aachen",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -190,7 +181,6 @@
       "standard_name": "Arminia Bielefeld",
       "short_name": "Arminia Bielefeld",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -198,7 +188,6 @@
       "standard_name": "Erzgebirge Aue",
       "short_name": "Erzgebirge Aue",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -206,7 +195,6 @@
       "standard_name": "Bayern II",
       "short_name": "Bayern II",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -214,7 +202,6 @@
       "standard_name": "FC Bayern München II",
       "short_name": "FC Bayern München II",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -222,7 +209,6 @@
       "standard_name": "Borussia Dortmund II",
       "short_name": "Borussia Dortmund II",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -230,7 +216,6 @@
       "standard_name": "Braunschweig",
       "short_name": "Braunschweig",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -238,7 +223,6 @@
       "standard_name": "Burghausen",
       "short_name": "Burghausen",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -246,7 +230,6 @@
       "standard_name": "FC Carl Zeiss Jena",
       "short_name": "FC Carl Zeiss Jena",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -254,7 +237,6 @@
       "standard_name": "Chemnitzer FC",
       "short_name": "Chemnitzer FC",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -262,7 +244,6 @@
       "standard_name": "Dortmund II",
       "short_name": "Dortmund II",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -270,7 +251,6 @@
       "standard_name": "Dynamo Dresden",
       "short_name": "Dynamo Dresden",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -278,7 +258,6 @@
       "standard_name": "Eintracht Braunschweig",
       "short_name": "Eintracht Braunschwe",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -286,7 +265,6 @@
       "standard_name": "Elversberg",
       "short_name": "Elversberg",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -294,7 +272,6 @@
       "standard_name": "Energie Cottbus",
       "short_name": "Energie Cottbus",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -302,7 +279,6 @@
       "standard_name": "Erfurt",
       "short_name": "Erfurt",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -310,7 +286,6 @@
       "standard_name": "FC Ingolstadt 04",
       "short_name": "FC Ingolstadt 04",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -318,7 +293,6 @@
       "standard_name": "FC Kickers Würzburg",
       "short_name": "FC Kickers Würzburg",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -326,7 +300,6 @@
       "standard_name": "FC Rot-Weiß Erfurt",
       "short_name": "FC Rot-Weiß Erfurt",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -334,7 +307,6 @@
       "standard_name": "FC Schweinfurt",
       "short_name": "FC Schweinfurt",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -342,7 +314,6 @@
       "standard_name": "FC Viktoria 1889 Berlin",
       "short_name": "FC Viktoria 1889 Ber",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -350,7 +321,6 @@
       "standard_name": "FSV Frankfurt",
       "short_name": "FSV Frankfurt",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -358,7 +328,6 @@
       "standard_name": "FSV Zwickau",
       "short_name": "FSV Zwickau",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -366,7 +335,6 @@
       "standard_name": "Fortuna Köln",
       "short_name": "Fortuna Köln",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -374,7 +342,6 @@
       "standard_name": "Freiburg II",
       "short_name": "Freiburg II",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -382,7 +349,6 @@
       "standard_name": "Hallescher FC",
       "short_name": "Hallescher FC",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -390,7 +356,6 @@
       "standard_name": "Hannover 96 II",
       "short_name": "Hannover 96 II",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -398,7 +363,6 @@
       "standard_name": "Hannover II",
       "short_name": "Hannover II",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -406,7 +370,6 @@
       "standard_name": "Hansa Rostock",
       "short_name": "Hansa Rostock",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -414,7 +377,6 @@
       "standard_name": "Heidenheim",
       "short_name": "Heidenheim",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -422,7 +384,6 @@
       "standard_name": "Hoffenheim II",
       "short_name": "Hoffenheim II",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -430,7 +391,6 @@
       "standard_name": "Holstein Kiel",
       "short_name": "Holstein Kiel",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -438,7 +398,6 @@
       "standard_name": "Jahn Regensburg",
       "short_name": "Jahn Regensburg",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -446,7 +405,6 @@
       "standard_name": "Jena",
       "short_name": "Jena",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -454,7 +412,6 @@
       "standard_name": "KFC Uerdingen 05",
       "short_name": "KFC Uerdingen 05",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -462,7 +419,6 @@
       "standard_name": "Kaiserslautern",
       "short_name": "Kaiserslautern",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -470,7 +426,6 @@
       "standard_name": "Karlsruher SC",
       "short_name": "Karlsruher SC",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -478,7 +433,6 @@
       "standard_name": "Kickers Offenbach",
       "short_name": "Kickers Offenbach",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -486,7 +440,6 @@
       "standard_name": "Lübeck",
       "short_name": "Lübeck",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -494,7 +447,6 @@
       "standard_name": "MSV Duisburg",
       "short_name": "MSV Duisburg",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -502,7 +454,6 @@
       "standard_name": "Mainz 05 II",
       "short_name": "Mainz 05 II",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -510,7 +461,6 @@
       "standard_name": "Meppen",
       "short_name": "Meppen",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -518,7 +468,6 @@
       "standard_name": "Offenbach",
       "short_name": "Offenbach",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -526,7 +475,6 @@
       "standard_name": "Oldenburg",
       "short_name": "Oldenburg",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -534,7 +482,6 @@
       "standard_name": "Paderborn",
       "short_name": "Paderborn",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -542,7 +489,6 @@
       "standard_name": "Preußen Münster",
       "short_name": "Preußen Münster",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -550,7 +496,6 @@
       "standard_name": "RB Leipzig",
       "short_name": "RB Leipzig",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -558,7 +503,6 @@
       "standard_name": "RW Essen",
       "short_name": "RW Essen",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -566,7 +510,6 @@
       "standard_name": "Regensburg",
       "short_name": "Regensburg",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -574,7 +517,6 @@
       "standard_name": "Rot-Weiss Ahlen",
       "short_name": "Rot-Weiss Ahlen",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -582,7 +524,6 @@
       "standard_name": "Rot-Weiss Essen",
       "short_name": "Rot-Weiss Essen",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -590,7 +531,6 @@
       "standard_name": "Rot-Weiss Oberhausen",
       "short_name": "Rot-Weiss Oberhausen",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -598,7 +538,6 @@
       "standard_name": "SC Fortuna Köln",
       "short_name": "SC Fortuna Köln",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -606,7 +545,6 @@
       "standard_name": "SC Freiburg II",
       "short_name": "SC Freiburg II",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -614,7 +552,6 @@
       "standard_name": "SC Paderborn 07",
       "short_name": "SC Paderborn 07",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -622,7 +559,6 @@
       "standard_name": "SC Verl",
       "short_name": "SC Verl",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -630,7 +566,6 @@
       "standard_name": "SG Sonnenhof Großaspach",
       "short_name": "SG Sonnenhof Großasp",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -638,7 +573,6 @@
       "standard_name": "SSV Ulm 1846",
       "short_name": "SSV Ulm 1846",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -646,7 +580,6 @@
       "standard_name": "SV 07 Elversberg",
       "short_name": "SV 07 Elversberg",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -654,7 +587,6 @@
       "standard_name": "SV Babelsberg 03",
       "short_name": "SV Babelsberg 03",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -662,7 +594,6 @@
       "standard_name": "SV Darmstadt 98",
       "short_name": "SV Darmstadt 98",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -670,7 +601,6 @@
       "standard_name": "SV Meppen",
       "short_name": "SV Meppen",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -678,7 +608,6 @@
       "standard_name": "SV Sandhausen",
       "short_name": "SV Sandhausen",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -686,7 +615,6 @@
       "standard_name": "SV Waldhof Mannheim",
       "short_name": "SV Waldhof Mannheim",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -694,7 +622,6 @@
       "standard_name": "SV Wehen Wiesbaden",
       "short_name": "SV Wehen Wiesbaden",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -702,7 +629,6 @@
       "standard_name": "Saarbrücken",
       "short_name": "Saarbrücken",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -710,7 +636,6 @@
       "standard_name": "Sandhausen",
       "short_name": "Sandhausen",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -718,7 +643,6 @@
       "standard_name": "SpVgg Bayreuth",
       "short_name": "SpVgg Bayreuth",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -726,7 +650,6 @@
       "standard_name": "SpVgg Oberfranken Bayreuth",
       "short_name": "SpVgg Oberfranken Ba",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -734,7 +657,6 @@
       "standard_name": "SpVgg Unterhaching",
       "short_name": "SpVgg Unterhaching",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -742,7 +664,6 @@
       "standard_name": "Sportfreunde Lotte",
       "short_name": "Sportfreunde Lotte",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -750,7 +671,6 @@
       "standard_name": "Stuttgart II",
       "short_name": "Stuttgart II",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -758,7 +678,6 @@
       "standard_name": "Stuttgarter Kickers",
       "short_name": "Stuttgarter Kickers",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -766,7 +685,6 @@
       "standard_name": "TSG 1899 Hoffenheim II",
       "short_name": "TSG 1899 Hoffenheim ",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -774,7 +692,6 @@
       "standard_name": "TSV Havelse",
       "short_name": "TSV Havelse",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -782,7 +699,6 @@
       "standard_name": "TuS Koblenz",
       "short_name": "TuS Koblenz",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -790,7 +706,6 @@
       "standard_name": "Türkgücü München",
       "short_name": "Türkgücü München",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -798,7 +713,6 @@
       "standard_name": "Ulm",
       "short_name": "Ulm",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -806,7 +720,6 @@
       "standard_name": "VfB Lübeck",
       "short_name": "VfB Lübeck",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -814,7 +727,6 @@
       "standard_name": "VfB Oldenburg",
       "short_name": "VfB Oldenburg",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -822,7 +734,6 @@
       "standard_name": "VfB Stuttgart II",
       "short_name": "VfB Stuttgart II",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -830,7 +741,6 @@
       "standard_name": "VfL Osnabrück",
       "short_name": "VfL Osnabrück",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -838,7 +748,6 @@
       "standard_name": "VfR Aalen",
       "short_name": "VfR Aalen",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -846,7 +755,6 @@
       "standard_name": "FC Viktoria Köln",
       "short_name": "Viktoria Köln",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -854,7 +762,6 @@
       "standard_name": "Viktoria Köln 1904",
       "short_name": "Viktoria Köln 1904",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -862,7 +769,6 @@
       "standard_name": "Wacker Burghausen",
       "short_name": "Wacker Burghausen",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -870,7 +776,6 @@
       "standard_name": "Wehen",
       "short_name": "Wehen",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -878,7 +783,6 @@
       "standard_name": "Werder Bremen II",
       "short_name": "Werder Bremen II",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -886,7 +790,6 @@
       "standard_name": "Wuppertal",
       "short_name": "Wuppertal",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -894,7 +797,6 @@
       "standard_name": "Wuppertaler SV",
       "short_name": "Wuppertaler SV",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     },
@@ -902,7 +804,6 @@
       "standard_name": "Würzburger Kickers",
       "short_name": "Würzburger Kickers",
       "openligadb_id": null,
-      "transfermarkt_id": null,
       "founded": null,
       "stadium": null
     }

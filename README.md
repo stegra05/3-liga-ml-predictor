@@ -297,7 +297,7 @@ For **best model performance**, use data from **2014-2025** (included in exporte
 ## 🔮 Future Enhancements
 
 Potential additions (not currently implemented):
-- ❌ Player-level statistics (requires Transfermarkt scraper)
+- ❌ Player-level statistics
 - ❌ Transfer market data
 - ❌ Weather conditions
 - ❌ xG (Expected Goals) - not available for 3. Liga

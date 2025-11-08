@@ -209,15 +209,13 @@ class DatabaseManager:
 
         return self.execute_insert(query, params)
 
-    def get_or_create_team(self, team_name: str, openligadb_id: Optional[int] = None,
-                          transfermarkt_id: Optional[str] = None) -> int:
+    def get_or_create_team(self, team_name: str, openligadb_id: Optional[int] = None) -> int:
         """
         Get team ID or create if doesn't exist
 
         Args:
             team_name: Team name
             openligadb_id: OpenLigaDB team ID
-            transfermarkt_id: Transfermarkt team ID
 
         Returns:
             Team ID
@@ -225,20 +223,20 @@ class DatabaseManager:
         # Try to find existing team
         query = """
             SELECT team_id FROM teams
-            WHERE team_name = ? OR openligadb_id = ? OR transfermarkt_id = ?
+            WHERE team_name = ? OR openligadb_id = ?
             LIMIT 1
         """
-        result = self.execute_query(query, (team_name, openligadb_id, transfermarkt_id))
+        result = self.execute_query(query, (team_name, openligadb_id))
 
         if result:
             return result[0]['team_id']
 
         # Create new team
         insert_query = """
-            INSERT INTO teams (team_name, openligadb_id, transfermarkt_id)
-            VALUES (?, ?, ?)
+            INSERT INTO teams (team_name, openligadb_id)
+            VALUES (?, ?)
         """
-        team_id = self.execute_insert(insert_query, (team_name, openligadb_id, transfermarkt_id))
+        team_id = self.execute_insert(insert_query, (team_name, openligadb_id))
         logger.info(f"Created new team: {team_name} (ID: {team_id})")
         return team_id
 

@@ -9,7 +9,6 @@
 CREATE TABLE IF NOT EXISTS teams (
     team_id INTEGER PRIMARY KEY AUTOINCREMENT,
     openligadb_id INTEGER UNIQUE,
-    transfermarkt_id VARCHAR(50) UNIQUE,
     team_name VARCHAR(100) NOT NULL,
     team_name_short VARCHAR(50),
     team_name_alt VARCHAR(100), -- Alternative names for matching
@@ -253,7 +252,6 @@ CREATE INDEX IF NOT EXISTS idx_odds_match ON betting_odds(match_id);
 -- Player master table
 CREATE TABLE IF NOT EXISTS players (
     player_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    transfermarkt_id VARCHAR(50) UNIQUE,
 
     full_name VARCHAR(100) NOT NULL,
     known_name VARCHAR(100),
@@ -271,7 +269,6 @@ CREATE TABLE IF NOT EXISTS players (
 );
 
 CREATE INDEX IF NOT EXISTS idx_players_name ON players(full_name);
-CREATE INDEX IF NOT EXISTS idx_players_transfermarkt ON players(transfermarkt_id);
 
 -- Player season statistics
 CREATE TABLE IF NOT EXISTS player_season_stats (
@@ -303,7 +300,7 @@ CREATE TABLE IF NOT EXISTS player_season_stats (
     pass_accuracy_percent REAL,
     tackles_won INTEGER,
 
-    source VARCHAR(50), -- 'transfermarkt', 'fbref'
+    source VARCHAR(50), -- 'fbref', etc.
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
@@ -423,7 +420,7 @@ CREATE TABLE IF NOT EXISTS head_to_head (
 -- Track data collection runs
 CREATE TABLE IF NOT EXISTS collection_logs (
     log_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    source VARCHAR(50) NOT NULL, -- 'openligadb', 'transfermarkt', 'fbref', etc.
+    source VARCHAR(50) NOT NULL, -- 'openligadb', 'fbref', etc.
     collection_type VARCHAR(50) NOT NULL, -- 'match_data', 'player_stats', etc.
 
     season VARCHAR(9),

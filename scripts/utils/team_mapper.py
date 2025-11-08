@@ -202,7 +202,6 @@ class TeamMapper:
                 "standard_name": team,
                 "short_name": team[:20],  # Shortened version
                 "openligadb_id": None,
-                "transfermarkt_id": None,
                 "founded": None,
                 "stadium": None
             }
@@ -222,8 +221,7 @@ class TeamMapper:
             try:
                 team_id = db.get_or_create_team(
                     team_name=team_data.get("standard_name", team_name),
-                    openligadb_id=team_data.get("openligadb_id"),
-                    transfermarkt_id=team_data.get("transfermarkt_id")
+                    openligadb_id=team_data.get("openligadb_id")
                 )
                 teams_added += 1
             except Exception as e:
@@ -286,7 +284,6 @@ class TeamMapper:
                 "standard_name": team_data.get("standard_name", team_name),
                 "short_name": team_data.get("short_name", ""),
                 "openligadb_id": team_data.get("openligadb_id", ""),
-                "transfermarkt_id": team_data.get("transfermarkt_id", ""),
                 "stadium": team_data.get("stadium", ""),
                 "founded": team_data.get("founded", "")
             })
@@ -333,7 +330,7 @@ def main():
     print(f"✓ Found {template['metadata']['total_teams']} unique teams")
     print("\nNext steps:")
     print("1. Review and edit config/team_mappings.json to standardize team names")
-    print("2. Add OpenLigaDB IDs and Transfermarkt IDs where available")
+    print("2. Add OpenLigaDB IDs where available")
     print("3. Run mapper.populate_database_with_teams() to add teams to database")
 
 
