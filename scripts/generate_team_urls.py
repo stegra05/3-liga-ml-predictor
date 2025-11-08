@@ -24,17 +24,45 @@ BASE_URL = "https://www.transfermarkt.de"
 def search_team(team_name: str):
     """Search for a team and return the first 3. Liga result"""
     search_url = f"{BASE_URL}/schnellsuche/ergebnis/schnellsuche"
-    params = {'query': team_name}
+
+    # Try multiple search variants
+    # Extract the main city/team name
+    # Remove common prefixes and get the main name
+    simplified = re.sub(r'^(1\.\s*)?((FC|SV|TSV|SpVgg|VfL|VfB|VfR|SG|FSV|MSV|KFC)\s+)', '', team_name)
+    main_name = simplified.split()[0]  # Get first word after prefixes
+
+    search_variants = [
+        team_name,  # Full name first
+        main_name   # Simplified name (e.g., "Heidenheim", "Saarbrücken")
+    ]
+
+    results = []
+    for search_term in search_variants:
+        if not search_term:
+            continue
+
+        params = {'query': search_term}
+
+        try:
+            response = requests.get(search_url, params=params, headers=HEADERS, timeout=15)
+            soup = BeautifulSoup(response.content, 'html.parser')
+
+            # Find all club results
+            results = soup.find_all('td', class_='hauptlink')
+
+            if len(results) > 0:
+                break  # Found results, stop trying variants
+
+            time.sleep(0.5)  # Small delay between variants
+
+        except Exception as e:
+            print(f"✗ Error searching with '{search_term}': {e}")
+            continue
 
     try:
-        response = requests.get(search_url, params=params, headers=HEADERS, timeout=15)
-        soup = BeautifulSoup(response.content, 'html.parser')
-
-        # Find all club results
-        results = soup.find_all('td', class_='hauptlink')
 
         for result in results:
-            link = result.find('a', class_='vereinprofil_tooltip')
+            link = result.find('a')
             if not link:
                 continue
 
@@ -48,20 +76,19 @@ def search_team(team_name: str):
                 url_slug = match.group(1)
                 team_id = match.group(2)
 
-                # Check if it's in the right league (look for info in the same row)
-                parent_row = result.find_parent('tr')
-                if parent_row:
-                    league_info = parent_row.find('td', class_='zentriert')
-                    if league_info:
-                        league_text = league_info.text.strip()
-                        # Accept 3. Liga, 2. Bundesliga, or Bundesliga (teams may have moved)
-                        if '3. Liga' in league_text or '2. Bundesliga' in league_text or 'Bundesliga' in league_text:
-                            return {
-                                'url_slug': url_slug,
-                                'team_id': team_id,
-                                'found_name': result_name,
-                                'league': league_text
-                            }
+                # Normalize names for comparison
+                norm_search = team_name.lower().replace('.', '').replace(' ', '').replace('ü', 'u').replace('ö', 'o').replace('ä', 'a')
+                norm_result = result_name.lower().replace('.', '').replace(' ', '').replace('ü', 'u').replace('ö', 'o').replace('ä', 'a')
+
+                # Check if it's a good match (not youth/reserve teams)
+                if 'u19' not in norm_result and 'u17' not in norm_result and 'u23' not in norm_result:
+                    # If the search term is in the result or vice versa, it's a match
+                    if norm_search in norm_result or norm_result in norm_search:
+                        return {
+                            'url_slug': url_slug,
+                            'team_id': team_id,
+                            'found_name': result_name
+                        }
 
         print(f"✗ No result found for: {team_name}")
         return None
@@ -71,7 +98,7 @@ def search_team(team_name: str):
         return None
 
 def main():
-    print("=== Transfermarkt URL Generator ===\n")
+    print("=== Transfermarkt URL Generator ===\n", flush=True)
 
     # Get all unique teams from database
     db = get_db()
@@ -79,12 +106,12 @@ def main():
     teams_result = db.execute_query(query)
     team_names = [row['team_name'] for row in teams_result]
 
-    print(f"Found {len(team_names)} teams in database\n")
+    print(f"Found {len(team_names)} teams in database\n", flush=True)
 
     results = {}
 
     for idx, team_name in enumerate(team_names, 1):
-        print(f"[{idx}/{len(team_names)}] Searching for: {team_name:40}", end=' ')
+        print(f"[{idx}/{len(team_names)}] Searching for: {team_name:40}", end=' ', flush=True)
 
         result = search_team(team_name)
 
@@ -93,9 +120,9 @@ def main():
                 'url_slug': result['url_slug'],
                 'team_id': result['team_id']
             }
-            print(f"✓ ID: {result['team_id']:6} ({result['found_name']})")
+            print(f"✓ ID: {result['team_id']:6} ({result['found_name']})", flush=True)
         else:
-            print(f"✗ NOT FOUND")
+            print(f"✗ NOT FOUND", flush=True)
 
         time.sleep(2)  # Rate limiting
 

@@ -1,0 +1,762 @@
+2025-11-08 16:17:57.543 | INFO     | __main__:main:444 - === Transfermarkt Data Collector ===
+2025-11-08 16:17:57.544 | INFO     | database.db_manager:__init__:26 - Database manager initialized: database/3liga.db
+2025-11-08 16:17:57.544 | INFO     | __main__:__init__:40 - Transfermarkt collector initialized with 70 team URLs
+2025-11-08 16:17:57.550 | INFO     | __main__:main:454 - Found 17 seasons to collect: 2025-2026 to 2009-2010
+2025-11-08 16:17:57.550 | INFO     | __main__:main:458 - 
+============================================================
+2025-11-08 16:17:57.550 | INFO     | __main__:main:459 - Starting collection for season 2025-2026
+2025-11-08 16:17:57.550 | INFO     | __main__:main:460 - ============================================================
+
+2025-11-08 16:17:57.550 | INFO     | __main__:collect_all_teams_data:378 - === Starting Transfermarkt data collection for 2025-2026 ===
+2025-11-08 16:17:57.551 | INFO     | __main__:collect_all_teams_data:398 - Collecting data for 20 teams that played in 2025-2026
+2025-11-08 16:17:57.551 | INFO     | __main__:collect_all_teams_data:408 - [1/20] Processing 1. FC Saarbrücken...
+2025-11-08 16:17:57.552 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for 1. FC Saarbrücken (2025-2026): https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2025/plus/1
+2025-11-08 16:17:57.552 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2025/plus/1
+2025-11-08 16:18:08.929 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €9,350,000 (29 players)
+2025-11-08 16:18:08.929 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for 1. FC Saarbrücken (2025-2026): https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2025/plus/1
+2025-11-08 16:18:08.929 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2025/plus/1
+2025-11-08 16:18:12.021 | INFO     | __main__:scrape_player_data:283 - Scraped 29 players for 1. FC Saarbrücken (2025-2026)
+2025-11-08 16:18:12.134 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 29 stored
+2025-11-08 16:18:12.134 | INFO     | __main__:collect_all_teams_data:408 - [2/20] Processing 1. FC Schweinfurt 05...
+2025-11-08 16:18:12.134 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for 1. FC Schweinfurt 05 (2025-2026): https://www.transfermarkt.de/1-fc-schweinfurt-05/kader/verein/103/saison_id/2025/plus/1
+2025-11-08 16:18:12.134 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-schweinfurt-05/kader/verein/103/saison_id/2025/plus/1
+2025-11-08 16:18:15.568 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €3,980,000 (30 players)
+2025-11-08 16:18:15.568 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for 1. FC Schweinfurt 05 (2025-2026): https://www.transfermarkt.de/1-fc-schweinfurt-05/kader/verein/103/saison_id/2025/plus/1
+2025-11-08 16:18:15.568 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-schweinfurt-05/kader/verein/103/saison_id/2025/plus/1
+2025-11-08 16:18:25.353 | INFO     | __main__:scrape_player_data:283 - Scraped 30 players for 1. FC Schweinfurt 05 (2025-2026)
+2025-11-08 16:18:25.481 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 30 stored
+2025-11-08 16:18:25.481 | INFO     | __main__:collect_all_teams_data:408 - [3/20] Processing Alemannia Aachen...
+2025-11-08 16:18:25.481 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Alemannia Aachen (2025-2026): https://www.transfermarkt.de/alemannia-aachen/kader/verein/8/saison_id/2025/plus/1
+2025-11-08 16:18:25.481 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/alemannia-aachen/kader/verein/8/saison_id/2025/plus/1
+2025-11-08 16:18:29.604 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,280,000 (28 players)
+2025-11-08 16:18:29.604 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Alemannia Aachen (2025-2026): https://www.transfermarkt.de/alemannia-aachen/kader/verein/8/saison_id/2025/plus/1
+2025-11-08 16:18:29.605 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/alemannia-aachen/kader/verein/8/saison_id/2025/plus/1
+2025-11-08 16:18:32.782 | INFO     | __main__:scrape_player_data:283 - Scraped 28 players for Alemannia Aachen (2025-2026)
+2025-11-08 16:18:32.894 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 28 stored
+2025-11-08 16:18:32.894 | INFO     | __main__:collect_all_teams_data:408 - [4/20] Processing Energie Cottbus...
+2025-11-08 16:18:32.894 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Energie Cottbus (2025-2026): https://www.transfermarkt.de/fc-energie-cottbus/kader/verein/25/saison_id/2025/plus/1
+2025-11-08 16:18:32.894 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-energie-cottbus/kader/verein/25/saison_id/2025/plus/1
+2025-11-08 16:18:37.153 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,730,000 (30 players)
+2025-11-08 16:18:37.153 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Energie Cottbus (2025-2026): https://www.transfermarkt.de/fc-energie-cottbus/kader/verein/25/saison_id/2025/plus/1
+2025-11-08 16:18:37.153 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-energie-cottbus/kader/verein/25/saison_id/2025/plus/1
+2025-11-08 16:18:40.754 | INFO     | __main__:scrape_player_data:283 - Scraped 30 players for Energie Cottbus (2025-2026)
+2025-11-08 16:18:40.856 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 30 stored
+2025-11-08 16:18:40.856 | INFO     | __main__:collect_all_teams_data:408 - [5/20] Processing Erzgebirge Aue...
+2025-11-08 16:18:40.856 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Erzgebirge Aue (2025-2026): https://www.transfermarkt.de/fc-erzgebirge-aue/kader/verein/94/saison_id/2025/plus/1
+2025-11-08 16:18:40.856 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-erzgebirge-aue/kader/verein/94/saison_id/2025/plus/1
+2025-11-08 16:18:49.822 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €5,930,000 (29 players)
+2025-11-08 16:18:49.822 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Erzgebirge Aue (2025-2026): https://www.transfermarkt.de/fc-erzgebirge-aue/kader/verein/94/saison_id/2025/plus/1
+2025-11-08 16:18:49.822 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-erzgebirge-aue/kader/verein/94/saison_id/2025/plus/1
+2025-11-08 16:18:54.104 | INFO     | __main__:scrape_player_data:283 - Scraped 29 players for Erzgebirge Aue (2025-2026)
+2025-11-08 16:18:54.215 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 29 stored
+2025-11-08 16:18:54.215 | INFO     | __main__:collect_all_teams_data:408 - [6/20] Processing FC Ingolstadt 04...
+2025-11-08 16:18:54.215 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for FC Ingolstadt 04 (2025-2026): https://www.transfermarkt.de/fc-ingolstadt-04/kader/verein/4795/saison_id/2025/plus/1
+2025-11-08 16:18:54.215 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-ingolstadt-04/kader/verein/4795/saison_id/2025/plus/1
+2025-11-08 16:18:58.986 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €7,230,000 (26 players)
+2025-11-08 16:18:58.987 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for FC Ingolstadt 04 (2025-2026): https://www.transfermarkt.de/fc-ingolstadt-04/kader/verein/4795/saison_id/2025/plus/1
+2025-11-08 16:18:58.987 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-ingolstadt-04/kader/verein/4795/saison_id/2025/plus/1
+2025-11-08 16:19:15.651 | INFO     | __main__:scrape_player_data:283 - Scraped 26 players for FC Ingolstadt 04 (2025-2026)
+2025-11-08 16:19:15.777 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 26 stored
+2025-11-08 16:19:15.777 | INFO     | __main__:collect_all_teams_data:408 - [7/20] Processing Hansa Rostock...
+2025-11-08 16:19:15.777 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Hansa Rostock (2025-2026): https://www.transfermarkt.de/fc-hansa-rostock/kader/verein/30/saison_id/2025/plus/1
+2025-11-08 16:19:15.777 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-hansa-rostock/kader/verein/30/saison_id/2025/plus/1
+2025-11-08 16:19:19.085 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €9,980,000 (32 players)
+2025-11-08 16:19:19.087 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Hansa Rostock (2025-2026): https://www.transfermarkt.de/fc-hansa-rostock/kader/verein/30/saison_id/2025/plus/1
+2025-11-08 16:19:19.087 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-hansa-rostock/kader/verein/30/saison_id/2025/plus/1
+2025-11-08 16:19:27.734 | INFO     | __main__:scrape_player_data:283 - Scraped 32 players for Hansa Rostock (2025-2026)
+2025-11-08 16:19:27.870 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 32 stored
+2025-11-08 16:19:27.870 | INFO     | __main__:collect_all_teams_data:408 - [8/20] Processing Jahn Regensburg...
+2025-11-08 16:19:27.870 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Jahn Regensburg (2025-2026): https://www.transfermarkt.de/ssv-jahn-regensburg/kader/verein/109/saison_id/2025/plus/1
+2025-11-08 16:19:27.870 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/ssv-jahn-regensburg/kader/verein/109/saison_id/2025/plus/1
+2025-11-08 16:19:33.851 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €8,150,000 (26 players)
+2025-11-08 16:19:33.852 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Jahn Regensburg (2025-2026): https://www.transfermarkt.de/ssv-jahn-regensburg/kader/verein/109/saison_id/2025/plus/1
+2025-11-08 16:19:33.852 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/ssv-jahn-regensburg/kader/verein/109/saison_id/2025/plus/1
+2025-11-08 16:19:37.808 | INFO     | __main__:scrape_player_data:283 - Scraped 26 players for Jahn Regensburg (2025-2026)
+2025-11-08 16:19:37.917 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 26 stored
+2025-11-08 16:19:37.917 | INFO     | __main__:collect_all_teams_data:408 - [9/20] Processing MSV Duisburg...
+2025-11-08 16:19:37.917 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for MSV Duisburg (2025-2026): https://www.transfermarkt.de/msv-duisburg/kader/verein/52/saison_id/2025/plus/1
+2025-11-08 16:19:37.918 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/msv-duisburg/kader/verein/52/saison_id/2025/plus/1
+2025-11-08 16:19:50.946 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,400,000 (28 players)
+2025-11-08 16:19:50.946 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for MSV Duisburg (2025-2026): https://www.transfermarkt.de/msv-duisburg/kader/verein/52/saison_id/2025/plus/1
+2025-11-08 16:19:50.946 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/msv-duisburg/kader/verein/52/saison_id/2025/plus/1
+2025-11-08 16:19:54.583 | INFO     | __main__:scrape_player_data:283 - Scraped 28 players for MSV Duisburg (2025-2026)
+2025-11-08 16:19:54.703 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 28 stored
+2025-11-08 16:19:54.703 | INFO     | __main__:collect_all_teams_data:408 - [10/20] Processing Rot-Weiss Essen...
+2025-11-08 16:19:54.703 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Rot-Weiss Essen (2025-2026): https://www.transfermarkt.de/rot-weiss-essen/kader/verein/56/saison_id/2025/plus/1
+2025-11-08 16:19:54.703 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/rot-weiss-essen/kader/verein/56/saison_id/2025/plus/1
+2025-11-08 16:20:06.261 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,930,000 (25 players)
+2025-11-08 16:20:06.261 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Rot-Weiss Essen (2025-2026): https://www.transfermarkt.de/rot-weiss-essen/kader/verein/56/saison_id/2025/plus/1
+2025-11-08 16:20:06.261 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/rot-weiss-essen/kader/verein/56/saison_id/2025/plus/1
+2025-11-08 16:20:10.136 | INFO     | __main__:scrape_player_data:283 - Scraped 25 players for Rot-Weiss Essen (2025-2026)
+2025-11-08 16:20:10.265 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 25 stored
+2025-11-08 16:20:10.265 | INFO     | __main__:collect_all_teams_data:408 - [11/20] Processing SC Verl...
+2025-11-08 16:20:10.265 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SC Verl (2025-2026): https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2025/plus/1
+2025-11-08 16:20:10.265 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2025/plus/1
+2025-11-08 16:20:14.249 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €5,480,000 (26 players)
+2025-11-08 16:20:14.249 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SC Verl (2025-2026): https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2025/plus/1
+2025-11-08 16:20:14.249 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2025/plus/1
+2025-11-08 16:20:17.362 | INFO     | __main__:scrape_player_data:283 - Scraped 26 players for SC Verl (2025-2026)
+2025-11-08 16:20:17.474 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 26 stored
+2025-11-08 16:20:17.474 | INFO     | __main__:collect_all_teams_data:408 - [12/20] Processing SSV Ulm 1846...
+2025-11-08 16:20:17.474 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SSV Ulm 1846 (2025-2026): https://www.transfermarkt.de/ssv-ulm-1846/kader/verein/69/saison_id/2025/plus/1
+2025-11-08 16:20:17.474 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/ssv-ulm-1846/kader/verein/69/saison_id/2025/plus/1
+2025-11-08 16:20:21.531 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €7,630,000 (27 players)
+2025-11-08 16:20:21.531 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SSV Ulm 1846 (2025-2026): https://www.transfermarkt.de/ssv-ulm-1846/kader/verein/69/saison_id/2025/plus/1
+2025-11-08 16:20:21.531 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/ssv-ulm-1846/kader/verein/69/saison_id/2025/plus/1
+2025-11-08 16:20:25.489 | INFO     | __main__:scrape_player_data:283 - Scraped 27 players for SSV Ulm 1846 (2025-2026)
+2025-11-08 16:20:25.601 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 27 stored
+2025-11-08 16:20:25.601 | INFO     | __main__:collect_all_teams_data:408 - [13/20] Processing SV Waldhof Mannheim...
+2025-11-08 16:20:25.601 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Waldhof Mannheim (2025-2026): https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2025/plus/1
+2025-11-08 16:20:25.601 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2025/plus/1
+2025-11-08 16:20:35.991 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,630,000 (27 players)
+2025-11-08 16:20:35.991 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Waldhof Mannheim (2025-2026): https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2025/plus/1
+2025-11-08 16:20:35.991 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2025/plus/1
+2025-11-08 16:20:39.795 | INFO     | __main__:scrape_player_data:283 - Scraped 27 players for SV Waldhof Mannheim (2025-2026)
+2025-11-08 16:20:39.918 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 27 stored
+2025-11-08 16:20:39.918 | INFO     | __main__:collect_all_teams_data:408 - [14/20] Processing SV Wehen Wiesbaden...
+2025-11-08 16:20:39.918 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Wehen Wiesbaden (2025-2026): https://www.transfermarkt.de/sv-wehen-wiesbaden/kader/verein/108/saison_id/2025/plus/1
+2025-11-08 16:20:39.918 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-wehen-wiesbaden/kader/verein/108/saison_id/2025/plus/1
+2025-11-08 16:20:44.018 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €8,330,000 (30 players)
+2025-11-08 16:20:44.018 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Wehen Wiesbaden (2025-2026): https://www.transfermarkt.de/sv-wehen-wiesbaden/kader/verein/108/saison_id/2025/plus/1
+2025-11-08 16:20:44.018 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-wehen-wiesbaden/kader/verein/108/saison_id/2025/plus/1
+2025-11-08 16:20:47.844 | INFO     | __main__:scrape_player_data:283 - Scraped 30 players for SV Wehen Wiesbaden (2025-2026)
+2025-11-08 16:20:47.970 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 30 stored
+2025-11-08 16:20:47.970 | INFO     | __main__:collect_all_teams_data:408 - [15/20] Processing TSG 1899 Hoffenheim II...
+2025-11-08 16:20:47.970 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for TSG 1899 Hoffenheim II (2025-2026): https://www.transfermarkt.de/tsg-1899-hoffenheim-ii/kader/verein/983/saison_id/2025/plus/1
+2025-11-08 16:20:47.970 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/tsg-1899-hoffenheim-ii/kader/verein/983/saison_id/2025/plus/1
+2025-11-08 16:20:52.294 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €7,900,000 (31 players)
+2025-11-08 16:20:52.294 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for TSG 1899 Hoffenheim II (2025-2026): https://www.transfermarkt.de/tsg-1899-hoffenheim-ii/kader/verein/983/saison_id/2025/plus/1
+2025-11-08 16:20:52.294 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/tsg-1899-hoffenheim-ii/kader/verein/983/saison_id/2025/plus/1
+2025-11-08 16:20:56.601 | INFO     | __main__:scrape_player_data:283 - Scraped 31 players for TSG 1899 Hoffenheim II (2025-2026)
+2025-11-08 16:20:56.733 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 31 stored
+2025-11-08 16:20:56.733 | INFO     | __main__:collect_all_teams_data:408 - [16/20] Processing TSV 1860 München...
+2025-11-08 16:20:56.733 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for TSV 1860 München (2025-2026): https://www.transfermarkt.de/tsv-1860-munchen/kader/verein/72/saison_id/2025/plus/1
+2025-11-08 16:20:56.733 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/tsv-1860-munchen/kader/verein/72/saison_id/2025/plus/1
+2025-11-08 16:21:00.853 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €9,150,000 (29 players)
+2025-11-08 16:21:00.853 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for TSV 1860 München (2025-2026): https://www.transfermarkt.de/tsv-1860-munchen/kader/verein/72/saison_id/2025/plus/1
+2025-11-08 16:21:00.853 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/tsv-1860-munchen/kader/verein/72/saison_id/2025/plus/1
+2025-11-08 16:21:11.191 | INFO     | __main__:scrape_player_data:283 - Scraped 29 players for TSV 1860 München (2025-2026)
+2025-11-08 16:21:11.310 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 29 stored
+2025-11-08 16:21:11.310 | INFO     | __main__:collect_all_teams_data:408 - [17/20] Processing TSV Havelse...
+2025-11-08 16:21:11.310 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for TSV Havelse (2025-2026): https://www.transfermarkt.de/tsv-havelse/kader/verein/476/saison_id/2025/plus/1
+2025-11-08 16:21:11.310 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/tsv-havelse/kader/verein/476/saison_id/2025/plus/1
+2025-11-08 16:21:15.502 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €3,040,000 (30 players)
+2025-11-08 16:21:15.503 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for TSV Havelse (2025-2026): https://www.transfermarkt.de/tsv-havelse/kader/verein/476/saison_id/2025/plus/1
+2025-11-08 16:21:15.503 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/tsv-havelse/kader/verein/476/saison_id/2025/plus/1
+2025-11-08 16:21:24.961 | INFO     | __main__:scrape_player_data:283 - Scraped 30 players for TSV Havelse (2025-2026)
+2025-11-08 16:21:25.103 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 30 stored
+2025-11-08 16:21:25.104 | INFO     | __main__:collect_all_teams_data:408 - [18/20] Processing VfB Stuttgart II...
+2025-11-08 16:21:25.104 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for VfB Stuttgart II (2025-2026): https://www.transfermarkt.de/vfb-stuttgart-ii/kader/verein/102/saison_id/2025/plus/1
+2025-11-08 16:21:25.104 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/vfb-stuttgart-ii/kader/verein/102/saison_id/2025/plus/1
+2025-11-08 16:21:28.810 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €11,880,000 (32 players)
+2025-11-08 16:21:28.810 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for VfB Stuttgart II (2025-2026): https://www.transfermarkt.de/vfb-stuttgart-ii/kader/verein/102/saison_id/2025/plus/1
+2025-11-08 16:21:28.810 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/vfb-stuttgart-ii/kader/verein/102/saison_id/2025/plus/1
+2025-11-08 16:21:32.086 | INFO     | __main__:scrape_player_data:283 - Scraped 32 players for VfB Stuttgart II (2025-2026)
+2025-11-08 16:21:32.239 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 32 stored
+2025-11-08 16:21:32.239 | INFO     | __main__:collect_all_teams_data:408 - [19/20] Processing VfL Osnabrück...
+2025-11-08 16:21:32.239 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for VfL Osnabrück (2025-2026): https://www.transfermarkt.de/vfl-osnabruck/kader/verein/81/saison_id/2025/plus/1
+2025-11-08 16:21:32.239 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/vfl-osnabruck/kader/verein/81/saison_id/2025/plus/1
+2025-11-08 16:21:49.670 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,480,000 (26 players)
+2025-11-08 16:21:49.670 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for VfL Osnabrück (2025-2026): https://www.transfermarkt.de/vfl-osnabruck/kader/verein/81/saison_id/2025/plus/1
+2025-11-08 16:21:49.670 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/vfl-osnabruck/kader/verein/81/saison_id/2025/plus/1
+2025-11-08 16:21:56.864 | INFO     | __main__:scrape_player_data:283 - Scraped 26 players for VfL Osnabrück (2025-2026)
+2025-11-08 16:21:56.988 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 26 stored
+2025-11-08 16:21:56.988 | INFO     | __main__:collect_all_teams_data:408 - [20/20] Processing Viktoria Köln...
+2025-11-08 16:21:56.988 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Viktoria Köln (2025-2026): https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2025/plus/1
+2025-11-08 16:21:56.988 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2025/plus/1
+2025-11-08 16:22:01.645 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €5,480,000 (26 players)
+2025-11-08 16:22:01.645 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Viktoria Köln (2025-2026): https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2025/plus/1
+2025-11-08 16:22:01.645 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2025/plus/1
+2025-11-08 16:22:01.865 | WARNING  | __main__:_make_request:76 - Request failed (attempt 1/3): 502 Server Error: Bad Gateway for url: https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2025/plus/1
+2025-11-08 16:22:06.870 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2025/plus/1
+2025-11-08 16:22:06.886 | WARNING  | __main__:_make_request:76 - Request failed (attempt 2/3): 502 Server Error: Bad Gateway for url: https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2025/plus/1
+2025-11-08 16:22:16.892 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2025/plus/1
+2025-11-08 16:22:27.848 | INFO     | __main__:scrape_player_data:283 - Scraped 26 players for Viktoria Köln (2025-2026)
+2025-11-08 16:22:27.997 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 26 stored
+2025-11-08 16:22:27.998 | SUCCESS  | __main__:collect_all_teams_data:432 - 
+=== Transfermarkt collection complete ===
+Teams processed: 20
+Squad values collected: 20
+Players collected: 567
+Failed: 0
+Duration: 4.5 minutes
+        
+2025-11-08 16:22:27.998 | INFO     | __main__:main:458 - 
+============================================================
+2025-11-08 16:22:27.998 | INFO     | __main__:main:459 - Starting collection for season 2024-2025
+2025-11-08 16:22:27.998 | INFO     | __main__:main:460 - ============================================================
+
+2025-11-08 16:22:27.998 | INFO     | __main__:collect_all_teams_data:378 - === Starting Transfermarkt data collection for 2024-2025 ===
+2025-11-08 16:22:28.010 | INFO     | __main__:collect_all_teams_data:398 - Collecting data for 20 teams that played in 2024-2025
+2025-11-08 16:22:28.010 | INFO     | __main__:collect_all_teams_data:408 - [1/20] Processing 1. FC Saarbrücken...
+2025-11-08 16:22:28.010 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for 1. FC Saarbrücken (2024-2025): https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2024/plus/1
+2025-11-08 16:22:28.010 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2024/plus/1
+2025-11-08 16:22:37.185 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €9,350,000 (32 players)
+2025-11-08 16:22:37.185 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for 1. FC Saarbrücken (2024-2025): https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2024/plus/1
+2025-11-08 16:22:37.185 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2024/plus/1
+2025-11-08 16:22:41.729 | INFO     | __main__:scrape_player_data:283 - Scraped 32 players for 1. FC Saarbrücken (2024-2025)
+2025-11-08 16:22:41.864 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 32 stored
+2025-11-08 16:22:41.864 | INFO     | __main__:collect_all_teams_data:408 - [2/20] Processing Alemannia Aachen...
+2025-11-08 16:22:41.864 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Alemannia Aachen (2024-2025): https://www.transfermarkt.de/alemannia-aachen/kader/verein/8/saison_id/2024/plus/1
+2025-11-08 16:22:41.864 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/alemannia-aachen/kader/verein/8/saison_id/2024/plus/1
+2025-11-08 16:22:56.867 | WARNING  | __main__:_make_request:76 - Request failed (attempt 1/3): HTTPSConnectionPool(host='www.transfermarkt.de', port=443): Read timed out. (read timeout=15)
+2025-11-08 16:23:01.873 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/alemannia-aachen/kader/verein/8/saison_id/2024/plus/1
+2025-11-08 16:23:08.065 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,280,000 (43 players)
+2025-11-08 16:23:08.065 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Alemannia Aachen (2024-2025): https://www.transfermarkt.de/alemannia-aachen/kader/verein/8/saison_id/2024/plus/1
+2025-11-08 16:23:08.065 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/alemannia-aachen/kader/verein/8/saison_id/2024/plus/1
+2025-11-08 16:23:12.621 | INFO     | __main__:scrape_player_data:283 - Scraped 43 players for Alemannia Aachen (2024-2025)
+2025-11-08 16:23:12.797 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 43 stored
+2025-11-08 16:23:12.797 | INFO     | __main__:collect_all_teams_data:408 - [3/20] Processing Arminia Bielefeld...
+2025-11-08 16:23:12.797 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Arminia Bielefeld (2024-2025): https://www.transfermarkt.de/arminia-bielefeld/kader/verein/10/saison_id/2024/plus/1
+2025-11-08 16:23:12.797 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/arminia-bielefeld/kader/verein/10/saison_id/2024/plus/1
+2025-11-08 16:23:16.782 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €15,580,000 (36 players)
+2025-11-08 16:23:16.783 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Arminia Bielefeld (2024-2025): https://www.transfermarkt.de/arminia-bielefeld/kader/verein/10/saison_id/2024/plus/1
+2025-11-08 16:23:16.783 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/arminia-bielefeld/kader/verein/10/saison_id/2024/plus/1
+2025-11-08 16:23:29.691 | INFO     | __main__:scrape_player_data:283 - Scraped 36 players for Arminia Bielefeld (2024-2025)
+2025-11-08 16:23:29.852 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 36 stored
+2025-11-08 16:23:29.852 | INFO     | __main__:collect_all_teams_data:408 - [4/20] Processing Borussia Dortmund II...
+2025-11-08 16:23:29.852 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Borussia Dortmund II (2024-2025): https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2024/plus/1
+2025-11-08 16:23:29.852 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2024/plus/1
+2025-11-08 16:23:34.654 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €5,750,000 (38 players)
+2025-11-08 16:23:34.654 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Borussia Dortmund II (2024-2025): https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2024/plus/1
+2025-11-08 16:23:34.654 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2024/plus/1
+2025-11-08 16:23:49.657 | WARNING  | __main__:_make_request:76 - Request failed (attempt 1/3): HTTPSConnectionPool(host='www.transfermarkt.de', port=443): Read timed out. (read timeout=15)
+2025-11-08 16:23:54.661 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2024/plus/1
+2025-11-08 16:23:58.992 | INFO     | __main__:scrape_player_data:283 - Scraped 38 players for Borussia Dortmund II (2024-2025)
+2025-11-08 16:23:59.146 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 38 stored
+2025-11-08 16:23:59.146 | INFO     | __main__:collect_all_teams_data:408 - [5/20] Processing Dynamo Dresden...
+2025-11-08 16:23:59.146 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Dynamo Dresden (2024-2025): https://www.transfermarkt.de/sg-dynamo-dresden/kader/verein/129/saison_id/2024/plus/1
+2025-11-08 16:23:59.146 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sg-dynamo-dresden/kader/verein/129/saison_id/2024/plus/1
+2025-11-08 16:24:04.027 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €13,880,000 (29 players)
+2025-11-08 16:24:04.028 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Dynamo Dresden (2024-2025): https://www.transfermarkt.de/sg-dynamo-dresden/kader/verein/129/saison_id/2024/plus/1
+2025-11-08 16:24:04.028 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sg-dynamo-dresden/kader/verein/129/saison_id/2024/plus/1
+2025-11-08 16:24:07.261 | INFO     | __main__:scrape_player_data:283 - Scraped 29 players for Dynamo Dresden (2024-2025)
+2025-11-08 16:24:07.377 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 29 stored
+2025-11-08 16:24:07.377 | INFO     | __main__:collect_all_teams_data:408 - [6/20] Processing Energie Cottbus...
+2025-11-08 16:24:07.377 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Energie Cottbus (2024-2025): https://www.transfermarkt.de/fc-energie-cottbus/kader/verein/25/saison_id/2024/plus/1
+2025-11-08 16:24:07.377 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-energie-cottbus/kader/verein/25/saison_id/2024/plus/1
+2025-11-08 16:24:07.462 | WARNING  | __main__:_make_request:76 - Request failed (attempt 1/3): 502 Server Error: Bad Gateway for url: https://www.transfermarkt.de/fc-energie-cottbus/kader/verein/25/saison_id/2024/plus/1
+2025-11-08 16:24:12.467 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-energie-cottbus/kader/verein/25/saison_id/2024/plus/1
+2025-11-08 16:24:12.517 | WARNING  | __main__:_make_request:76 - Request failed (attempt 2/3): 502 Server Error: Bad Gateway for url: https://www.transfermarkt.de/fc-energie-cottbus/kader/verein/25/saison_id/2024/plus/1
+2025-11-08 16:24:22.523 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-energie-cottbus/kader/verein/25/saison_id/2024/plus/1
+2025-11-08 16:24:27.113 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,730,000 (33 players)
+2025-11-08 16:24:27.113 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Energie Cottbus (2024-2025): https://www.transfermarkt.de/fc-energie-cottbus/kader/verein/25/saison_id/2024/plus/1
+2025-11-08 16:24:27.113 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-energie-cottbus/kader/verein/25/saison_id/2024/plus/1
+2025-11-08 16:24:38.413 | INFO     | __main__:scrape_player_data:283 - Scraped 33 players for Energie Cottbus (2024-2025)
+2025-11-08 16:24:38.539 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 33 stored
+2025-11-08 16:24:38.540 | INFO     | __main__:collect_all_teams_data:408 - [7/20] Processing Erzgebirge Aue...
+2025-11-08 16:24:38.540 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Erzgebirge Aue (2024-2025): https://www.transfermarkt.de/fc-erzgebirge-aue/kader/verein/94/saison_id/2024/plus/1
+2025-11-08 16:24:38.540 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-erzgebirge-aue/kader/verein/94/saison_id/2024/plus/1
+2025-11-08 16:24:47.355 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €5,930,000 (35 players)
+2025-11-08 16:24:47.355 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Erzgebirge Aue (2024-2025): https://www.transfermarkt.de/fc-erzgebirge-aue/kader/verein/94/saison_id/2024/plus/1
+2025-11-08 16:24:47.355 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-erzgebirge-aue/kader/verein/94/saison_id/2024/plus/1
+2025-11-08 16:24:55.520 | INFO     | __main__:scrape_player_data:283 - Scraped 35 players for Erzgebirge Aue (2024-2025)
+2025-11-08 16:24:55.667 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 35 stored
+2025-11-08 16:24:55.667 | INFO     | __main__:collect_all_teams_data:408 - [8/20] Processing FC Ingolstadt 04...
+2025-11-08 16:24:55.667 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for FC Ingolstadt 04 (2024-2025): https://www.transfermarkt.de/fc-ingolstadt-04/kader/verein/4795/saison_id/2024/plus/1
+2025-11-08 16:24:55.667 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-ingolstadt-04/kader/verein/4795/saison_id/2024/plus/1
+2025-11-08 16:25:00.557 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €7,230,000 (40 players)
+2025-11-08 16:25:00.557 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for FC Ingolstadt 04 (2024-2025): https://www.transfermarkt.de/fc-ingolstadt-04/kader/verein/4795/saison_id/2024/plus/1
+2025-11-08 16:25:00.557 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-ingolstadt-04/kader/verein/4795/saison_id/2024/plus/1
+2025-11-08 16:25:03.661 | INFO     | __main__:scrape_player_data:283 - Scraped 40 players for FC Ingolstadt 04 (2024-2025)
+2025-11-08 16:25:03.815 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 40 stored
+2025-11-08 16:25:03.815 | INFO     | __main__:collect_all_teams_data:408 - [9/20] Processing Hannover II...
+2025-11-08 16:25:03.815 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Hannover II (2024-2025): https://www.transfermarkt.de/hsc-hannover-ii/kader/verein/39004/saison_id/2024/plus/1
+2025-11-08 16:25:03.815 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/hsc-hannover-ii/kader/verein/39004/saison_id/2024/plus/1
+2025-11-08 16:25:16.122 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: N/A (0 players)
+2025-11-08 16:25:16.122 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Hannover II (2024-2025): https://www.transfermarkt.de/hsc-hannover-ii/kader/verein/39004/saison_id/2024/plus/1
+2025-11-08 16:25:16.123 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/hsc-hannover-ii/kader/verein/39004/saison_id/2024/plus/1
+2025-11-08 16:25:23.384 | INFO     | __main__:scrape_player_data:283 - Scraped 0 players for Hannover II (2024-2025)
+2025-11-08 16:25:23.384 | INFO     | __main__:collect_all_teams_data:408 - [10/20] Processing Hansa Rostock...
+2025-11-08 16:25:23.384 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Hansa Rostock (2024-2025): https://www.transfermarkt.de/fc-hansa-rostock/kader/verein/30/saison_id/2024/plus/1
+2025-11-08 16:25:23.385 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-hansa-rostock/kader/verein/30/saison_id/2024/plus/1
+2025-11-08 16:25:31.449 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €9,980,000 (34 players)
+2025-11-08 16:25:31.449 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Hansa Rostock (2024-2025): https://www.transfermarkt.de/fc-hansa-rostock/kader/verein/30/saison_id/2024/plus/1
+2025-11-08 16:25:31.449 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-hansa-rostock/kader/verein/30/saison_id/2024/plus/1
+2025-11-08 16:25:42.487 | INFO     | __main__:scrape_player_data:283 - Scraped 34 players for Hansa Rostock (2024-2025)
+2025-11-08 16:25:42.628 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 34 stored
+2025-11-08 16:25:42.628 | INFO     | __main__:collect_all_teams_data:408 - [11/20] Processing Rot-Weiss Essen...
+2025-11-08 16:25:42.628 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Rot-Weiss Essen (2024-2025): https://www.transfermarkt.de/rot-weiss-essen/kader/verein/56/saison_id/2024/plus/1
+2025-11-08 16:25:42.629 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/rot-weiss-essen/kader/verein/56/saison_id/2024/plus/1
+2025-11-08 16:25:46.867 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,930,000 (35 players)
+2025-11-08 16:25:46.867 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Rot-Weiss Essen (2024-2025): https://www.transfermarkt.de/rot-weiss-essen/kader/verein/56/saison_id/2024/plus/1
+2025-11-08 16:25:46.867 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/rot-weiss-essen/kader/verein/56/saison_id/2024/plus/1
+2025-11-08 16:25:50.112 | INFO     | __main__:scrape_player_data:283 - Scraped 35 players for Rot-Weiss Essen (2024-2025)
+2025-11-08 16:25:50.247 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 35 stored
+2025-11-08 16:25:50.247 | INFO     | __main__:collect_all_teams_data:408 - [12/20] Processing SC Verl...
+2025-11-08 16:25:50.247 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SC Verl (2024-2025): https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2024/plus/1
+2025-11-08 16:25:50.247 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2024/plus/1
+2025-11-08 16:25:54.958 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €5,480,000 (29 players)
+2025-11-08 16:25:54.958 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SC Verl (2024-2025): https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2024/plus/1
+2025-11-08 16:25:54.958 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2024/plus/1
+2025-11-08 16:25:59.060 | INFO     | __main__:scrape_player_data:283 - Scraped 29 players for SC Verl (2024-2025)
+2025-11-08 16:25:59.159 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 29 stored
+2025-11-08 16:25:59.159 | INFO     | __main__:collect_all_teams_data:408 - [13/20] Processing SV Sandhausen...
+2025-11-08 16:25:59.159 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Sandhausen (2024-2025): https://www.transfermarkt.de/sv-sandhausen/kader/verein/254/saison_id/2024/plus/1
+2025-11-08 16:25:59.159 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-sandhausen/kader/verein/254/saison_id/2024/plus/1
+2025-11-08 16:26:03.772 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €3,680,000 (38 players)
+2025-11-08 16:26:03.772 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Sandhausen (2024-2025): https://www.transfermarkt.de/sv-sandhausen/kader/verein/254/saison_id/2024/plus/1
+2025-11-08 16:26:03.772 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-sandhausen/kader/verein/254/saison_id/2024/plus/1
+2025-11-08 16:26:11.142 | INFO     | __main__:scrape_player_data:283 - Scraped 38 players for SV Sandhausen (2024-2025)
+2025-11-08 16:26:11.310 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 38 stored
+2025-11-08 16:26:11.310 | INFO     | __main__:collect_all_teams_data:408 - [14/20] Processing SV Waldhof Mannheim...
+2025-11-08 16:26:11.310 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Waldhof Mannheim (2024-2025): https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2024/plus/1
+2025-11-08 16:26:11.310 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2024/plus/1
+2025-11-08 16:26:15.899 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,630,000 (31 players)
+2025-11-08 16:26:15.899 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Waldhof Mannheim (2024-2025): https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2024/plus/1
+2025-11-08 16:26:15.899 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2024/plus/1
+2025-11-08 16:26:30.902 | WARNING  | __main__:_make_request:76 - Request failed (attempt 1/3): HTTPSConnectionPool(host='www.transfermarkt.de', port=443): Read timed out. (read timeout=15)
+2025-11-08 16:26:35.905 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2024/plus/1
+2025-11-08 16:26:40.788 | INFO     | __main__:scrape_player_data:283 - Scraped 31 players for SV Waldhof Mannheim (2024-2025)
+2025-11-08 16:26:40.927 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 31 stored
+2025-11-08 16:26:40.927 | INFO     | __main__:collect_all_teams_data:408 - [15/20] Processing SV Wehen Wiesbaden...
+2025-11-08 16:26:40.927 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Wehen Wiesbaden (2024-2025): https://www.transfermarkt.de/sv-wehen-wiesbaden/kader/verein/108/saison_id/2024/plus/1
+2025-11-08 16:26:40.927 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-wehen-wiesbaden/kader/verein/108/saison_id/2024/plus/1
+2025-11-08 16:26:46.320 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €8,330,000 (32 players)
+2025-11-08 16:26:46.320 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Wehen Wiesbaden (2024-2025): https://www.transfermarkt.de/sv-wehen-wiesbaden/kader/verein/108/saison_id/2024/plus/1
+2025-11-08 16:26:46.320 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-wehen-wiesbaden/kader/verein/108/saison_id/2024/plus/1
+2025-11-08 16:26:50.581 | INFO     | __main__:scrape_player_data:283 - Scraped 32 players for SV Wehen Wiesbaden (2024-2025)
+2025-11-08 16:26:50.707 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 32 stored
+2025-11-08 16:26:50.707 | INFO     | __main__:collect_all_teams_data:408 - [16/20] Processing SpVgg Unterhaching...
+2025-11-08 16:26:50.707 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SpVgg Unterhaching (2024-2025): https://www.transfermarkt.de/spvgg-unterhaching/kader/verein/66/saison_id/2024/plus/1
+2025-11-08 16:26:50.707 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/spvgg-unterhaching/kader/verein/66/saison_id/2024/plus/1
+2025-11-08 16:26:57.765 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €1,980,000 (48 players)
+2025-11-08 16:26:57.765 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SpVgg Unterhaching (2024-2025): https://www.transfermarkt.de/spvgg-unterhaching/kader/verein/66/saison_id/2024/plus/1
+2025-11-08 16:26:57.765 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/spvgg-unterhaching/kader/verein/66/saison_id/2024/plus/1
+2025-11-08 16:27:01.073 | INFO     | __main__:scrape_player_data:283 - Scraped 48 players for SpVgg Unterhaching (2024-2025)
+2025-11-08 16:27:01.316 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 48 stored
+2025-11-08 16:27:01.316 | INFO     | __main__:collect_all_teams_data:408 - [17/20] Processing TSV 1860 München...
+2025-11-08 16:27:01.316 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for TSV 1860 München (2024-2025): https://www.transfermarkt.de/tsv-1860-munchen/kader/verein/72/saison_id/2024/plus/1
+2025-11-08 16:27:01.316 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/tsv-1860-munchen/kader/verein/72/saison_id/2024/plus/1
+2025-11-08 16:27:06.628 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €9,150,000 (33 players)
+2025-11-08 16:27:06.628 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for TSV 1860 München (2024-2025): https://www.transfermarkt.de/tsv-1860-munchen/kader/verein/72/saison_id/2024/plus/1
+2025-11-08 16:27:06.628 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/tsv-1860-munchen/kader/verein/72/saison_id/2024/plus/1
+2025-11-08 16:27:10.732 | INFO     | __main__:scrape_player_data:283 - Scraped 33 players for TSV 1860 München (2024-2025)
+2025-11-08 16:27:10.873 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 33 stored
+2025-11-08 16:27:10.873 | INFO     | __main__:collect_all_teams_data:408 - [18/20] Processing VfB Stuttgart II...
+2025-11-08 16:27:10.873 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for VfB Stuttgart II (2024-2025): https://www.transfermarkt.de/vfb-stuttgart-ii/kader/verein/102/saison_id/2024/plus/1
+2025-11-08 16:27:10.873 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/vfb-stuttgart-ii/kader/verein/102/saison_id/2024/plus/1
+2025-11-08 16:27:15.678 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €11,880,000 (50 players)
+2025-11-08 16:27:15.678 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for VfB Stuttgart II (2024-2025): https://www.transfermarkt.de/vfb-stuttgart-ii/kader/verein/102/saison_id/2024/plus/1
+2025-11-08 16:27:15.678 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/vfb-stuttgart-ii/kader/verein/102/saison_id/2024/plus/1
+2025-11-08 16:27:18.910 | INFO     | __main__:scrape_player_data:283 - Scraped 50 players for VfB Stuttgart II (2024-2025)
+2025-11-08 16:27:19.142 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 50 stored
+2025-11-08 16:27:19.142 | INFO     | __main__:collect_all_teams_data:408 - [19/20] Processing VfL Osnabrück...
+2025-11-08 16:27:19.142 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for VfL Osnabrück (2024-2025): https://www.transfermarkt.de/vfl-osnabruck/kader/verein/81/saison_id/2024/plus/1
+2025-11-08 16:27:19.142 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/vfl-osnabruck/kader/verein/81/saison_id/2024/plus/1
+2025-11-08 16:27:23.394 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,480,000 (36 players)
+2025-11-08 16:27:23.394 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for VfL Osnabrück (2024-2025): https://www.transfermarkt.de/vfl-osnabruck/kader/verein/81/saison_id/2024/plus/1
+2025-11-08 16:27:23.394 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/vfl-osnabruck/kader/verein/81/saison_id/2024/plus/1
+2025-11-08 16:27:31.468 | INFO     | __main__:scrape_player_data:283 - Scraped 36 players for VfL Osnabrück (2024-2025)
+2025-11-08 16:27:31.605 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 36 stored
+2025-11-08 16:27:31.605 | INFO     | __main__:collect_all_teams_data:408 - [20/20] Processing Viktoria Köln...
+2025-11-08 16:27:31.605 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Viktoria Köln (2024-2025): https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2024/plus/1
+2025-11-08 16:27:31.605 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2024/plus/1
+2025-11-08 16:27:35.723 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €5,480,000 (39 players)
+2025-11-08 16:27:35.723 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Viktoria Köln (2024-2025): https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2024/plus/1
+2025-11-08 16:27:35.723 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2024/plus/1
+2025-11-08 16:27:38.844 | INFO     | __main__:scrape_player_data:283 - Scraped 39 players for Viktoria Köln (2024-2025)
+2025-11-08 16:27:39.009 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 39 stored
+2025-11-08 16:27:39.009 | SUCCESS  | __main__:collect_all_teams_data:432 - 
+=== Transfermarkt collection complete ===
+Teams processed: 20
+Squad values collected: 20
+Players collected: 691
+Failed: 0
+Duration: 5.2 minutes
+        
+2025-11-08 16:27:39.009 | INFO     | __main__:main:458 - 
+============================================================
+2025-11-08 16:27:39.009 | INFO     | __main__:main:459 - Starting collection for season 2023-2024
+2025-11-08 16:27:39.009 | INFO     | __main__:main:460 - ============================================================
+
+2025-11-08 16:27:39.009 | INFO     | __main__:collect_all_teams_data:378 - === Starting Transfermarkt data collection for 2023-2024 ===
+2025-11-08 16:27:39.018 | INFO     | __main__:collect_all_teams_data:398 - Collecting data for 20 teams that played in 2023-2024
+2025-11-08 16:27:39.018 | INFO     | __main__:collect_all_teams_data:408 - [1/20] Processing 1. FC Saarbrücken...
+2025-11-08 16:27:39.018 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for 1. FC Saarbrücken (2023-2024): https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2023/plus/1
+2025-11-08 16:27:39.018 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2023/plus/1
+2025-11-08 16:27:43.322 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €9,350,000 (30 players)
+2025-11-08 16:27:43.322 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for 1. FC Saarbrücken (2023-2024): https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2023/plus/1
+2025-11-08 16:27:43.322 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2023/plus/1
+2025-11-08 16:27:47.628 | INFO     | __main__:scrape_player_data:283 - Scraped 30 players for 1. FC Saarbrücken (2023-2024)
+2025-11-08 16:27:47.773 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 30 stored
+2025-11-08 16:27:47.773 | INFO     | __main__:collect_all_teams_data:408 - [2/20] Processing Arminia Bielefeld...
+2025-11-08 16:27:47.773 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Arminia Bielefeld (2023-2024): https://www.transfermarkt.de/arminia-bielefeld/kader/verein/10/saison_id/2023/plus/1
+2025-11-08 16:27:47.773 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/arminia-bielefeld/kader/verein/10/saison_id/2023/plus/1
+2025-11-08 16:27:52.084 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €15,580,000 (33 players)
+2025-11-08 16:27:52.085 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Arminia Bielefeld (2023-2024): https://www.transfermarkt.de/arminia-bielefeld/kader/verein/10/saison_id/2023/plus/1
+2025-11-08 16:27:52.085 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/arminia-bielefeld/kader/verein/10/saison_id/2023/plus/1
+2025-11-08 16:27:56.375 | INFO     | __main__:scrape_player_data:283 - Scraped 33 players for Arminia Bielefeld (2023-2024)
+2025-11-08 16:27:56.506 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 33 stored
+2025-11-08 16:27:56.506 | INFO     | __main__:collect_all_teams_data:408 - [3/20] Processing Borussia Dortmund II...
+2025-11-08 16:27:56.506 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Borussia Dortmund II (2023-2024): https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2023/plus/1
+2025-11-08 16:27:56.506 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2023/plus/1
+2025-11-08 16:28:00.474 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €5,750,000 (37 players)
+2025-11-08 16:28:00.474 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Borussia Dortmund II (2023-2024): https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2023/plus/1
+2025-11-08 16:28:00.474 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2023/plus/1
+2025-11-08 16:28:03.570 | INFO     | __main__:scrape_player_data:283 - Scraped 37 players for Borussia Dortmund II (2023-2024)
+2025-11-08 16:28:03.721 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 37 stored
+2025-11-08 16:28:03.721 | INFO     | __main__:collect_all_teams_data:408 - [4/20] Processing Dynamo Dresden...
+2025-11-08 16:28:03.721 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Dynamo Dresden (2023-2024): https://www.transfermarkt.de/sg-dynamo-dresden/kader/verein/129/saison_id/2023/plus/1
+2025-11-08 16:28:03.721 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sg-dynamo-dresden/kader/verein/129/saison_id/2023/plus/1
+2025-11-08 16:28:08.713 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €13,880,000 (35 players)
+2025-11-08 16:28:08.713 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Dynamo Dresden (2023-2024): https://www.transfermarkt.de/sg-dynamo-dresden/kader/verein/129/saison_id/2023/plus/1
+2025-11-08 16:28:08.713 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sg-dynamo-dresden/kader/verein/129/saison_id/2023/plus/1
+2025-11-08 16:28:14.636 | INFO     | __main__:scrape_player_data:283 - Scraped 35 players for Dynamo Dresden (2023-2024)
+2025-11-08 16:28:14.779 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 35 stored
+2025-11-08 16:28:14.779 | INFO     | __main__:collect_all_teams_data:408 - [5/20] Processing Erzgebirge Aue...
+2025-11-08 16:28:14.779 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Erzgebirge Aue (2023-2024): https://www.transfermarkt.de/fc-erzgebirge-aue/kader/verein/94/saison_id/2023/plus/1
+2025-11-08 16:28:14.780 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-erzgebirge-aue/kader/verein/94/saison_id/2023/plus/1
+2025-11-08 16:28:19.198 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €5,930,000 (39 players)
+2025-11-08 16:28:19.199 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Erzgebirge Aue (2023-2024): https://www.transfermarkt.de/fc-erzgebirge-aue/kader/verein/94/saison_id/2023/plus/1
+2025-11-08 16:28:19.199 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-erzgebirge-aue/kader/verein/94/saison_id/2023/plus/1
+2025-11-08 16:28:22.312 | INFO     | __main__:scrape_player_data:283 - Scraped 39 players for Erzgebirge Aue (2023-2024)
+2025-11-08 16:28:22.477 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 39 stored
+2025-11-08 16:28:22.477 | INFO     | __main__:collect_all_teams_data:408 - [6/20] Processing FC Ingolstadt 04...
+2025-11-08 16:28:22.477 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for FC Ingolstadt 04 (2023-2024): https://www.transfermarkt.de/fc-ingolstadt-04/kader/verein/4795/saison_id/2023/plus/1
+2025-11-08 16:28:22.477 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-ingolstadt-04/kader/verein/4795/saison_id/2023/plus/1
+2025-11-08 16:28:27.577 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €7,230,000 (38 players)
+2025-11-08 16:28:27.577 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for FC Ingolstadt 04 (2023-2024): https://www.transfermarkt.de/fc-ingolstadt-04/kader/verein/4795/saison_id/2023/plus/1
+2025-11-08 16:28:27.577 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-ingolstadt-04/kader/verein/4795/saison_id/2023/plus/1
+2025-11-08 16:28:36.307 | INFO     | __main__:scrape_player_data:283 - Scraped 38 players for FC Ingolstadt 04 (2023-2024)
+2025-11-08 16:28:36.461 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 38 stored
+2025-11-08 16:28:36.461 | INFO     | __main__:collect_all_teams_data:408 - [7/20] Processing Hallescher FC...
+2025-11-08 16:28:36.461 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Hallescher FC (2023-2024): https://www.transfermarkt.de/hallescher-fc/kader/verein/440/saison_id/2023/plus/1
+2025-11-08 16:28:36.461 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/hallescher-fc/kader/verein/440/saison_id/2023/plus/1
+2025-11-08 16:28:40.821 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €3,080,000 (31 players)
+2025-11-08 16:28:40.821 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Hallescher FC (2023-2024): https://www.transfermarkt.de/hallescher-fc/kader/verein/440/saison_id/2023/plus/1
+2025-11-08 16:28:40.821 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/hallescher-fc/kader/verein/440/saison_id/2023/plus/1
+2025-11-08 16:28:44.182 | INFO     | __main__:scrape_player_data:283 - Scraped 31 players for Hallescher FC (2023-2024)
+2025-11-08 16:28:44.308 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 31 stored
+2025-11-08 16:28:44.308 | INFO     | __main__:collect_all_teams_data:408 - [8/20] Processing Jahn Regensburg...
+2025-11-08 16:28:44.308 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Jahn Regensburg (2023-2024): https://www.transfermarkt.de/ssv-jahn-regensburg/kader/verein/109/saison_id/2023/plus/1
+2025-11-08 16:28:44.308 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/ssv-jahn-regensburg/kader/verein/109/saison_id/2023/plus/1
+2025-11-08 16:28:48.408 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €8,150,000 (31 players)
+2025-11-08 16:28:48.408 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Jahn Regensburg (2023-2024): https://www.transfermarkt.de/ssv-jahn-regensburg/kader/verein/109/saison_id/2023/plus/1
+2025-11-08 16:28:48.408 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/ssv-jahn-regensburg/kader/verein/109/saison_id/2023/plus/1
+2025-11-08 16:28:51.706 | INFO     | __main__:scrape_player_data:283 - Scraped 31 players for Jahn Regensburg (2023-2024)
+2025-11-08 16:28:51.859 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 31 stored
+2025-11-08 16:28:51.859 | INFO     | __main__:collect_all_teams_data:408 - [9/20] Processing MSV Duisburg...
+2025-11-08 16:28:51.859 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for MSV Duisburg (2023-2024): https://www.transfermarkt.de/msv-duisburg/kader/verein/52/saison_id/2023/plus/1
+2025-11-08 16:28:51.859 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/msv-duisburg/kader/verein/52/saison_id/2023/plus/1
+2025-11-08 16:28:56.209 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,400,000 (34 players)
+2025-11-08 16:28:56.209 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for MSV Duisburg (2023-2024): https://www.transfermarkt.de/msv-duisburg/kader/verein/52/saison_id/2023/plus/1
+2025-11-08 16:28:56.209 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/msv-duisburg/kader/verein/52/saison_id/2023/plus/1
+2025-11-08 16:29:00.620 | INFO     | __main__:scrape_player_data:283 - Scraped 34 players for MSV Duisburg (2023-2024)
+2025-11-08 16:29:00.770 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 34 stored
+2025-11-08 16:29:00.770 | INFO     | __main__:collect_all_teams_data:408 - [10/20] Processing Preußen Münster...
+2025-11-08 16:29:00.771 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Preußen Münster (2023-2024): https://www.transfermarkt.de/preussen-munster/kader/verein/91/saison_id/2023/plus/1
+2025-11-08 16:29:00.771 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/preussen-munster/kader/verein/91/saison_id/2023/plus/1
+2025-11-08 16:29:06.022 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €17,530,000 (35 players)
+2025-11-08 16:29:06.022 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Preußen Münster (2023-2024): https://www.transfermarkt.de/preussen-munster/kader/verein/91/saison_id/2023/plus/1
+2025-11-08 16:29:06.022 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/preussen-munster/kader/verein/91/saison_id/2023/plus/1
+2025-11-08 16:29:10.377 | INFO     | __main__:scrape_player_data:283 - Scraped 35 players for Preußen Münster (2023-2024)
+2025-11-08 16:29:10.521 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 35 stored
+2025-11-08 16:29:10.521 | INFO     | __main__:collect_all_teams_data:408 - [11/20] Processing Rot-Weiss Essen...
+2025-11-08 16:29:10.521 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Rot-Weiss Essen (2023-2024): https://www.transfermarkt.de/rot-weiss-essen/kader/verein/56/saison_id/2023/plus/1
+2025-11-08 16:29:10.521 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/rot-weiss-essen/kader/verein/56/saison_id/2023/plus/1
+2025-11-08 16:29:15.033 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,930,000 (30 players)
+2025-11-08 16:29:15.033 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Rot-Weiss Essen (2023-2024): https://www.transfermarkt.de/rot-weiss-essen/kader/verein/56/saison_id/2023/plus/1
+2025-11-08 16:29:15.033 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/rot-weiss-essen/kader/verein/56/saison_id/2023/plus/1
+2025-11-08 16:29:26.288 | INFO     | __main__:scrape_player_data:283 - Scraped 30 players for Rot-Weiss Essen (2023-2024)
+2025-11-08 16:29:26.411 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 30 stored
+2025-11-08 16:29:26.411 | INFO     | __main__:collect_all_teams_data:408 - [12/20] Processing SC Freiburg II...
+2025-11-08 16:29:26.411 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SC Freiburg II (2023-2024): https://www.transfermarkt.de/sc-freiburg-ii/kader/verein/245/saison_id/2023/plus/1
+2025-11-08 16:29:26.411 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sc-freiburg-ii/kader/verein/245/saison_id/2023/plus/1
+2025-11-08 16:29:30.555 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €3,250,000 (43 players)
+2025-11-08 16:29:30.555 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SC Freiburg II (2023-2024): https://www.transfermarkt.de/sc-freiburg-ii/kader/verein/245/saison_id/2023/plus/1
+2025-11-08 16:29:30.555 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sc-freiburg-ii/kader/verein/245/saison_id/2023/plus/1
+2025-11-08 16:29:38.434 | INFO     | __main__:scrape_player_data:283 - Scraped 43 players for SC Freiburg II (2023-2024)
+2025-11-08 16:29:38.630 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 43 stored
+2025-11-08 16:29:38.630 | INFO     | __main__:collect_all_teams_data:408 - [13/20] Processing SC Verl...
+2025-11-08 16:29:38.630 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SC Verl (2023-2024): https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2023/plus/1
+2025-11-08 16:29:38.630 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2023/plus/1
+2025-11-08 16:29:53.634 | WARNING  | __main__:_make_request:76 - Request failed (attempt 1/3): HTTPSConnectionPool(host='www.transfermarkt.de', port=443): Read timed out. (read timeout=15)
+2025-11-08 16:29:58.637 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2023/plus/1
+2025-11-08 16:30:02.804 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €5,480,000 (33 players)
+2025-11-08 16:30:02.804 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SC Verl (2023-2024): https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2023/plus/1
+2025-11-08 16:30:02.804 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2023/plus/1
+2025-11-08 16:30:06.806 | INFO     | __main__:scrape_player_data:283 - Scraped 33 players for SC Verl (2023-2024)
+2025-11-08 16:30:06.962 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 33 stored
+2025-11-08 16:30:06.962 | INFO     | __main__:collect_all_teams_data:408 - [14/20] Processing SSV Ulm 1846...
+2025-11-08 16:30:06.963 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SSV Ulm 1846 (2023-2024): https://www.transfermarkt.de/ssv-ulm-1846/kader/verein/69/saison_id/2023/plus/1
+2025-11-08 16:30:06.963 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/ssv-ulm-1846/kader/verein/69/saison_id/2023/plus/1
+2025-11-08 16:30:12.141 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €7,630,000 (32 players)
+2025-11-08 16:30:12.141 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SSV Ulm 1846 (2023-2024): https://www.transfermarkt.de/ssv-ulm-1846/kader/verein/69/saison_id/2023/plus/1
+2025-11-08 16:30:12.141 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/ssv-ulm-1846/kader/verein/69/saison_id/2023/plus/1
+2025-11-08 16:30:15.282 | INFO     | __main__:scrape_player_data:283 - Scraped 32 players for SSV Ulm 1846 (2023-2024)
+2025-11-08 16:30:15.400 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 32 stored
+2025-11-08 16:30:15.400 | INFO     | __main__:collect_all_teams_data:408 - [15/20] Processing SV Sandhausen...
+2025-11-08 16:30:15.400 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Sandhausen (2023-2024): https://www.transfermarkt.de/sv-sandhausen/kader/verein/254/saison_id/2023/plus/1
+2025-11-08 16:30:15.400 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-sandhausen/kader/verein/254/saison_id/2023/plus/1
+2025-11-08 16:30:19.731 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €3,680,000 (29 players)
+2025-11-08 16:30:19.731 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Sandhausen (2023-2024): https://www.transfermarkt.de/sv-sandhausen/kader/verein/254/saison_id/2023/plus/1
+2025-11-08 16:30:19.731 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-sandhausen/kader/verein/254/saison_id/2023/plus/1
+2025-11-08 16:30:29.022 | INFO     | __main__:scrape_player_data:283 - Scraped 29 players for SV Sandhausen (2023-2024)
+2025-11-08 16:30:29.148 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 29 stored
+2025-11-08 16:30:29.148 | INFO     | __main__:collect_all_teams_data:408 - [16/20] Processing SV Waldhof Mannheim...
+2025-11-08 16:30:29.148 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Waldhof Mannheim (2023-2024): https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2023/plus/1
+2025-11-08 16:30:29.148 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2023/plus/1
+2025-11-08 16:30:36.719 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,630,000 (31 players)
+2025-11-08 16:30:36.719 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Waldhof Mannheim (2023-2024): https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2023/plus/1
+2025-11-08 16:30:36.720 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2023/plus/1
+2025-11-08 16:30:44.895 | INFO     | __main__:scrape_player_data:283 - Scraped 31 players for SV Waldhof Mannheim (2023-2024)
+2025-11-08 16:30:45.036 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 31 stored
+2025-11-08 16:30:45.036 | INFO     | __main__:collect_all_teams_data:408 - [17/20] Processing SpVgg Unterhaching...
+2025-11-08 16:30:45.036 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SpVgg Unterhaching (2023-2024): https://www.transfermarkt.de/spvgg-unterhaching/kader/verein/66/saison_id/2023/plus/1
+2025-11-08 16:30:45.036 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/spvgg-unterhaching/kader/verein/66/saison_id/2023/plus/1
+2025-11-08 16:30:49.410 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €1,980,000 (42 players)
+2025-11-08 16:30:49.410 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SpVgg Unterhaching (2023-2024): https://www.transfermarkt.de/spvgg-unterhaching/kader/verein/66/saison_id/2023/plus/1
+2025-11-08 16:30:49.410 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/spvgg-unterhaching/kader/verein/66/saison_id/2023/plus/1
+2025-11-08 16:30:52.551 | INFO     | __main__:scrape_player_data:283 - Scraped 42 players for SpVgg Unterhaching (2023-2024)
+2025-11-08 16:30:52.706 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 42 stored
+2025-11-08 16:30:52.706 | INFO     | __main__:collect_all_teams_data:408 - [18/20] Processing TSV 1860 München...
+2025-11-08 16:30:52.706 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for TSV 1860 München (2023-2024): https://www.transfermarkt.de/tsv-1860-munchen/kader/verein/72/saison_id/2023/plus/1
+2025-11-08 16:30:52.706 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/tsv-1860-munchen/kader/verein/72/saison_id/2023/plus/1
+2025-11-08 16:31:01.797 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €9,150,000 (36 players)
+2025-11-08 16:31:01.797 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for TSV 1860 München (2023-2024): https://www.transfermarkt.de/tsv-1860-munchen/kader/verein/72/saison_id/2023/plus/1
+2025-11-08 16:31:01.797 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/tsv-1860-munchen/kader/verein/72/saison_id/2023/plus/1
+2025-11-08 16:31:09.087 | INFO     | __main__:scrape_player_data:283 - Scraped 36 players for TSV 1860 München (2023-2024)
+2025-11-08 16:31:09.228 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 36 stored
+2025-11-08 16:31:09.229 | INFO     | __main__:collect_all_teams_data:408 - [19/20] Processing VfB Lübeck...
+2025-11-08 16:31:09.229 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for VfB Lübeck (2023-2024): https://www.transfermarkt.de/vfb-lubeck/kader/verein/78/saison_id/2023/plus/1
+2025-11-08 16:31:09.229 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/vfb-lubeck/kader/verein/78/saison_id/2023/plus/1
+2025-11-08 16:31:14.596 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €1,350,000 (37 players)
+2025-11-08 16:31:14.597 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for VfB Lübeck (2023-2024): https://www.transfermarkt.de/vfb-lubeck/kader/verein/78/saison_id/2023/plus/1
+2025-11-08 16:31:14.597 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/vfb-lubeck/kader/verein/78/saison_id/2023/plus/1
+2025-11-08 16:31:18.442 | INFO     | __main__:scrape_player_data:283 - Scraped 37 players for VfB Lübeck (2023-2024)
+2025-11-08 16:31:18.602 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 37 stored
+2025-11-08 16:31:18.602 | INFO     | __main__:collect_all_teams_data:408 - [20/20] Processing Viktoria Köln...
+2025-11-08 16:31:18.602 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Viktoria Köln (2023-2024): https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2023/plus/1
+2025-11-08 16:31:18.602 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2023/plus/1
+2025-11-08 16:31:22.602 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €5,480,000 (38 players)
+2025-11-08 16:31:22.603 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Viktoria Köln (2023-2024): https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2023/plus/1
+2025-11-08 16:31:22.603 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2023/plus/1
+2025-11-08 16:31:27.211 | INFO     | __main__:scrape_player_data:283 - Scraped 38 players for Viktoria Köln (2023-2024)
+2025-11-08 16:31:27.381 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 38 stored
+2025-11-08 16:31:27.381 | SUCCESS  | __main__:collect_all_teams_data:432 - 
+=== Transfermarkt collection complete ===
+Teams processed: 20
+Squad values collected: 20
+Players collected: 694
+Failed: 0
+Duration: 3.8 minutes
+        
+2025-11-08 16:31:27.381 | INFO     | __main__:main:458 - 
+============================================================
+2025-11-08 16:31:27.381 | INFO     | __main__:main:459 - Starting collection for season 2022-2023
+2025-11-08 16:31:27.381 | INFO     | __main__:main:460 - ============================================================
+
+2025-11-08 16:31:27.381 | INFO     | __main__:collect_all_teams_data:378 - === Starting Transfermarkt data collection for 2022-2023 ===
+2025-11-08 16:31:27.383 | INFO     | __main__:collect_all_teams_data:398 - Collecting data for 20 teams that played in 2022-2023
+2025-11-08 16:31:27.383 | INFO     | __main__:collect_all_teams_data:408 - [1/20] Processing 1. FC Saarbrücken...
+2025-11-08 16:31:27.383 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for 1. FC Saarbrücken (2022-2023): https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2022/plus/1
+2025-11-08 16:31:27.383 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2022/plus/1
+2025-11-08 16:31:42.387 | WARNING  | __main__:_make_request:76 - Request failed (attempt 1/3): HTTPSConnectionPool(host='www.transfermarkt.de', port=443): Read timed out. (read timeout=15)
+2025-11-08 16:31:47.393 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2022/plus/1
+2025-11-08 16:31:52.659 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €9,350,000 (33 players)
+2025-11-08 16:31:52.659 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for 1. FC Saarbrücken (2022-2023): https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2022/plus/1
+2025-11-08 16:31:52.659 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2022/plus/1
+2025-11-08 16:31:56.693 | INFO     | __main__:scrape_player_data:283 - Scraped 33 players for 1. FC Saarbrücken (2022-2023)
+2025-11-08 16:31:56.829 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 33 stored
+2025-11-08 16:31:56.829 | INFO     | __main__:collect_all_teams_data:408 - [2/20] Processing Borussia Dortmund II...
+2025-11-08 16:31:56.829 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Borussia Dortmund II (2022-2023): https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2022/plus/1
+2025-11-08 16:31:56.829 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2022/plus/1
+2025-11-08 16:32:02.069 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €5,750,000 (39 players)
+2025-11-08 16:32:02.069 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Borussia Dortmund II (2022-2023): https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2022/plus/1
+2025-11-08 16:32:02.069 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2022/plus/1
+2025-11-08 16:32:06.760 | INFO     | __main__:scrape_player_data:283 - Scraped 39 players for Borussia Dortmund II (2022-2023)
+2025-11-08 16:32:06.902 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 39 stored
+2025-11-08 16:32:06.903 | INFO     | __main__:collect_all_teams_data:408 - [3/20] Processing Dynamo Dresden...
+2025-11-08 16:32:06.903 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Dynamo Dresden (2022-2023): https://www.transfermarkt.de/sg-dynamo-dresden/kader/verein/129/saison_id/2022/plus/1
+2025-11-08 16:32:06.903 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sg-dynamo-dresden/kader/verein/129/saison_id/2022/plus/1
+2025-11-08 16:32:13.673 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €13,880,000 (37 players)
+2025-11-08 16:32:13.674 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Dynamo Dresden (2022-2023): https://www.transfermarkt.de/sg-dynamo-dresden/kader/verein/129/saison_id/2022/plus/1
+2025-11-08 16:32:13.674 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sg-dynamo-dresden/kader/verein/129/saison_id/2022/plus/1
+2025-11-08 16:32:17.923 | INFO     | __main__:scrape_player_data:283 - Scraped 37 players for Dynamo Dresden (2022-2023)
+2025-11-08 16:32:18.073 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 37 stored
+2025-11-08 16:32:18.073 | INFO     | __main__:collect_all_teams_data:408 - [4/20] Processing Erzgebirge Aue...
+2025-11-08 16:32:18.073 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Erzgebirge Aue (2022-2023): https://www.transfermarkt.de/fc-erzgebirge-aue/kader/verein/94/saison_id/2022/plus/1
+2025-11-08 16:32:18.073 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-erzgebirge-aue/kader/verein/94/saison_id/2022/plus/1
+2025-11-08 16:32:22.897 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €5,930,000 (32 players)
+2025-11-08 16:32:22.897 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Erzgebirge Aue (2022-2023): https://www.transfermarkt.de/fc-erzgebirge-aue/kader/verein/94/saison_id/2022/plus/1
+2025-11-08 16:32:22.897 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-erzgebirge-aue/kader/verein/94/saison_id/2022/plus/1
+2025-11-08 16:32:26.083 | INFO     | __main__:scrape_player_data:283 - Scraped 32 players for Erzgebirge Aue (2022-2023)
+2025-11-08 16:32:26.189 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 32 stored
+2025-11-08 16:32:26.189 | INFO     | __main__:collect_all_teams_data:408 - [5/20] Processing FC Ingolstadt 04...
+2025-11-08 16:32:26.189 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for FC Ingolstadt 04 (2022-2023): https://www.transfermarkt.de/fc-ingolstadt-04/kader/verein/4795/saison_id/2022/plus/1
+2025-11-08 16:32:26.189 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-ingolstadt-04/kader/verein/4795/saison_id/2022/plus/1
+2025-11-08 16:32:31.604 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €7,230,000 (33 players)
+2025-11-08 16:32:31.604 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for FC Ingolstadt 04 (2022-2023): https://www.transfermarkt.de/fc-ingolstadt-04/kader/verein/4795/saison_id/2022/plus/1
+2025-11-08 16:32:31.604 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-ingolstadt-04/kader/verein/4795/saison_id/2022/plus/1
+2025-11-08 16:32:35.747 | INFO     | __main__:scrape_player_data:283 - Scraped 33 players for FC Ingolstadt 04 (2022-2023)
+2025-11-08 16:32:35.895 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 33 stored
+2025-11-08 16:32:35.895 | INFO     | __main__:collect_all_teams_data:408 - [6/20] Processing FSV Zwickau...
+2025-11-08 16:32:35.895 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for FSV Zwickau (2022-2023): https://www.transfermarkt.de/fsv-zwickau/kader/verein/275/saison_id/2022/plus/1
+2025-11-08 16:32:35.895 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fsv-zwickau/kader/verein/275/saison_id/2022/plus/1
+2025-11-08 16:32:40.247 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €1,830,000 (30 players)
+2025-11-08 16:32:40.247 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for FSV Zwickau (2022-2023): https://www.transfermarkt.de/fsv-zwickau/kader/verein/275/saison_id/2022/plus/1
+2025-11-08 16:32:40.248 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fsv-zwickau/kader/verein/275/saison_id/2022/plus/1
+2025-11-08 16:32:44.382 | INFO     | __main__:scrape_player_data:283 - Scraped 30 players for FSV Zwickau (2022-2023)
+2025-11-08 16:32:44.499 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 30 stored
+2025-11-08 16:32:44.500 | INFO     | __main__:collect_all_teams_data:408 - [7/20] Processing Hallescher FC...
+2025-11-08 16:32:44.500 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Hallescher FC (2022-2023): https://www.transfermarkt.de/hallescher-fc/kader/verein/440/saison_id/2022/plus/1
+2025-11-08 16:32:44.500 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/hallescher-fc/kader/verein/440/saison_id/2022/plus/1
+2025-11-08 16:32:48.737 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €3,080,000 (31 players)
+2025-11-08 16:32:48.737 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Hallescher FC (2022-2023): https://www.transfermarkt.de/hallescher-fc/kader/verein/440/saison_id/2022/plus/1
+2025-11-08 16:32:48.737 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/hallescher-fc/kader/verein/440/saison_id/2022/plus/1
+2025-11-08 16:32:52.161 | INFO     | __main__:scrape_player_data:283 - Scraped 31 players for Hallescher FC (2022-2023)
+2025-11-08 16:32:52.303 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 31 stored
+2025-11-08 16:32:52.304 | INFO     | __main__:collect_all_teams_data:408 - [8/20] Processing MSV Duisburg...
+2025-11-08 16:32:52.304 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for MSV Duisburg (2022-2023): https://www.transfermarkt.de/msv-duisburg/kader/verein/52/saison_id/2022/plus/1
+2025-11-08 16:32:52.304 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/msv-duisburg/kader/verein/52/saison_id/2022/plus/1
+2025-11-08 16:33:07.308 | WARNING  | __main__:_make_request:76 - Request failed (attempt 1/3): HTTPSConnectionPool(host='www.transfermarkt.de', port=443): Read timed out. (read timeout=15)
+2025-11-08 16:33:12.312 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/msv-duisburg/kader/verein/52/saison_id/2022/plus/1
+2025-11-08 16:33:17.197 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,400,000 (29 players)
+2025-11-08 16:33:17.197 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for MSV Duisburg (2022-2023): https://www.transfermarkt.de/msv-duisburg/kader/verein/52/saison_id/2022/plus/1
+2025-11-08 16:33:17.197 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/msv-duisburg/kader/verein/52/saison_id/2022/plus/1
+2025-11-08 16:33:22.331 | INFO     | __main__:scrape_player_data:283 - Scraped 29 players for MSV Duisburg (2022-2023)
+2025-11-08 16:33:22.435 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 29 stored
+2025-11-08 16:33:22.436 | INFO     | __main__:collect_all_teams_data:408 - [9/20] Processing Rot-Weiss Essen...
+2025-11-08 16:33:22.436 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Rot-Weiss Essen (2022-2023): https://www.transfermarkt.de/rot-weiss-essen/kader/verein/56/saison_id/2022/plus/1
+2025-11-08 16:33:22.436 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/rot-weiss-essen/kader/verein/56/saison_id/2022/plus/1
+2025-11-08 16:33:30.404 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,930,000 (38 players)
+2025-11-08 16:33:30.404 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Rot-Weiss Essen (2022-2023): https://www.transfermarkt.de/rot-weiss-essen/kader/verein/56/saison_id/2022/plus/1
+2025-11-08 16:33:30.404 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/rot-weiss-essen/kader/verein/56/saison_id/2022/plus/1
+2025-11-08 16:33:34.753 | INFO     | __main__:scrape_player_data:283 - Scraped 38 players for Rot-Weiss Essen (2022-2023)
+2025-11-08 16:33:34.910 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 38 stored
+2025-11-08 16:33:34.910 | INFO     | __main__:collect_all_teams_data:408 - [10/20] Processing SC Freiburg II...
+2025-11-08 16:33:34.910 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SC Freiburg II (2022-2023): https://www.transfermarkt.de/sc-freiburg-ii/kader/verein/245/saison_id/2022/plus/1
+2025-11-08 16:33:34.910 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sc-freiburg-ii/kader/verein/245/saison_id/2022/plus/1
+2025-11-08 16:33:39.700 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €3,250,000 (45 players)
+2025-11-08 16:33:39.700 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SC Freiburg II (2022-2023): https://www.transfermarkt.de/sc-freiburg-ii/kader/verein/245/saison_id/2022/plus/1
+2025-11-08 16:33:39.701 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sc-freiburg-ii/kader/verein/245/saison_id/2022/plus/1
+2025-11-08 16:33:42.851 | INFO     | __main__:scrape_player_data:283 - Scraped 45 players for SC Freiburg II (2022-2023)
+2025-11-08 16:33:43.058 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 45 stored
+2025-11-08 16:33:43.058 | INFO     | __main__:collect_all_teams_data:408 - [11/20] Processing SC Verl...
+2025-11-08 16:33:43.058 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SC Verl (2022-2023): https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2022/plus/1
+2025-11-08 16:33:43.058 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2022/plus/1
+2025-11-08 16:33:48.102 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €5,480,000 (42 players)
+2025-11-08 16:33:48.102 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SC Verl (2022-2023): https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2022/plus/1
+2025-11-08 16:33:48.102 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sc-verl/kader/verein/93/saison_id/2022/plus/1
+2025-11-08 16:33:51.383 | INFO     | __main__:scrape_player_data:283 - Scraped 42 players for SC Verl (2022-2023)
+2025-11-08 16:33:51.546 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 42 stored
+2025-11-08 16:33:51.546 | INFO     | __main__:collect_all_teams_data:408 - [12/20] Processing SV 07 Elversberg...
+2025-11-08 16:33:51.546 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV 07 Elversberg (2022-2023): https://www.transfermarkt.de/sv-07-elversberg/kader/verein/64/saison_id/2022/plus/1
+2025-11-08 16:33:51.546 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-07-elversberg/kader/verein/64/saison_id/2022/plus/1
+2025-11-08 16:33:58.433 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €24,480,000 (33 players)
+2025-11-08 16:33:58.434 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV 07 Elversberg (2022-2023): https://www.transfermarkt.de/sv-07-elversberg/kader/verein/64/saison_id/2022/plus/1
+2025-11-08 16:33:58.434 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-07-elversberg/kader/verein/64/saison_id/2022/plus/1
+2025-11-08 16:34:11.242 | INFO     | __main__:scrape_player_data:283 - Scraped 33 players for SV 07 Elversberg (2022-2023)
+2025-11-08 16:34:11.382 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 33 stored
+2025-11-08 16:34:11.382 | INFO     | __main__:collect_all_teams_data:408 - [13/20] Processing SV Meppen...
+2025-11-08 16:34:11.382 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Meppen (2022-2023): https://www.transfermarkt.de/sv-meppen/kader/verein/247/saison_id/2022/plus/1
+2025-11-08 16:34:11.382 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-meppen/kader/verein/247/saison_id/2022/plus/1
+2025-11-08 16:34:26.389 | WARNING  | __main__:_make_request:76 - Request failed (attempt 1/3): HTTPSConnectionPool(host='www.transfermarkt.de', port=443): Read timed out. (read timeout=15)
+2025-11-08 16:34:31.391 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-meppen/kader/verein/247/saison_id/2022/plus/1
+2025-11-08 16:34:38.715 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €2,220,000 (38 players)
+2025-11-08 16:34:38.715 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Meppen (2022-2023): https://www.transfermarkt.de/sv-meppen/kader/verein/247/saison_id/2022/plus/1
+2025-11-08 16:34:38.715 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-meppen/kader/verein/247/saison_id/2022/plus/1
+2025-11-08 16:34:43.180 | INFO     | __main__:scrape_player_data:283 - Scraped 38 players for SV Meppen (2022-2023)
+2025-11-08 16:34:43.305 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 38 stored
+2025-11-08 16:34:43.306 | INFO     | __main__:collect_all_teams_data:408 - [14/20] Processing SV Waldhof Mannheim...
+2025-11-08 16:34:43.306 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Waldhof Mannheim (2022-2023): https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2022/plus/1
+2025-11-08 16:34:43.306 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2022/plus/1
+2025-11-08 16:34:47.615 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,630,000 (34 players)
+2025-11-08 16:34:47.616 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Waldhof Mannheim (2022-2023): https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2022/plus/1
+2025-11-08 16:34:47.616 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-waldhof-mannheim/kader/verein/85/saison_id/2022/plus/1
+2025-11-08 16:34:51.799 | INFO     | __main__:scrape_player_data:283 - Scraped 34 players for SV Waldhof Mannheim (2022-2023)
+2025-11-08 16:34:51.925 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 34 stored
+2025-11-08 16:34:51.925 | INFO     | __main__:collect_all_teams_data:408 - [15/20] Processing SV Wehen Wiesbaden...
+2025-11-08 16:34:51.925 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Wehen Wiesbaden (2022-2023): https://www.transfermarkt.de/sv-wehen-wiesbaden/kader/verein/108/saison_id/2022/plus/1
+2025-11-08 16:34:51.925 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-wehen-wiesbaden/kader/verein/108/saison_id/2022/plus/1
+2025-11-08 16:34:57.481 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €8,330,000 (37 players)
+2025-11-08 16:34:57.482 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SV Wehen Wiesbaden (2022-2023): https://www.transfermarkt.de/sv-wehen-wiesbaden/kader/verein/108/saison_id/2022/plus/1
+2025-11-08 16:34:57.482 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/sv-wehen-wiesbaden/kader/verein/108/saison_id/2022/plus/1
+2025-11-08 16:35:01.797 | INFO     | __main__:scrape_player_data:283 - Scraped 37 players for SV Wehen Wiesbaden (2022-2023)
+2025-11-08 16:35:01.954 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 37 stored
+2025-11-08 16:35:01.954 | INFO     | __main__:collect_all_teams_data:408 - [16/20] Processing SpVgg Oberfranken Bayreuth...
+2025-11-08 16:35:01.954 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SpVgg Oberfranken Bayreuth (2022-2023): https://www.transfermarkt.de/spvgg-bayreuth/kader/verein/752/saison_id/2022/plus/1
+2025-11-08 16:35:01.954 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/spvgg-bayreuth/kader/verein/752/saison_id/2022/plus/1
+2025-11-08 16:35:09.833 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €1,620,000 (31 players)
+2025-11-08 16:35:09.833 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for SpVgg Oberfranken Bayreuth (2022-2023): https://www.transfermarkt.de/spvgg-bayreuth/kader/verein/752/saison_id/2022/plus/1
+2025-11-08 16:35:09.833 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/spvgg-bayreuth/kader/verein/752/saison_id/2022/plus/1
+2025-11-08 16:35:13.858 | INFO     | __main__:scrape_player_data:283 - Scraped 31 players for SpVgg Oberfranken Bayreuth (2022-2023)
+2025-11-08 16:35:13.984 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 31 stored
+2025-11-08 16:35:13.984 | INFO     | __main__:collect_all_teams_data:408 - [17/20] Processing TSV 1860 München...
+2025-11-08 16:35:13.984 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for TSV 1860 München (2022-2023): https://www.transfermarkt.de/tsv-1860-munchen/kader/verein/72/saison_id/2022/plus/1
+2025-11-08 16:35:13.984 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/tsv-1860-munchen/kader/verein/72/saison_id/2022/plus/1
+2025-11-08 16:35:18.445 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €9,150,000 (33 players)
+2025-11-08 16:35:18.446 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for TSV 1860 München (2022-2023): https://www.transfermarkt.de/tsv-1860-munchen/kader/verein/72/saison_id/2022/plus/1
+2025-11-08 16:35:18.446 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/tsv-1860-munchen/kader/verein/72/saison_id/2022/plus/1
+2025-11-08 16:35:21.566 | INFO     | __main__:scrape_player_data:283 - Scraped 33 players for TSV 1860 München (2022-2023)
+2025-11-08 16:35:21.714 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 33 stored
+2025-11-08 16:35:21.715 | INFO     | __main__:collect_all_teams_data:408 - [18/20] Processing VfB Oldenburg...
+2025-11-08 16:35:21.715 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for VfB Oldenburg (2022-2023): https://www.transfermarkt.de/vfb-oldenburg/kader/verein/166/saison_id/2022/plus/1
+2025-11-08 16:35:21.715 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/vfb-oldenburg/kader/verein/166/saison_id/2022/plus/1
+2025-11-08 16:35:28.932 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €1,560,000 (32 players)
+2025-11-08 16:35:28.933 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for VfB Oldenburg (2022-2023): https://www.transfermarkt.de/vfb-oldenburg/kader/verein/166/saison_id/2022/plus/1
+2025-11-08 16:35:28.933 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/vfb-oldenburg/kader/verein/166/saison_id/2022/plus/1
+2025-11-08 16:35:35.616 | INFO     | __main__:scrape_player_data:283 - Scraped 32 players for VfB Oldenburg (2022-2023)
+2025-11-08 16:35:35.778 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 32 stored
+2025-11-08 16:35:35.778 | INFO     | __main__:collect_all_teams_data:408 - [19/20] Processing VfL Osnabrück...
+2025-11-08 16:35:35.779 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for VfL Osnabrück (2022-2023): https://www.transfermarkt.de/vfl-osnabruck/kader/verein/81/saison_id/2022/plus/1
+2025-11-08 16:35:35.779 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/vfl-osnabruck/kader/verein/81/saison_id/2022/plus/1
+2025-11-08 16:35:41.096 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €6,480,000 (31 players)
+2025-11-08 16:35:41.096 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for VfL Osnabrück (2022-2023): https://www.transfermarkt.de/vfl-osnabruck/kader/verein/81/saison_id/2022/plus/1
+2025-11-08 16:35:41.097 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/vfl-osnabruck/kader/verein/81/saison_id/2022/plus/1
+2025-11-08 16:35:46.289 | INFO     | __main__:scrape_player_data:283 - Scraped 31 players for VfL Osnabrück (2022-2023)
+2025-11-08 16:35:46.424 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 31 stored
+2025-11-08 16:35:46.424 | INFO     | __main__:collect_all_teams_data:408 - [20/20] Processing Viktoria Köln...
+2025-11-08 16:35:46.424 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Viktoria Köln (2022-2023): https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2022/plus/1
+2025-11-08 16:35:46.424 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2022/plus/1
+2025-11-08 16:35:50.374 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €5,480,000 (35 players)
+2025-11-08 16:35:50.375 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Viktoria Köln (2022-2023): https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2022/plus/1
+2025-11-08 16:35:50.375 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/fc-viktoria-koln/kader/verein/1622/saison_id/2022/plus/1
+2025-11-08 16:35:53.475 | INFO     | __main__:scrape_player_data:283 - Scraped 35 players for Viktoria Köln (2022-2023)
+2025-11-08 16:35:53.606 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 35 stored
+2025-11-08 16:35:53.606 | SUCCESS  | __main__:collect_all_teams_data:432 - 
+=== Transfermarkt collection complete ===
+Teams processed: 20
+Squad values collected: 20
+Players collected: 693
+Failed: 0
+Duration: 4.4 minutes
+        
+2025-11-08 16:35:53.606 | INFO     | __main__:main:458 - 
+============================================================
+2025-11-08 16:35:53.606 | INFO     | __main__:main:459 - Starting collection for season 2021-2022
+2025-11-08 16:35:53.606 | INFO     | __main__:main:460 - ============================================================
+
+2025-11-08 16:35:53.606 | INFO     | __main__:collect_all_teams_data:378 - === Starting Transfermarkt data collection for 2021-2022 ===
+2025-11-08 16:35:53.609 | INFO     | __main__:collect_all_teams_data:398 - Collecting data for 20 teams that played in 2021-2022
+2025-11-08 16:35:53.609 | INFO     | __main__:collect_all_teams_data:408 - [1/20] Processing 1. FC Kaiserslautern...
+2025-11-08 16:35:53.609 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for 1. FC Kaiserslautern (2021-2022): https://www.transfermarkt.de/1-fc-kaiserslautern/kader/verein/2/saison_id/2021/plus/1
+2025-11-08 16:35:53.609 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-kaiserslautern/kader/verein/2/saison_id/2021/plus/1
+2025-11-08 16:36:00.501 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €26,930,000 (31 players)
+2025-11-08 16:36:00.502 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for 1. FC Kaiserslautern (2021-2022): https://www.transfermarkt.de/1-fc-kaiserslautern/kader/verein/2/saison_id/2021/plus/1
+2025-11-08 16:36:00.502 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-kaiserslautern/kader/verein/2/saison_id/2021/plus/1
+2025-11-08 16:36:06.527 | INFO     | __main__:scrape_player_data:283 - Scraped 31 players for 1. FC Kaiserslautern (2021-2022)
+2025-11-08 16:36:06.646 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 31 stored
+2025-11-08 16:36:06.646 | INFO     | __main__:collect_all_teams_data:408 - [2/20] Processing 1. FC Magdeburg...
+2025-11-08 16:36:06.646 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for 1. FC Magdeburg (2021-2022): https://www.transfermarkt.de/1-fc-magdeburg/kader/verein/187/saison_id/2021/plus/1
+2025-11-08 16:36:06.646 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-magdeburg/kader/verein/187/saison_id/2021/plus/1
+2025-11-08 16:36:12.819 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €28,050,000 (35 players)
+2025-11-08 16:36:12.820 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for 1. FC Magdeburg (2021-2022): https://www.transfermarkt.de/1-fc-magdeburg/kader/verein/187/saison_id/2021/plus/1
+2025-11-08 16:36:12.820 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-magdeburg/kader/verein/187/saison_id/2021/plus/1
+2025-11-08 16:36:22.986 | INFO     | __main__:scrape_player_data:283 - Scraped 35 players for 1. FC Magdeburg (2021-2022)
+2025-11-08 16:36:23.138 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 35 stored
+2025-11-08 16:36:23.138 | INFO     | __main__:collect_all_teams_data:408 - [3/20] Processing 1. FC Saarbrücken...
+2025-11-08 16:36:23.138 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for 1. FC Saarbrücken (2021-2022): https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2021/plus/1
+2025-11-08 16:36:23.138 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2021/plus/1
+2025-11-08 16:36:29.738 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €9,350,000 (32 players)
+2025-11-08 16:36:29.738 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for 1. FC Saarbrücken (2021-2022): https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2021/plus/1
+2025-11-08 16:36:29.738 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/1-fc-saarbrucken/kader/verein/1/saison_id/2021/plus/1
+2025-11-08 16:36:36.187 | INFO     | __main__:scrape_player_data:283 - Scraped 32 players for 1. FC Saarbrücken (2021-2022)
+2025-11-08 16:36:36.328 | SUCCESS  | __main__:collect_all_teams_data:423 -   Players: 32 stored
+2025-11-08 16:36:36.328 | INFO     | __main__:collect_all_teams_data:408 - [4/20] Processing Borussia Dortmund II...
+2025-11-08 16:36:36.328 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Borussia Dortmund II (2021-2022): https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2021/plus/1
+2025-11-08 16:36:36.328 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2021/plus/1
+2025-11-08 16:36:42.101 | SUCCESS  | __main__:collect_all_teams_data:416 -   Squad value: €5,750,000 (39 players)
+2025-11-08 16:36:42.101 | DEBUG    | __main__:get_team_transfermarkt_url:107 - Generated URL for Borussia Dortmund II (2021-2022): https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2021/plus/1
+2025-11-08 16:36:42.101 | DEBUG    | __main__:_make_request:66 - Fetching: https://www.transfermarkt.de/borussia-dortmund-ii/kader/verein/17/saison_id/2021/plus/1

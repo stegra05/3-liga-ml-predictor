@@ -98,11 +98,12 @@ class TransfermarktCollector:
             logger.warning(f"No URL mapping found for team: {team_name}")
             return None
 
-        # Extract season year
+        # Extract season year (first year of the season)
         season_year = season.split('-')[0]
 
-        # Construct direct URL - use kader (squad) page for detailed player info
-        url = f"{self.BASE_URL}/{team_data['url_slug']}/kader/verein/{team_data['team_id']}/saison_id/{season_year}/plus/1"
+        # Construct URL - use kader (squad) page with query parameter for historical data
+        # Format: /kader/verein/{id}/plus/0/galerie/0?saison_id={year}
+        url = f"{self.BASE_URL}/{team_data['url_slug']}/kader/verein/{team_data['team_id']}/plus/0/galerie/0?saison_id={season_year}"
 
         logger.debug(f"Generated URL for {team_name} ({season}): {url}")
         return url
@@ -151,11 +152,11 @@ class TransfermarktCollector:
 
     def scrape_squad_value(self, team_name: str, season: str) -> Optional[Dict]:
         """
-        Scrape squad value for a team in a season
+        Scrape squad value for a team in a season from the squad details table
 
         Args:
             team_name: Team name
-            season: Season string
+            season: Season string (e.g., "2023-2024")
 
         Returns:
             Dictionary with squad value data
@@ -170,16 +171,53 @@ class TransfermarktCollector:
             return None
 
         try:
-            # Find squad value in the page
-            squad_value_elem = soup.find('a', class_='data-header__market-value-wrapper')
+            # Find squad value in the "KADERDETAILS NACH POSITIONEN" table
+            # This table shows squad details by position with total value
+            total_value = None
 
-            if squad_value_elem:
-                value_text = squad_value_elem.text.strip()
-                total_value = self.parse_market_value(value_text)
-            else:
-                total_value = None
+            # Look for the "Gesamt:" row in the squad details table
+            # The table typically has rows for each position (Torwart, Abwehr, Mittelfeld, Sturm)
+            # and a final row with "Gesamt:" (Total)
 
-            # Count players
+            # Find all table rows
+            for row in soup.find_all('tr'):
+                cells = row.find_all(['td', 'th'])
+                if not cells:
+                    continue
+
+                # Look for row containing "Gesamt:" (Total)
+                for cell in cells:
+                    cell_text = cell.get_text(strip=True)
+                    if 'Gesamt:' in cell_text or 'Gesamtmarktwert' in cell_text:
+                        # The market value is typically in the next cell or one of the following cells
+                        # Try to find the value in this row
+                        for value_cell in cells:
+                            value_text = value_cell.get_text(strip=True)
+                            # Skip cells that just have "Gesamt:" or age values
+                            if 'Gesamt' in value_text or value_text.replace(',', '').replace('.', '').isdigit():
+                                continue
+
+                            parsed = self.parse_market_value(value_text)
+                            if parsed and parsed > 100000:  # Reasonable squad value threshold
+                                total_value = parsed
+                                logger.debug(f"Found squad value in Gesamt row: {value_text} -> {total_value}")
+                                break
+
+                        if total_value:
+                            break
+
+                if total_value:
+                    break
+
+            # Fallback: try to find in the data-header (current/recent seasons)
+            if not total_value:
+                market_value_box = soup.find('a', class_='data-header__market-value-wrapper')
+                if market_value_box:
+                    value_text = market_value_box.text.strip()
+                    total_value = self.parse_market_value(value_text)
+                    logger.debug(f"Found squad value in header: {value_text} -> {total_value}")
+
+            # Count players from the detailed squad table
             player_rows = soup.find_all('tr', class_=['odd', 'even'])
             num_players = len(player_rows)
 
@@ -201,11 +239,11 @@ class TransfermarktCollector:
 
     def scrape_player_data(self, team_name: str, season: str) -> List[Dict]:
         """
-        Scrape player data for a team
+        Scrape player data for a team - squad page shows historical values for the given season
 
         Args:
             team_name: Team name
-            season: Season string
+            season: Season string (e.g., "2023-2024")
 
         Returns:
             List of player dictionaries
@@ -228,38 +266,83 @@ class TransfermarktCollector:
                 try:
                     # Get all cells in the row
                     cells = row.find_all('td')
-                    if len(cells) < 13:
+                    if len(cells) < 5:  # Minimum cells needed for basic player data
                         continue
 
-                    # Player name (cell 3 - hauptlink)
-                    name_elem = cells[3].find('a')
-                    if not name_elem:
+                    # Player name (cell 3 in simplified format, cell 3 in detailed format)
+                    player_name = None
+                    position = None
+                    age = None
+                    nationality = None
+                    height_cm = None
+                    preferred_foot = None
+                    market_value = None
+
+                    # Check table format based on number of cells
+                    if len(cells) == 9:
+                        # Simplified format (galerie/0 view)
+                        # Cell 3: Player name
+                        # Cell 4: Position
+                        # Cell 5: Age
+                        # Cell 8: Market value
+
+                        name_elem = cells[3].find('a')
+                        if not name_elem:
+                            continue
+                        player_name = name_elem.text.strip()
+
+                        position = cells[4].text.strip() if cells[4] else None
+
+                        age_text = cells[5].text.strip()
+                        if age_text and age_text.isdigit():
+                            age = int(age_text)
+
+                        # Nationality from cell 6 if available
+                        if cells[6]:
+                            nat_elem = cells[6].find_all('img', class_='flaggenrahmen')
+                            nationality = nat_elem[0].get('alt') if nat_elem else None
+
+                        # Market value in cell 8
+                        market_value = self.parse_market_value(cells[8].text.strip()) if cells[8] else None
+
+                    elif len(cells) >= 13:
+                        # Detailed format (plus/1 view)
+                        # Cell 3: Player name
+                        # Cell 4: Position
+                        # Cell 5: Birth date with age
+                        # Cell 6: Nationality
+                        # Cell 8: Height
+                        # Cell 9: Foot
+                        # Cell 12: Market value
+
+                        name_elem = cells[3].find('a')
+                        if not name_elem:
+                            continue
+                        player_name = name_elem.text.strip()
+
+                        position = cells[4].text.strip() if cells[4] else None
+
+                        age_cell = cells[5].text.strip()
+                        age_match = re.search(r'\((\d+)\)', age_cell)
+                        age = int(age_match.group(1)) if age_match else None
+
+                        nat_elem = cells[6].find_all('img', class_='flaggenrahmen')
+                        nationality = nat_elem[0].get('alt') if nat_elem else None
+
+                        height_text = cells[8].text.strip()
+                        height_match = re.search(r'(\d+)', height_text.replace(',', ''))
+                        height_cm = int(height_match.group(1)) if height_match else None
+
+                        foot_text = cells[9].text.strip()
+                        preferred_foot = foot_text if foot_text and foot_text not in ['-', ''] else None
+
+                        market_value = self.parse_market_value(cells[12].text.strip()) if cells[12] else None
+                    else:
+                        # Unknown format, skip
                         continue
-                    player_name = name_elem.text.strip()
 
-                    # Position (cell 4)
-                    position = cells[4].text.strip() if cells[4] else None
-
-                    # Age (cell 5) - extract from birth date cell like "03.10.1982 (42)"
-                    age_cell = cells[5].text.strip()
-                    age_match = re.search(r'\((\d+)\)', age_cell)
-                    age = int(age_match.group(1)) if age_match else None
-
-                    # Nationality (cell 6)
-                    nat_elem = cells[6].find_all('img', class_='flaggenrahmen')
-                    nationality = nat_elem[0].get('alt') if nat_elem else None
-
-                    # Height (cell 8) - like "1,91m"
-                    height_text = cells[8].text.strip()
-                    height_match = re.search(r'(\d+)', height_text.replace(',', ''))
-                    height_cm = int(height_match.group(1)) if height_match else None
-
-                    # Preferred foot (cell 9)
-                    foot_text = cells[9].text.strip()
-                    preferred_foot = foot_text if foot_text and foot_text not in ['-', ''] else None
-
-                    # Market value (cell 12 - rechts hauptlink)
-                    market_value = self.parse_market_value(cells[12].text.strip()) if cells[12] else None
+                    if not player_name:
+                        continue
 
                     player = {
                         'player_name': player_name,
@@ -369,7 +452,7 @@ class TransfermarktCollector:
 
     def collect_all_teams_data(self, season: str = "2024-2025", limit: Optional[int] = None):
         """
-        Collect data for all teams in a season
+        Collect data for teams that actually played in the 3. Liga in a specific season
 
         Args:
             season: Season string
@@ -378,15 +461,24 @@ class TransfermarktCollector:
         logger.info(f"=== Starting Transfermarkt data collection for {season} ===")
         start_time = datetime.now()
 
-        # Get all teams
-        query = "SELECT DISTINCT team_name FROM teams ORDER BY team_name"
-        teams = self.db.execute_query(query)
+        # Get only teams that actually played in this season (from matches)
+        query = """
+            SELECT DISTINCT t.team_name
+            FROM teams t
+            WHERE t.team_id IN (
+                SELECT DISTINCT home_team_id FROM matches WHERE season = ?
+                UNION
+                SELECT DISTINCT away_team_id FROM matches WHERE season = ?
+            )
+            ORDER BY t.team_name
+        """
+        teams = self.db.execute_query(query, (season, season))
 
         if limit:
             teams = teams[:limit]
 
         total_teams = len(teams)
-        logger.info(f"Collecting data for {total_teams} teams")
+        logger.info(f"Collecting data for {total_teams} teams that played in {season}")
 
         collected_squads = 0
         collected_players = 0

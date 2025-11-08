@@ -1,0 +1,262 @@
+{
+  "teams": {
+    "1. FC Heidenheim 1846": {
+      "url_slug": "1-fc-heidenheim-1846",
+      "team_id": "2036"
+    },
+    "1. FC Kaiserslautern": {
+      "url_slug": "1-fc-kaiserslautern",
+      "team_id": "2"
+    },
+    "1. FC Magdeburg": {
+      "url_slug": "1-fc-magdeburg",
+      "team_id": "187"
+    },
+    "1. FC Saarbrücken": {
+      "url_slug": "1-fc-saarbrucken",
+      "team_id": "1"
+    },
+    "Alemannia Aachen": {
+      "url_slug": "alemannia-aachen",
+      "team_id": "8"
+    },
+    "Arminia Bielefeld": {
+      "url_slug": "arminia-bielefeld",
+      "team_id": "10"
+    },
+    "Borussia Dortmund II": {
+      "url_slug": "borussia-dortmund-ii",
+      "team_id": "17"
+    },
+    "Chemnitzer FC": {
+      "url_slug": "chemnitzer-fc",
+      "team_id": "21"
+    },
+    "Dynamo Dresden": {
+      "url_slug": "sg-dynamo-dresden",
+      "team_id": "129"
+    },
+    "Eintracht Braunschweig": {
+      "url_slug": "eintracht-braunschweig",
+      "team_id": "23"
+    },
+    "Energie Cottbus": {
+      "url_slug": "fc-energie-cottbus",
+      "team_id": "25"
+    },
+    "Erzgebirge Aue": {
+      "url_slug": "fc-erzgebirge-aue",
+      "team_id": "94"
+    },
+    "FC Bayern München II": {
+      "url_slug": "fc-bayern-munchen-ii",
+      "team_id": "28"
+    },
+    "FC Carl Zeiss Jena": {
+      "url_slug": "fc-carl-zeiss-jena",
+      "team_id": "113"
+    },
+    "FC Ingolstadt 04": {
+      "url_slug": "fc-ingolstadt-04",
+      "team_id": "4795"
+    },
+    "FC Rot-Weiß Erfurt": {
+      "url_slug": "rot-weiss-erfurt",
+      "team_id": "111"
+    },
+    "FC Viktoria 1889 Berlin": {
+      "url_slug": "fc-viktoria-1889-berlin",
+      "team_id": "40373"
+    },
+    "FSV Frankfurt": {
+      "url_slug": "fsv-frankfurt",
+      "team_id": "293"
+    },
+    "FSV Zwickau": {
+      "url_slug": "fsv-zwickau",
+      "team_id": "275"
+    },
+    "Fortuna Köln": {
+      "url_slug": "sc-fortuna-koln",
+      "team_id": "92"
+    },
+    "Hallescher FC": {
+      "url_slug": "hallescher-fc",
+      "team_id": "440"
+    },
+    "Hannover II": {
+      "url_slug": "hsc-hannover-ii",
+      "team_id": "39004"
+    },
+    "Hansa Rostock": {
+      "url_slug": "fc-hansa-rostock",
+      "team_id": "30"
+    },
+    "Holstein Kiel": {
+      "url_slug": "holstein-kiel",
+      "team_id": "269"
+    },
+    "Jahn Regensburg": {
+      "url_slug": "ssv-jahn-regensburg",
+      "team_id": "109"
+    },
+    "KFC Uerdingen 05": {
+      "url_slug": "kfc-uerdingen-05",
+      "team_id": "95"
+    },
+    "Karlsruher SC": {
+      "url_slug": "karlsruher-sc",
+      "team_id": "48"
+    },
+    "Kickers Offenbach": {
+      "url_slug": "kickers-offenbach",
+      "team_id": "107"
+    },
+    "MSV Duisburg": {
+      "url_slug": "msv-duisburg",
+      "team_id": "52"
+    },
+    "Preußen Münster": {
+      "url_slug": "preussen-munster",
+      "team_id": "91"
+    },
+    "RB Leipzig": {
+      "url_slug": "rasenballsport-leipzig",
+      "team_id": "23826"
+    },
+    "Rot-Weiss Essen": {
+      "url_slug": "rot-weiss-essen",
+      "team_id": "56"
+    },
+    "Rot-Weiß Erfurt": {
+      "url_slug": "rot-weiss-erfurt",
+      "team_id": "111"
+    },
+    "SC Fortuna Köln": {
+      "url_slug": "sc-fortuna-koln",
+      "team_id": "92"
+    },
+    "SC Freiburg II": {
+      "url_slug": "sc-freiburg-ii",
+      "team_id": "245"
+    },
+    "SC Paderborn 07": {
+      "url_slug": "sc-paderborn-07",
+      "team_id": "127"
+    },
+    "SC Verl": {
+      "url_slug": "sc-verl",
+      "team_id": "93"
+    },
+    "SG Sonnenhof Großaspach": {
+      "url_slug": "sg-sonnenhof-grossaspach",
+      "team_id": "2589"
+    },
+    "SSV Ulm 1846": {
+      "url_slug": "ssv-ulm-1846",
+      "team_id": "69"
+    },
+    "SV 07 Elversberg": {
+      "url_slug": "sv-07-elversberg",
+      "team_id": "64"
+    },
+    "SV Babelsberg 03": {
+      "url_slug": "sv-babelsberg-03",
+      "team_id": "90"
+    },
+    "SV Darmstadt 98": {
+      "url_slug": "sv-darmstadt-98",
+      "team_id": "105"
+    },
+    "SV Meppen": {
+      "url_slug": "sv-meppen",
+      "team_id": "247"
+    },
+    "SV Sandhausen": {
+      "url_slug": "sv-sandhausen",
+      "team_id": "254"
+    },
+    "SV Waldhof Mannheim": {
+      "url_slug": "sv-waldhof-mannheim",
+      "team_id": "85"
+    },
+    "SV Wehen Wiesbaden": {
+      "url_slug": "sv-wehen-wiesbaden",
+      "team_id": "108"
+    },
+    "SpVgg Unterhaching": {
+      "url_slug": "spvgg-unterhaching",
+      "team_id": "66"
+    },
+    "Sportfreunde Lotte": {
+      "url_slug": "sportfreunde-lotte",
+      "team_id": "668"
+    },
+    "Stuttgarter Kickers": {
+      "url_slug": "stuttgarter-kickers",
+      "team_id": "71"
+    },
+    "TSG 1899 Hoffenheim II": {
+      "url_slug": "tsg-1899-hoffenheim-ii",
+      "team_id": "983"
+    },
+    "TSV 1860 München": {
+      "url_slug": "tsv-1860-munchen",
+      "team_id": "72"
+    },
+    "TSV Havelse": {
+      "url_slug": "tsv-havelse",
+      "team_id": "476"
+    },
+    "TuS Koblenz": {
+      "url_slug": "tus-koblenz",
+      "team_id": "996"
+    },
+    "Türkgücü München": {
+      "url_slug": "turkgucu-munchen",
+      "team_id": "12456"
+    },
+    "VfB Lübeck": {
+      "url_slug": "vfb-lubeck",
+      "team_id": "78"
+    },
+    "VfB Oldenburg": {
+      "url_slug": "vfb-oldenburg",
+      "team_id": "166"
+    },
+    "VfB Stuttgart II": {
+      "url_slug": "vfb-stuttgart-ii",
+      "team_id": "102"
+    },
+    "VfL Osnabrück": {
+      "url_slug": "vfl-osnabruck",
+      "team_id": "81"
+    },
+    "VfR Aalen": {
+      "url_slug": "vfr-aalen",
+      "team_id": "83"
+    },
+    "Viktoria Köln": {
+      "url_slug": "fc-viktoria-koln",
+      "team_id": "1622"
+    },
+    "Wacker Burghausen": {
+      "url_slug": "sv-wacker-burghausen",
+      "team_id": "110"
+    },
+    "Werder Bremen II": {
+      "url_slug": "sv-werder-bremen-ii",
+      "team_id": "87"
+    },
+    "Wuppertaler SV": {
+      "url_slug": "wuppertaler-sv",
+      "team_id": "299"
+    },
+    "Würzburger Kickers": {
+      "url_slug": "wurzburger-kickers",
+      "team_id": "1557"
+    }
+  },
+  "generated_at": "1762614149.955426",
+  "total_teams": 64
+}
