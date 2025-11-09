@@ -161,7 +161,6 @@ MLP_PARAMS = {
 LOGREG_PARAMS = {
     'random_state': 42,
     'max_iter': 1000,
-    'multi_class': 'multinomial',
     'solver': 'lbfgs'
 }
 

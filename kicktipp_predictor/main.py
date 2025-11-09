@@ -12,6 +12,7 @@ import sys
 from . import config
 from .data_loader import load_datasets, prepare_features, prepare_regression_features, combine_train_val
 from .evaluation import print_results, compare_models
+from .analysis import analyze_predictions, print_detailed_analysis, compute_optimal_default_scores, print_default_scores_analysis
 from .models.classifiers import ClassifierExperiment
 from .models.regressors import RegressorExperiment
 from .models.ensemble import EnsembleExperiment
@@ -26,7 +27,7 @@ def print_header(title: str):
 
 def run_experiment_1(
     X_train, y_train, X_val, y_val, X_test, y_test,
-    y_test_home, y_test_away
+    y_test_home, y_test_away, default_scores
 ) -> List[dict]:
     """
     Experiment 1: Classifiers
@@ -36,17 +37,35 @@ def run_experiment_1(
     """
     print_header("EXPERIMENT 1: CLASSIFIERS")
 
-    exp = ClassifierExperiment()
+    exp = ClassifierExperiment(default_scores=default_scores)
 
     # Train CatBoost
     exp.train_catboost(X_train, y_train, X_val, y_val, verbose=False)
     results_cb = exp.evaluate_catboost(X_test, y_test, y_test_home, y_test_away)
     print_results(results_cb)
 
+    # Detailed analysis
+    pred_home, pred_away = exp.predict_catboost(X_test)
+    analysis_cb = analyze_predictions(
+        y_test_home.values, y_test_away.values,
+        pred_home, pred_away,
+        'CatBoost Classifier'
+    )
+    print_detailed_analysis(analysis_cb)
+
     # Train Random Forest
     exp.train_random_forest(X_train, y_train, verbose=False)
     results_rf = exp.evaluate_random_forest(X_test, y_test, y_test_home, y_test_away)
     print_results(results_rf)
+
+    # Detailed analysis
+    pred_home, pred_away = exp.predict_random_forest(X_test)
+    analysis_rf = analyze_predictions(
+        y_test_home.values, y_test_away.values,
+        pred_home, pred_away,
+        'Random Forest Classifier'
+    )
+    print_detailed_analysis(analysis_rf)
 
     return [results_cb, results_rf]
 
@@ -75,17 +94,44 @@ def run_experiment_2(
     results_cb = exp.evaluate_catboost(X_test, y_test_home, y_test_away)
     print_results(results_cb)
 
+    # Detailed analysis
+    pred_home, pred_away = exp.predict_catboost(X_test)
+    # Round for analysis
+    pred_home_rounded = np.round(pred_home).astype(int)
+    pred_away_rounded = np.round(pred_away).astype(int)
+    pred_home_rounded = np.maximum(pred_home_rounded, 0)
+    pred_away_rounded = np.maximum(pred_away_rounded, 0)
+    analysis_cb = analyze_predictions(
+        y_test_home.values, y_test_away.values,
+        pred_home_rounded, pred_away_rounded,
+        'CatBoost Regressor'
+    )
+    print_detailed_analysis(analysis_cb)
+
     # Train Random Forest
     exp.train_random_forest(X_train, y_train_home, y_train_away, verbose=False)
     results_rf = exp.evaluate_random_forest(X_test, y_test_home, y_test_away)
     print_results(results_rf)
+
+    # Detailed analysis
+    pred_home, pred_away = exp.predict_random_forest(X_test)
+    pred_home_rounded = np.round(pred_home).astype(int)
+    pred_away_rounded = np.round(pred_away).astype(int)
+    pred_home_rounded = np.maximum(pred_home_rounded, 0)
+    pred_away_rounded = np.maximum(pred_away_rounded, 0)
+    analysis_rf = analyze_predictions(
+        y_test_home.values, y_test_away.values,
+        pred_home_rounded, pred_away_rounded,
+        'Random Forest Regressor'
+    )
+    print_detailed_analysis(analysis_rf)
 
     return [results_cb, results_rf]
 
 
 def run_experiment_3(
     X_train, y_train, X_val, y_val, X_test, y_test,
-    y_test_home, y_test_away
+    y_test_home, y_test_away, default_scores
 ) -> List[dict]:
     """
     Experiment 3: Stacked Ensemble
@@ -95,7 +141,7 @@ def run_experiment_3(
     """
     print_header("EXPERIMENT 3: STACKED ENSEMBLE")
 
-    exp = EnsembleExperiment()
+    exp = EnsembleExperiment(default_scores=default_scores)
 
     # Train ensemble
     exp.train(X_train, y_train, X_val, y_val, verbose=False)
@@ -103,6 +149,15 @@ def run_experiment_3(
     # Evaluate
     results = exp.evaluate(X_test, y_test, y_test_home, y_test_away)
     print_results(results)
+
+    # Detailed analysis
+    pred_home, pred_away = exp.predict(X_test)
+    analysis = analyze_predictions(
+        y_test_home.values, y_test_away.values,
+        pred_home, pred_away,
+        'Stacked Ensemble'
+    )
+    print_detailed_analysis(analysis)
 
     return [results]
 
@@ -158,6 +213,15 @@ def main():
     print(f"  Regression features: {len(features_reg)}")
 
     # ========================================================================
+    # STEP 2.5: Compute Optimal Default Scores
+    # ========================================================================
+    print_header("STEP 2.5: COMPUTING OPTIMAL DEFAULT SCORES")
+
+    # Compute optimal default scores from training data
+    default_scores = compute_optimal_default_scores(train)
+    print_default_scores_analysis(train, default_scores)
+
+    # ========================================================================
     # STEP 3: Run Experiments
     # ========================================================================
 
@@ -167,7 +231,8 @@ def main():
     try:
         results_1 = run_experiment_1(
             X_train_cls, y_train_cls, X_val_cls, y_val_cls,
-            X_test_cls, y_test_cls, y_test_home_cls, y_test_away_cls
+            X_test_cls, y_test_cls, y_test_home_cls, y_test_away_cls,
+            default_scores
         )
         all_results.extend(results_1)
     except Exception as e:
@@ -192,7 +257,8 @@ def main():
     try:
         results_3 = run_experiment_3(
             X_train_cls, y_train_cls, X_val_cls, y_val_cls,
-            X_test_cls, y_test_cls, y_test_home_cls, y_test_away_cls
+            X_test_cls, y_test_cls, y_test_home_cls, y_test_away_cls,
+            default_scores
         )
         all_results.extend(results_3)
     except Exception as e:
