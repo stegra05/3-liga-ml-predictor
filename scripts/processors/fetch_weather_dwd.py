@@ -13,36 +13,7 @@ import argparse
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 from database.db_manager import get_db
-
-
-def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-    """Calculate distance in km between two lat/lon points"""
-    import math
-    R = 6371.0  # Earth radius in km
-    lat1_rad = math.radians(lat1)
-    lon1_rad = math.radians(lon1)
-    lat2_rad = math.radians(lat2)
-    lon2_rad = math.radians(lon2)
-    dlat = lat2_rad - lat1_rad
-    dlon = lon2_rad - lon1_rad
-    a = math.sin(dlat/2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon/2)**2
-    c = 2 * math.asin(math.sqrt(a))
-    return R * c
-
-
-def calculate_confidence_dwd(distance_km: float, exact_hour: bool = True) -> float:
-    """
-    Calculate confidence score for DWD data.
-    Base: 0.90, distance penalty: -0.01 per 5km beyond 5km (cap -0.1), hour rounding: -0.02
-    """
-    base = 0.90
-    distance_penalty = 0.0
-    if distance_km > 5.0:
-        penalty_km = (distance_km - 5.0) / 5.0
-        distance_penalty = min(0.01 * penalty_km, 0.1)
-    hour_penalty = 0.0 if exact_hour else 0.02
-    confidence = max(base - distance_penalty - hour_penalty, 0.7)
-    return confidence
+from scripts.processors.weather_utils import haversine_distance, calculate_confidence_dwd
 
 
 def find_nearest_dwd_station(lat: float, lon: float, max_distance_km: float = 50.0) -> Optional[Dict]:
