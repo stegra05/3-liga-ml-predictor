@@ -1,10 +1,10 @@
 """
 Configuration for Kicktipp Prediction System
-Defines the 40 predictive features and model parameters
+Defines the 39 predictive features and model parameters
 """
 
 # ============================================================================
-# FEATURE DEFINITIONS (40 Core Predictive Features)
+# FEATURE DEFINITIONS (39 Core Predictive Features)
 # ============================================================================
 
 CATEGORICAL_FEATURES = [

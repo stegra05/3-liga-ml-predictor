@@ -13,6 +13,11 @@ from . import config
 from .data_loader import load_datasets, prepare_features, prepare_regression_features, combine_train_val
 from .evaluation import print_results, compare_models
 from .analysis import analyze_predictions, print_detailed_analysis, compute_optimal_default_scores, print_default_scores_analysis
+from .season_analysis import (
+    evaluate_per_season, print_season_analysis,
+    evaluate_baseline, print_baseline_comparison,
+    check_data_leakage, print_leakage_check
+)
 from .models.classifiers import ClassifierExperiment
 from .models.regressors import RegressorExperiment
 from .models.ensemble import EnsembleExperiment
@@ -27,7 +32,7 @@ def print_header(title: str):
 
 def run_experiment_1(
     X_train, y_train, X_val, y_val, X_test, y_test,
-    y_test_home, y_test_away, default_scores
+    y_test_home, y_test_away, test_df, default_scores
 ) -> List[dict]:
     """
     Experiment 1: Classifiers
@@ -53,6 +58,10 @@ def run_experiment_1(
     )
     print_detailed_analysis(analysis_cb)
 
+    # Per-season analysis
+    season_df_cb = evaluate_per_season(test_df, pred_home, pred_away, 'CatBoost Classifier')
+    print_season_analysis(season_df_cb, 'CatBoost Classifier')
+
     # Train Random Forest
     exp.train_random_forest(X_train, y_train, verbose=False)
     results_rf = exp.evaluate_random_forest(X_test, y_test, y_test_home, y_test_away)
@@ -66,6 +75,10 @@ def run_experiment_1(
         'Random Forest Classifier'
     )
     print_detailed_analysis(analysis_rf)
+
+    # Per-season analysis
+    season_df_rf = evaluate_per_season(test_df, pred_home, pred_away, 'Random Forest Classifier')
+    print_season_analysis(season_df_rf, 'Random Forest Classifier')
 
     return [results_cb, results_rf]
 
@@ -131,7 +144,7 @@ def run_experiment_2(
 
 def run_experiment_3(
     X_train, y_train, X_val, y_val, X_test, y_test,
-    y_test_home, y_test_away, default_scores
+    y_test_home, y_test_away, test_df, default_scores
 ) -> List[dict]:
     """
     Experiment 3: Stacked Ensemble
@@ -158,6 +171,10 @@ def run_experiment_3(
         'Stacked Ensemble'
     )
     print_detailed_analysis(analysis)
+
+    # Per-season analysis
+    season_df = evaluate_per_season(test_df, pred_home, pred_away, 'Stacked Ensemble')
+    print_season_analysis(season_df, 'Stacked Ensemble')
 
     return [results]
 
@@ -213,9 +230,46 @@ def main():
     print(f"  Regression features: {len(features_reg)}")
 
     # ========================================================================
-    # STEP 2.5: Compute Optimal Default Scores
+    # STEP 2.5: Data Leakage Check
     # ========================================================================
-    print_header("STEP 2.5: COMPUTING OPTIMAL DEFAULT SCORES")
+    print_header("STEP 2.5: DATA LEAKAGE CHECK")
+
+    leakage_report = check_data_leakage(train)
+    print_leakage_check(leakage_report)
+
+    # ========================================================================
+    # STEP 2.6: Baseline Comparison
+    # ========================================================================
+    print_header("STEP 2.6: BASELINE COMPARISON")
+
+    # Test several baseline predictions
+    baseline_results = []
+
+    # Baseline 1: Always predict 2-1 (most common home win)
+    baseline_2_1 = evaluate_baseline(
+        y_test_home, y_test_away, pred_home=2, pred_away=1
+    )
+    print_baseline_comparison(baseline_2_1)
+    baseline_results.append(baseline_2_1)
+
+    # Baseline 2: Always predict 1-1 (most common draw)
+    baseline_1_1 = evaluate_baseline(
+        y_test_home, y_test_away, pred_home=1, pred_away=1
+    )
+    print_baseline_comparison(baseline_1_1)
+    baseline_results.append(baseline_1_1)
+
+    # Baseline 3: Always predict 1-0 (most common score overall)
+    baseline_1_0 = evaluate_baseline(
+        y_test_home, y_test_away, pred_home=1, pred_away=0
+    )
+    print_baseline_comparison(baseline_1_0)
+    baseline_results.append(baseline_1_0)
+
+    # ========================================================================
+    # STEP 2.7: Compute Optimal Default Scores
+    # ========================================================================
+    print_header("STEP 2.7: COMPUTING OPTIMAL DEFAULT SCORES")
 
     # Compute optimal default scores from training data
     default_scores = compute_optimal_default_scores(train)
@@ -232,7 +286,7 @@ def main():
         results_1 = run_experiment_1(
             X_train_cls, y_train_cls, X_val_cls, y_val_cls,
             X_test_cls, y_test_cls, y_test_home_cls, y_test_away_cls,
-            default_scores
+            test, default_scores
         )
         all_results.extend(results_1)
     except Exception as e:
@@ -258,7 +312,7 @@ def main():
         results_3 = run_experiment_3(
             X_train_cls, y_train_cls, X_val_cls, y_val_cls,
             X_test_cls, y_test_cls, y_test_home_cls, y_test_away_cls,
-            default_scores
+            test, default_scores
         )
         all_results.extend(results_3)
     except Exception as e:
@@ -275,8 +329,12 @@ def main():
         print("\n[ERROR] No experiments completed successfully!")
         sys.exit(1)
 
-    leaderboard = compare_models(all_results)
+    # Add baselines to comparison
+    all_results_with_baseline = all_results + baseline_results
+
+    leaderboard = compare_models(all_results_with_baseline)
     print("\nLEADERBOARD (sorted by Kicktipp points):")
+    print("\nNote: Baselines are naive predictions (same score every game)")
     print(leaderboard.to_string(index=True))
 
     # ========================================================================
