@@ -16,6 +16,7 @@ import argparse
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 from database.db_manager import get_db
+from scripts.processors.weather_utils import haversine_distance, calculate_confidence_meteostat
 
 
 def load_matches(db) -> pd.DataFrame:
@@ -79,21 +80,6 @@ def map_team_to_stations(df_matches: pd.DataFrame, k: int = 3) -> Tuple[Dict[int
     return team_to_stations, station_coords
 
 
-def calculate_confidence_meteostat(distance_km: float, exact_hour: bool = True) -> float:
-    """
-    Calculate confidence score for Meteostat data.
-    Base: 0.95, distance penalty: -0.01 per 5km beyond 5km (cap -0.1), hour rounding: -0.02
-    """
-    base = 0.95
-    distance_penalty = 0.0
-    if distance_km > 5.0:
-        penalty_km = (distance_km - 5.0) / 5.0
-        distance_penalty = min(0.01 * penalty_km, 0.1)
-    hour_penalty = 0.0 if exact_hour else 0.02
-    confidence = max(base - distance_penalty - hour_penalty, 0.7)
-    return confidence
-
-
 def fetch_hourly_for_stations(team_to_stations: Dict[int, List[str]], df_matches: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
     from meteostat import Hourly
     # Group matches by station
@@ -146,21 +132,6 @@ def fetch_hourly_for_stations(team_to_stations: Dict[int, List[str]], df_matches
     if not frames:
         return dfm, pd.DataFrame()
     return dfm, pd.concat(frames, ignore_index=True)
-
-
-def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-    """Calculate distance in km between two lat/lon points"""
-    import math
-    R = 6371.0  # Earth radius in km
-    lat1_rad = math.radians(lat1)
-    lon1_rad = math.radians(lon1)
-    lat2_rad = math.radians(lat2)
-    lon2_rad = math.radians(lon2)
-    dlat = lat2_rad - lat1_rad
-    dlon = lon2_rad - lon1_rad
-    a = math.sin(dlat/2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon/2)**2
-    c = 2 * math.asin(math.sqrt(a))
-    return R * c
 
 
 def update_matches_with_weather(db, df_exploded: pd.DataFrame, df_hourly: pd.DataFrame, 

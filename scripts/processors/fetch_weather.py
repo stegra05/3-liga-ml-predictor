@@ -13,19 +13,9 @@ import time
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 from database.db_manager import get_db
+from scripts.processors.weather_utils import calculate_confidence_open_meteo
 
 API = "https://archive-api.open-meteo.com/v1/archive"
-
-
-def calculate_confidence_open_meteo(exact_hour: bool = True) -> float:
-    """
-    Calculate confidence score for Open-Meteo data.
-    Base: 0.85, hour rounding penalty: -0.02
-    """
-    base = 0.85
-    hour_penalty = 0.0 if exact_hour else 0.02
-    confidence = max(base - hour_penalty, 0.7)
-    return confidence
 
 
 def fetch_hour(session: requests.Session, lat: float, lon: float, dt: datetime):
