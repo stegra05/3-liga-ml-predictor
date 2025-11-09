@@ -185,10 +185,10 @@ def create_classifier_trainer(model_class, features, default_scores, use_catboos
     def trainer(train_data: pd.DataFrame, pred_data: pd.DataFrame) -> Tuple[np.ndarray, np.ndarray]:
         """Train classifier and return score predictions"""
         try:
-            # Prepare data
-            X_train = train_data[features]
-            y_train = train_data['target_multiclass']
-            X_pred = pred_data[features]
+            # Prepare data - create copies to avoid SettingWithCopyWarning
+            X_train = train_data[features].copy()
+            y_train = train_data['target_multiclass'].copy()
+            X_pred = pred_data[features].copy()
 
             # Handle missing values
             from . import config
@@ -243,11 +243,11 @@ def create_regressor_trainer(model_class, features, use_catboost=True):
     def trainer(train_data: pd.DataFrame, pred_data: pd.DataFrame) -> Tuple[np.ndarray, np.ndarray]:
         """Train regressors and return score predictions"""
         try:
-            # Prepare data
-            X_train = train_data[features]
-            y_train_home = train_data['target_home_goals']
-            y_train_away = train_data['target_away_goals']
-            X_pred = pred_data[features]
+            # Prepare data - create copies to avoid SettingWithCopyWarning
+            X_train = train_data[features].copy()
+            y_train_home = train_data['target_home_goals'].copy()
+            y_train_away = train_data['target_away_goals'].copy()
+            X_pred = pred_data[features].copy()
 
             # Handle missing values
             from . import config
