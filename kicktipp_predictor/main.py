@@ -18,6 +18,11 @@ from .season_analysis import (
     evaluate_baseline, print_baseline_comparison,
     check_data_leakage, print_leakage_check
 )
+from .real_world_simulation import (
+    simulate_season_predictions,
+    create_classifier_trainer,
+    create_regressor_trainer
+)
 from .models.classifiers import ClassifierExperiment
 from .models.regressors import RegressorExperiment
 from .models.ensemble import EnsembleExperiment
@@ -351,6 +356,80 @@ def main():
     if 'rmse_avg' in winner:
         print(f"RMSE: {winner['rmse_avg']:.4f}")
 
+    # ========================================================================
+    # STEP 6: Real-World Simulation (2025-2026)
+    # ========================================================================
+    print_header("STEP 6: REAL-WORLD SIMULATION")
+    print("\nSimulating actual Kicktipp usage on 2025-2026 season:")
+    print("  - For each matchday, train on all previous data")
+    print("  - Predict that matchday's matches")
+    print("  - Evaluate and move to next matchday")
+    print("\nThis shows how the model performs in actual production use.")
+
+    # Combine all data for simulation
+    full_data = pd.concat([train, val, test], ignore_index=True)
+
+    # Check if 2025-2026 season exists
+    if '2025-2026' in full_data['season'].values:
+        target_season = '2025-2026'
+    else:
+        # Find most recent season
+        seasons = sorted(full_data['season'].unique(), reverse=True)
+        target_season = seasons[0]
+        print(f"\nNote: 2025-2026 not found, using most recent season: {target_season}")
+
+    simulation_results = []
+
+    # Simulate best classifier (Random Forest based on earlier results)
+    try:
+        trainer_rf_cls = create_classifier_trainer(
+            ClassifierExperiment,
+            features_cls,
+            default_scores,
+            use_catboost=False  # Random Forest
+        )
+        result_rf_cls = simulate_season_predictions(
+            full_data,
+            target_season,
+            trainer_rf_cls,
+            'Random Forest Classifier',
+            verbose=True
+        )
+        if result_rf_cls:
+            simulation_results.append(result_rf_cls)
+    except Exception as e:
+        print(f"RF Classifier simulation failed: {e}")
+
+    # Simulate best regressor (CatBoost based on earlier results)
+    try:
+        trainer_cb_reg = create_regressor_trainer(
+            RegressorExperiment,
+            features_reg,
+            use_catboost=True
+        )
+        result_cb_reg = simulate_season_predictions(
+            full_data,
+            target_season,
+            trainer_cb_reg,
+            'CatBoost Regressor',
+            verbose=True
+        )
+        if result_cb_reg:
+            simulation_results.append(result_cb_reg)
+    except Exception as e:
+        print(f"CatBoost Regressor simulation failed: {e}")
+
+    # Compare simulation results
+    if len(simulation_results) > 0:
+        print(f"\n{'=' * 70}")
+        print(f"REAL-WORLD SIMULATION COMPARISON")
+        print(f"{'=' * 70}")
+        print(f"\n{'Model':<30} {'Matchdays':>10} {'Matches':>8} {'Kicktipp':>10}")
+        print("-" * 70)
+        for result in sorted(simulation_results, key=lambda x: x['avg_kicktipp_points'], reverse=True):
+            print(f"{result['model']:<30} {result['n_matchdays']:>10} "
+                  f"{result['total_matches']:>8} {result['avg_kicktipp_points']:>10.4f}")
+
     print("\n" + "=" * 70)
     print("NEXT STEPS:")
     print("=" * 70)
@@ -358,6 +437,7 @@ def main():
     print("2. Save the model for production use")
     print("3. Optional: Tune hyperparameters for further improvement")
     print("4. Optional: Analyze error patterns and feature importance")
+    print("\nReal-world simulation shows actual production performance!")
 
     return leaderboard
 
