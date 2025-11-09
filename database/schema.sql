@@ -55,6 +55,8 @@ CREATE TABLE IF NOT EXISTS matches (
     wind_speed_kmh REAL,
     precipitation_mm REAL,
     weather_condition VARCHAR(50),
+    weather_source TEXT, -- Source: 'meteostat', 'open_meteo', 'dwd'
+    weather_confidence REAL, -- Confidence score 0.0-1.0
 
     -- Time context
     is_midweek BOOLEAN,
@@ -244,6 +246,10 @@ CREATE TABLE IF NOT EXISTS betting_odds (
 );
 
 CREATE INDEX IF NOT EXISTS idx_odds_match ON betting_odds(match_id);
+
+-- Unique constraint to prevent duplicate odds for same match/bookmaker
+CREATE UNIQUE INDEX IF NOT EXISTS idx_betting_odds_unique 
+ON betting_odds(match_id, bookmaker);
 
 -- =============================================
 -- PLAYER DATA

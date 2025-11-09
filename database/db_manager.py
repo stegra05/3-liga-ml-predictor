@@ -74,6 +74,20 @@ class DatabaseManager:
                 cursor.execute("ALTER TABLE match_statistics ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
                 conn.commit()
                 logger.success("'updated_at' column added to 'match_statistics' table.")
+            
+            # Add weather_source and weather_confidence columns to matches if they don't exist
+            cursor.execute("PRAGMA table_info(matches)")
+            match_columns = [col[1] for col in cursor.fetchall()]
+            if 'weather_source' not in match_columns:
+                logger.info("Adding 'weather_source' column to 'matches' table...")
+                cursor.execute("ALTER TABLE matches ADD COLUMN weather_source TEXT")
+                conn.commit()
+                logger.success("'weather_source' column added to 'matches' table.")
+            if 'weather_confidence' not in match_columns:
+                logger.info("Adding 'weather_confidence' column to 'matches' table...")
+                cursor.execute("ALTER TABLE matches ADD COLUMN weather_confidence REAL")
+                conn.commit()
+                logger.success("'weather_confidence' column added to 'matches' table.")
             # --- End Schema Migrations ---
 
         except sqlite3.Error as e:
@@ -298,6 +312,112 @@ class DatabaseManager:
         """
         result = self.execute_query(query, (season, home_team_id, away_team_id, match_datetime))
         return result[0]['match_id'] if result else None
+
+    def get_or_create_player(self, full_name: str, date_of_birth: Optional[str] = None,
+                             nationality: Optional[str] = None, position: Optional[str] = None) -> int:
+        """
+        Get existing player ID or create new player
+
+        Args:
+            full_name: Player's full name
+            date_of_birth: Date of birth (optional)
+            nationality: Nationality (optional)
+            position: Position (optional)
+
+        Returns:
+            Player ID
+        """
+        # Check if player exists
+        query = "SELECT player_id FROM players WHERE full_name = ? LIMIT 1"
+        result = self.execute_query(query, (full_name,))
+
+        if result:
+            return result[0]['player_id']
+
+        # Create new player
+        insert_query = """
+            INSERT INTO players (full_name, date_of_birth, nationality, position)
+            VALUES (?, ?, ?, ?)
+        """
+        player_id = self.execute_insert(insert_query, (full_name, date_of_birth, nationality, position))
+        logger.debug(f"Created new player: {full_name} (ID: {player_id})")
+        return player_id
+
+    def insert_player_season_stats(self, player_id: int, team_id: int, season: str,
+                                   stats: Dict[str, Any], source: str = 'fbref') -> None:
+        """
+        Insert or update player season statistics
+
+        Args:
+            player_id: Player ID
+            team_id: Team ID
+            season: Season string
+            stats: Dictionary of statistics
+            source: Data source
+        """
+        query = """
+            INSERT OR REPLACE INTO player_season_stats
+            (player_id, team_id, season, matches_played, minutes_played, starts,
+             goals, assists, penalties_scored, yellow_cards, red_cards,
+             shots_total, shots_on_target, pass_accuracy_percent, tackles_won, source)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """
+
+        params = (
+            player_id,
+            team_id,
+            season,
+            stats.get('matches_played', 0),
+            stats.get('minutes_played', 0),
+            stats.get('starts', 0),
+            stats.get('goals', 0),
+            stats.get('assists', 0),
+            stats.get('penalties_scored', 0),
+            stats.get('yellow_cards', 0),
+            stats.get('red_cards', 0),
+            stats.get('shots_total'),
+            stats.get('shots_on_target'),
+            stats.get('pass_accuracy_percent'),
+            stats.get('tackles_won'),
+            source
+        )
+
+        self.execute_insert(query, params)
+
+    def insert_league_standing(self, season: str, matchday: int, team_id: int,
+                               standing_data: Dict[str, Any]) -> None:
+        """
+        Insert league standing for a team
+
+        Args:
+            season: Season string
+            matchday: Matchday number
+            team_id: Team ID
+            standing_data: Dictionary with standing information
+        """
+        query = """
+            INSERT OR REPLACE INTO league_standings
+            (season, matchday, team_id, position, matches_played, wins, draws, losses,
+             goals_for, goals_against, goal_difference, points)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """
+
+        params = (
+            season,
+            matchday,
+            team_id,
+            standing_data.get('position', 0),
+            standing_data.get('matches_played', 0),
+            standing_data.get('wins', 0),
+            standing_data.get('draws', 0),
+            standing_data.get('losses', 0),
+            standing_data.get('goals_for', 0),
+            standing_data.get('goals_against', 0),
+            standing_data.get('goal_difference', 0),
+            standing_data.get('points', 0)
+        )
+
+        self.execute_insert(query, params)
 
     def get_database_stats(self) -> Dict[str, Any]:
         """

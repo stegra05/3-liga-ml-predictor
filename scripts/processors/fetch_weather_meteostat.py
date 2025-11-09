@@ -38,9 +38,15 @@ def load_matches(db) -> pd.DataFrame:
     return df
 
 
-def map_team_to_stations(df_matches: pd.DataFrame, k: int = 3) -> Dict[int, List[str]]:
+def map_team_to_stations(df_matches: pd.DataFrame, k: int = 3) -> Tuple[Dict[int, List[str]], Dict[str, Tuple[float, float]]]:
+    """
+    Map teams to nearest stations and return station coordinates for distance calculation.
+    Returns: (team_to_stations dict, station_coords dict with lat/lon)
+    """
     from meteostat import Stations
+    import math
     team_to_stations: Dict[int, List[str]] = {}
+    station_coords: Dict[str, Tuple[float, float]] = {}
     logger.info(f"Selecting up to {k} nearest stations per team")
     # Unique teams and their coords
     coords = (
@@ -55,10 +61,37 @@ def map_team_to_stations(df_matches: pd.DataFrame, k: int = 3) -> Dict[int, List
             res = st.fetch(k)
             if not res.empty:
                 team_to_stations[home_team_id] = list(res.index)
+                # Store station coordinates for distance calculation
+                for station_id in res.index:
+                    if station_id not in station_coords:
+                        try:
+                            station_coords[station_id] = (float(res.loc[station_id, 'latitude']), float(res.loc[station_id, 'longitude']))
+                        except (KeyError, ValueError):
+                            # Fallback: try alternative column names
+                            try:
+                                station_coords[station_id] = (float(res.loc[station_id, 'lat']), float(res.loc[station_id, 'lon']))
+                            except (KeyError, ValueError):
+                                logger.debug(f"Could not extract coordinates for station {station_id}")
+                                continue
         except Exception:
             continue
     logger.info(f"Mapped {len(team_to_stations)} teams to station lists")
-    return team_to_stations
+    return team_to_stations, station_coords
+
+
+def calculate_confidence_meteostat(distance_km: float, exact_hour: bool = True) -> float:
+    """
+    Calculate confidence score for Meteostat data.
+    Base: 0.95, distance penalty: -0.01 per 5km beyond 5km (cap -0.1), hour rounding: -0.02
+    """
+    base = 0.95
+    distance_penalty = 0.0
+    if distance_km > 5.0:
+        penalty_km = (distance_km - 5.0) / 5.0
+        distance_penalty = min(0.01 * penalty_km, 0.1)
+    hour_penalty = 0.0 if exact_hour else 0.02
+    confidence = max(base - distance_penalty - hour_penalty, 0.7)
+    return confidence
 
 
 def fetch_hourly_for_stations(team_to_stations: Dict[int, List[str]], df_matches: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
@@ -115,7 +148,23 @@ def fetch_hourly_for_stations(team_to_stations: Dict[int, List[str]], df_matches
     return dfm, pd.concat(frames, ignore_index=True)
 
 
-def update_matches_with_weather(db, df_exploded: pd.DataFrame, df_hourly: pd.DataFrame) -> Tuple[int, int]:
+def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Calculate distance in km between two lat/lon points"""
+    import math
+    R = 6371.0  # Earth radius in km
+    lat1_rad = math.radians(lat1)
+    lon1_rad = math.radians(lon1)
+    lat2_rad = math.radians(lat2)
+    lon2_rad = math.radians(lon2)
+    dlat = lat2_rad - lat1_rad
+    dlon = lon2_rad - lon1_rad
+    a = math.sin(dlat/2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon/2)**2
+    c = 2 * math.asin(math.sqrt(a))
+    return R * c
+
+
+def update_matches_with_weather(db, df_exploded: pd.DataFrame, df_hourly: pd.DataFrame, 
+                                station_coords: Dict[str, Tuple[float, float]]) -> Tuple[int, int]:
     if df_hourly.empty:
         return 0, len(df_exploded)
     # Join hourly to exploded matches, then aggregate median across stations per match_id
@@ -124,9 +173,30 @@ def update_matches_with_weather(db, df_exploded: pd.DataFrame, df_hourly: pd.Dat
         on=["station", "match_hour"],
         how="left",
     )
-    agg = joined.groupby("match_id", as_index=False)[
-        ["temperature_celsius", "humidity_percent", "wind_speed_kmh", "precipitation_mm"]
-    ].median()
+    # Calculate distance for each match-station pair
+    joined["distance_km"] = joined.apply(
+        lambda row: haversine_distance(
+            row["lat"], row["lon"],
+            station_coords.get(row["station"], (row["lat"], row["lon"]))[0],
+            station_coords.get(row["station"], (row["lat"], row["lon"]))[1]
+        ) if row["station"] in station_coords else 0.0,
+        axis=1
+    )
+    # Check if exact hour match (match_datetime == match_hour)
+    joined["exact_hour"] = (joined["match_datetime"] == joined["match_hour"])
+    
+    # Aggregate: median for weather values, min distance for confidence calculation
+    agg = joined.groupby("match_id", as_index=False).agg({
+        "temperature_celsius": "median",
+        "humidity_percent": "median",
+        "wind_speed_kmh": "median",
+        "precipitation_mm": "median",
+        "distance_km": "min",  # Use closest station distance
+        "exact_hour": "any",  # True if any station had exact hour
+        "lat": "first",
+        "lon": "first",
+    })
+    
     updated = 0
     skipped = 0
     for row in agg.itertuples(index=False):
@@ -138,18 +208,26 @@ def update_matches_with_weather(db, df_exploded: pd.DataFrame, df_hourly: pd.Dat
         if pd.isna(temp) and pd.isna(hum) and pd.isna(wind) and pd.isna(prcp):
             skipped += 1
             continue
+        
+        distance_km = float(getattr(row, "distance_km"))
+        exact_hour = bool(getattr(row, "exact_hour"))
+        confidence = calculate_confidence_meteostat(distance_km, exact_hour)
+        
         db.execute_insert("""
             UPDATE matches
                SET temperature_celsius = ?,
                    humidity_percent = ?,
                    wind_speed_kmh = ?,
-                   precipitation_mm = ?
+                   precipitation_mm = ?,
+                   weather_source = 'meteostat',
+                   weather_confidence = ?
              WHERE match_id = ?
         """, (
             None if pd.isna(temp) else float(temp),
             None if pd.isna(hum) else float(hum),
             None if pd.isna(wind) else float(wind),
             None if pd.isna(prcp) else float(prcp),
+            confidence,
             match_id,
         ))
         updated += 1
@@ -168,12 +246,12 @@ def main():
         return
     if args.limit:
         df_matches = df_matches.head(args.limit)
-    team_to_stations = map_team_to_stations(df_matches, k=3)
+    team_to_stations, station_coords = map_team_to_stations(df_matches, k=3)
     if not team_to_stations:
         logger.warning("No station mappings found")
         return
     df_exp, df_hourly = fetch_hourly_for_stations(team_to_stations, df_matches)
-    updated, skipped = update_matches_with_weather(db, df_exp, df_hourly)
+    updated, skipped = update_matches_with_weather(db, df_exp, df_hourly, station_coords)
     logger.success(f"Weather update done: updated={updated}, skipped={skipped}")
 
 

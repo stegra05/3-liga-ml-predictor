@@ -232,9 +232,53 @@ class OpenLigaDBCollector:
         # Match status
         is_finished = match.get('matchIsFinished', False)
 
-        # Venue
+        # Venue, Attendance, Referee (best-effort extraction)
         location = match.get('location') or {}
         venue = location.get('locationStadium') or location.get('locationCity') or None
+        # Attendance candidates observed in some feeds/APIs; OpenLigaDB often doesn't provide it
+        attendance = None
+        for att_key in ('numberOfViewers', 'attendance', 'spectators'):
+            val = match.get(att_key)
+            if val is not None:
+                try:
+                    attendance = int(val)
+                    break
+                except Exception:
+                    try:
+                        # Sometimes nested or string with separators
+                        attendance = int(str(val).replace('.', '').replace(',', ''))
+                        break
+                    except Exception:
+                        pass
+
+        # Referee (if present, structure varies; try common shapes)
+        referee = None
+        # 1) Flat key
+        if match.get('referee'):
+            referee = match.get('referee')
+        # 2) Officials list with names
+        if referee is None:
+            for officials_key in ('matchOfficials', 'officials', 'referees'):
+                officials = match.get(officials_key)
+                if isinstance(officials, list) and officials:
+                    # Prefer a head referee if labeled, else first with a name
+                    head = None
+                    for o in officials:
+                        name = o.get('officialName') or o.get('name') or o.get('officialShortName')
+                        role = (o.get('officialTypeName') or o.get('role') or '').lower()
+                        if name and ('schiedsrichter' in role or 'referee' in role or 'head' in role):
+                            head = name
+                            break
+                    if not head:
+                        # Fallback to first available name
+                        for o in officials:
+                            name = o.get('officialName') or o.get('name') or o.get('officialShortName')
+                            if name:
+                                head = name
+                                break
+                    referee = head
+                    if referee:
+                        break
 
         parsed = {
             'openligadb_match_id': match_id,
@@ -248,6 +292,8 @@ class OpenLigaDBCollector:
             'result': result_code,
             'is_finished': is_finished,
             'venue': venue if venue else None,
+            'attendance': attendance,
+            'referee': referee,
             'raw_data': match  # Store raw data for goals parsing
         }
 
@@ -336,7 +382,7 @@ class OpenLigaDBCollector:
 
     def insert_matches_to_db(self, matches: List[Dict]) -> int:
         """
-        Insert matches into database
+        Insert matches into database using openligadb_match_id as primary key
 
         Args:
             matches: List of parsed match dictionaries
@@ -348,26 +394,32 @@ class OpenLigaDBCollector:
 
         for match in matches:
             try:
-                # Check if match exists
-                existing_id = self.db.get_match_id(
-                    season=match['season'],
-                    home_team_id=match['home_team_id'],
-                    away_team_id=match['away_team_id'],
-                    match_datetime=match['match_datetime']
-                )
+                openligadb_match_id = match.get('openligadb_match_id')
+                if not openligadb_match_id:
+                    logger.warning(f"Match missing openligadb_match_id, skipping")
+                    continue
 
-                if existing_id:
-                    # Update existing match
+                # Check if match exists by openligadb_match_id (most reliable)
+                query_check = "SELECT match_id FROM matches WHERE openligadb_match_id = ? LIMIT 1"
+                existing = self.db.execute_query(query_check, (openligadb_match_id,))
+
+                if existing:
+                    # Update existing match (can update all fields including matchday/season if corrected)
+                    existing_id = existing[0]['match_id']
                     query = """
                         UPDATE matches
-                        SET home_goals = ?, away_goals = ?, result = ?,
-                            is_finished = ?, venue = ?, updated_at = CURRENT_TIMESTAMP
+                        SET season = ?, matchday = ?, match_datetime = ?,
+                            home_team_id = ?, away_team_id = ?,
+                            home_goals = ?, away_goals = ?, result = ?,
+                            is_finished = ?, venue = ?, attendance = ?, referee = ?, updated_at = CURRENT_TIMESTAMP
                         WHERE match_id = ?
                     """
                     conn = self.db.get_connection()
                     conn.execute(query, (
+                        match['season'], match['matchday'], match['match_datetime'],
+                        match['home_team_id'], match['away_team_id'],
                         match['home_goals'], match['away_goals'], match['result'],
-                        match['is_finished'], match['venue'], existing_id
+                        match['is_finished'], match['venue'], match.get('attendance'), match.get('referee'), existing_id
                     ))
                     conn.commit()
                     conn.close()
@@ -377,21 +429,24 @@ class OpenLigaDBCollector:
                         INSERT INTO matches
                         (openligadb_match_id, season, matchday, match_datetime,
                          home_team_id, away_team_id, home_goals, away_goals,
-                         result, is_finished, venue)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                         result, is_finished, venue, attendance, referee)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """
                     self.db.execute_insert(query, (
                         match['openligadb_match_id'], match['season'],
                         match['matchday'], match['match_datetime'],
                         match['home_team_id'], match['away_team_id'],
                         match['home_goals'], match['away_goals'],
-                        match['result'], match['is_finished'], match['venue']
+                        match['result'], match['is_finished'], match['venue'],
+                        match.get('attendance'), match.get('referee')
                     ))
 
                 inserted += 1
 
             except Exception as e:
                 logger.error(f"Error inserting match {match.get('openligadb_match_id')}: {e}")
+                import traceback
+                logger.debug(traceback.format_exc())
 
         return inserted
 
@@ -501,6 +556,168 @@ class OpenLigaDBCollector:
         logger.info(f"Season {season_year} collection completed in {duration:.1f}s")
         return stats
 
+    def collect_matchday_range_from_full_season(self, season_year: str, target_matchdays: List[int]) -> Dict[str, int]:
+        """
+        Collect specific matchdays by fetching full season and filtering locally
+        Useful when individual matchday endpoints don't return data
+
+        Args:
+            season_year: Season year (e.g., '2022')
+            target_matchdays: List of matchday numbers to collect
+
+        Returns:
+            Dictionary with collection statistics
+        """
+        logger.info(f"=== Collecting matchdays {target_matchdays} for season {season_year} (via full season fetch) ===")
+        start_time = datetime.now()
+
+        season_str = f"{season_year}-{int(season_year) + 1}"
+
+        stats = {
+            'matches_collected': 0,
+            'matchdays_found': 0,
+            'errors': 0
+        }
+
+        # Fetch full season
+        logger.info(f"Fetching full season data for {season_year}...")
+        matches_raw = self.get_matchdata_for_season(season_year)
+
+        if not matches_raw:
+            logger.warning(f"No matches found for season {season_year}")
+            return stats
+
+        # Filter by target matchdays
+        target_set = set(target_matchdays)
+        filtered_matches = []
+        found_matchdays = set()
+
+        for m in matches_raw:
+            group = m.get('group')
+            matchday = group.get('groupOrderID', 0) if group else 0
+            if matchday in target_set:
+                filtered_matches.append(m)
+                found_matchdays.add(matchday)
+
+        logger.info(f"Found {len(filtered_matches)} matches across matchdays {sorted(found_matchdays)}")
+
+        if not filtered_matches:
+            logger.warning(f"No matches found for target matchdays {target_matchdays}")
+            return stats
+
+        # Parse and insert filtered matches
+        matches_parsed = []
+        for idx, m in enumerate(filtered_matches):
+            try:
+                parsed = self.parse_match_data(m, season_str)
+                if parsed:
+                    matches_parsed.append(parsed)
+            except Exception as parse_error:
+                logger.debug(f"Failed to parse match {idx}: {parse_error}")
+                continue
+
+        if matches_parsed:
+            stats['matches_collected'] = self.insert_matches_to_db(matches_parsed)
+            stats['matchdays_found'] = len(found_matchdays)
+            logger.success(f"Inserted/updated {stats['matches_collected']} matches from {len(found_matchdays)} matchdays")
+        else:
+            logger.warning(f"No valid matches parsed")
+
+        duration = (datetime.now() - start_time).total_seconds()
+        logger.success(f"""
+=== Full season fetch collection complete ===
+Season: {season_str}
+Target matchdays: {target_matchdays}
+Matchdays found: {sorted(found_matchdays)}
+Matches collected: {stats['matches_collected']}
+Duration: {duration:.1f}s
+        """)
+        return stats
+
+    def collect_matchday_range(self, season_year: str, start_matchday: int, end_matchday: int) -> Dict[str, int]:
+        """
+        Collect matches for a specific range of matchdays within a season
+
+        Args:
+            season_year: Season year (e.g., '2022')
+            start_matchday: First matchday to collect (inclusive)
+            end_matchday: Last matchday to collect (inclusive)
+
+        Returns:
+            Dictionary with collection statistics
+        """
+        logger.info(f"=== Collecting matchdays {start_matchday}-{end_matchday} for season {season_year} ===")
+        start_time = datetime.now()
+
+        # Create season string (e.g., "2022-2023")
+        season_str = f"{season_year}-{int(season_year) + 1}"
+
+        stats = {
+            'matches_collected': 0,
+            'matchdays_processed': 0,
+            'errors': 0
+        }
+
+        # Collect matches for each matchday in range
+        for matchday in range(start_matchday, end_matchday + 1):
+            try:
+                logger.info(f"Collecting matchday {matchday}...")
+                matches_raw = self.get_matchdata_for_matchday(season_year, matchday)
+                
+                if not matches_raw:
+                    logger.warning(f"No matches found for matchday {matchday}")
+                    continue
+
+                matches_parsed = []
+                for idx, m in enumerate(matches_raw):
+                    try:
+                        parsed = self.parse_match_data(m, season_str)
+                        if parsed:
+                            matches_parsed.append(parsed)
+                    except Exception as parse_error:
+                        logger.debug(f"Failed to parse match {idx} on matchday {matchday}: {parse_error}")
+                        continue
+
+                if matches_parsed:
+                    inserted = self.insert_matches_to_db(matches_parsed)
+                    stats['matches_collected'] += inserted
+                    stats['matchdays_processed'] += 1
+                    logger.success(f"Matchday {matchday}: Inserted/updated {inserted} matches")
+                else:
+                    logger.warning(f"Matchday {matchday}: No valid matches parsed")
+
+                # Rate limiting - be nice to the API
+                time.sleep(0.5)
+
+            except Exception as e:
+                logger.error(f"Error collecting matchday {matchday} for season {season_year}: {e}")
+                import traceback
+                logger.error(traceback.format_exc())
+                stats['errors'] += 1
+
+        # Log collection
+        duration = (datetime.now() - start_time).total_seconds()
+        self.db.log_collection(
+            source='openligadb',
+            collection_type='matchday_range',
+            season=season_str,
+            matchday=start_matchday,
+            status='success' if stats['errors'] == 0 else 'partial',
+            records_collected=stats['matches_collected'],
+            started_at=start_time
+        )
+
+        logger.success(f"""
+=== Matchday range collection complete ===
+Season: {season_str}
+Matchdays: {start_matchday}-{end_matchday}
+Matchdays processed: {stats['matchdays_processed']}
+Matches collected: {stats['matches_collected']}
+Errors: {stats['errors']}
+Duration: {duration:.1f}s
+        """)
+        return stats
+
     def collect_all_historical_data(self, start_year: int = 2009, end_year: Optional[int] = None) -> None:
         """
         Collect all historical data from start_year to end_year
@@ -547,19 +764,128 @@ Errors: {total_stats['errors']}
 
 def main():
     """Main execution function"""
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="OpenLigaDB Collector for 3. Liga",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Collect full season
+  python openligadb_collector.py --season 2022
+
+  # Collect specific matchday range
+  python openligadb_collector.py --season 2022 --start-matchday 22 --end-matchday 38
+
+  # Collect all historical data
+  python openligadb_collector.py --all-historical
+
+  # Use season string format
+  python openligadb_collector.py --season-str 2022-2023 --start-matchday 22 --end-matchday 38
+        """
+    )
+    parser.add_argument(
+        '--season',
+        type=str,
+        help='Season year (e.g., "2022" for 2022-2023 season)'
+    )
+    parser.add_argument(
+        '--season-str',
+        type=str,
+        help='Season string (e.g., "2022-2023"). If provided, extracts year automatically.'
+    )
+    parser.add_argument(
+        '--start-matchday',
+        type=int,
+        help='First matchday to collect (for range collection)'
+    )
+    parser.add_argument(
+        '--end-matchday',
+        type=int,
+        help='Last matchday to collect (for range collection)'
+    )
+    parser.add_argument(
+        '--full-season',
+        action='store_true',
+        help='Collect full season (all matchdays)'
+    )
+    parser.add_argument(
+        '--all-historical',
+        action='store_true',
+        help='Collect all historical data from 2009 to current year'
+    )
+    parser.add_argument(
+        '--init-db',
+        action='store_true',
+        default=True,
+        help='Initialize database schema (default: True)'
+    )
+    parser.add_argument(
+        '--use-full-season-fetch',
+        action='store_true',
+        help='Fetch full season and filter locally (useful when matchday endpoints fail)'
+    )
+
+    args = parser.parse_args()
+
     collector = OpenLigaDBCollector()
 
-    # Initialize database first
-    logger.info("Initializing database...")
-    collector.db.initialize_schema()
+    # Initialize database if requested
+    if args.init_db:
+        logger.info("Initializing database...")
+        collector.db.initialize_schema()
 
-    # Collect all historical data
-    collector.collect_all_historical_data(start_year=2009, end_year=2024)
+    # Determine season year from arguments
+    season_year = None
+    if args.season:
+        season_year = args.season
+    elif args.season_str:
+        # Extract year from season string (e.g., "2022-2023" -> "2022")
+        season_year = args.season_str.split('-')[0]
 
-    # Get current season too
-    current_year = datetime.now().year
-    if datetime.now().month >= 7:  # Season starts around July
-        collector.collect_season(str(current_year))
+    # Execute based on arguments
+    if args.all_historical:
+        # Collect all historical data
+        collector.collect_all_historical_data(start_year=2009, end_year=2024)
+        
+        # Get current season too
+        current_year = datetime.now().year
+        if datetime.now().month >= 7:  # Season starts around July
+            collector.collect_season(str(current_year))
+    
+    elif season_year:
+        if args.start_matchday is not None and args.end_matchday is not None:
+            # Collect matchday range
+            if args.use_full_season_fetch:
+                # Use full season fetch method
+                target_matchdays = list(range(args.start_matchday, args.end_matchday + 1))
+                collector.collect_matchday_range_from_full_season(
+                    season_year=season_year,
+                    target_matchdays=target_matchdays
+                )
+            else:
+                # Use individual matchday endpoints
+                collector.collect_matchday_range(
+                    season_year=season_year,
+                    start_matchday=args.start_matchday,
+                    end_matchday=args.end_matchday
+                )
+        elif args.full_season:
+            # Collect full season
+            collector.collect_season(season_year)
+        else:
+            # Default: collect full season if no range specified
+            logger.info("No matchday range specified, collecting full season...")
+            collector.collect_season(season_year)
+    else:
+        # Default behavior: collect all historical data
+        logger.info("No arguments provided, collecting all historical data...")
+        collector.collect_all_historical_data(start_year=2009, end_year=2024)
+        
+        # Get current season too
+        current_year = datetime.now().year
+        if datetime.now().month >= 7:  # Season starts around July
+            collector.collect_season(str(current_year))
 
     # Print database stats
     stats = collector.db.get_database_stats()

@@ -37,6 +37,24 @@ ODDS_FEATURES:
   - implied_prob_draw
   - implied_prob_away
 
+FBREF_FEATURES:
+  - home_prev_season_position
+  - away_prev_season_position
+  - home_prev_season_points
+  - away_prev_season_points
+  - home_prev_season_wins
+  - away_prev_season_wins
+  - home_prev_season_goal_diff
+  - away_prev_season_goal_diff
+  - prev_season_position_diff
+  - prev_season_points_diff
+  - home_was_top_tier
+  - home_was_bottom_tier
+  - away_was_top_tier
+  - away_was_bottom_tier
+  - home_is_new_team
+  - away_is_new_team
+
 TARGETS:
   - target_home_win
   - target_draw
@@ -97,3 +115,19 @@ ALL_PREDICTIVE:
   - implied_prob_home
   - implied_prob_draw
   - implied_prob_away
+  - home_prev_season_position
+  - away_prev_season_position
+  - home_prev_season_points
+  - away_prev_season_points
+  - home_prev_season_wins
+  - away_prev_season_wins
+  - home_prev_season_goal_diff
+  - away_prev_season_goal_diff
+  - prev_season_position_diff
+  - prev_season_points_diff
+  - home_was_top_tier
+  - home_was_bottom_tier
+  - away_was_top_tier
+  - away_was_bottom_tier
+  - home_is_new_team
+  - away_is_new_team

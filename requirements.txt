@@ -38,3 +38,7 @@ tenacity>=8.2.0
 
 # Progress bars
 tqdm>=4.66.0
+
+# Weather data sources
+meteostat>=1.6.5
+wetterdienst>=0.50.0

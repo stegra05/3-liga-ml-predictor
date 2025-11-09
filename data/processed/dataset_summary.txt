@@ -2,13 +2,13 @@
 3. LIGA ML DATASET SUMMARY
 ============================================================
 
-Generated: 2025-11-08 20:59:30
+Generated: 2025-11-09 12:36:35
 
 DATASET SIZES:
-  Full dataset: 5,970 matches
-  Train set: 4,298 matches
-  Validation set: 478 matches
-  Test set: 1,194 matches
+  Full dataset: 11,940 matches
+  Train set: 8,596 matches
+  Validation set: 956 matches
+  Test set: 2,388 matches
 
 TEMPORAL COVERAGE:
   Date range: 2009-07-25 14:00:00 to 2025-11-08 16:30:00
@@ -16,25 +16,25 @@ TEMPORAL COVERAGE:
   Season list: 2009-2010, 2010-2011, 2011-2012, 2012-2013, 2013-2014, 2014-2015, 2015-2016, 2016-2017, 2017-2018, 2018-2019, 2019-2020, 2020-2021, 2021-2022, 2022-2023, 2023-2024, 2024-2025, 2025-2026
 
 DATA QUALITY:
-  Matches with ratings: 5,970 (100.0%)
-  Matches with detailed stats: 2,243 (37.6%)
-  Matches with betting odds: 5,885 (98.6%)
+  Matches with ratings: 11,940 (100.0%)
+  Matches with detailed stats: 4,486 (37.6%)
+  Matches with betting odds: 11,770 (98.6%)
 
 TARGET DISTRIBUTION (Full Dataset):
-  Home wins: 2,588 (43.4%)
-  Draws: 1,643 (27.5%)
-  Away wins: 1,739 (29.1%)
+  Home wins: 5,176 (43.4%)
+  Draws: 3,286 (27.5%)
+  Away wins: 3,478 (29.1%)
 
 FEATURE STATISTICS:
-  Total features: 99
+  Total features: 119
   Missing data:
-    rest_days_away: 5,970 (100.0%)
-    rest_days_home: 5,970 (100.0%)
-    weather_condition: 5,970 (100.0%)
-    precipitation_mm: 5,970 (100.0%)
-    wind_speed_kmh: 5,970 (100.0%)
-    humidity_percent: 5,970 (100.0%)
-    temperature_celsius: 5,970 (100.0%)
-    attendance: 5,830 (97.7%)
-    venue: 4,966 (83.2%)
-    away_pass_accuracy: 3,789 (63.5%)
+    attendance: 11,660 (97.7%)
+    venue: 9,932 (83.2%)
+    home_pass_accuracy: 7,578 (63.5%)
+    away_pass_accuracy: 7,578 (63.5%)
+    away_red_cards: 7,570 (63.4%)
+    away_yellow_cards: 7,570 (63.4%)
+    away_interceptions: 7,570 (63.4%)
+    away_passes: 7,570 (63.4%)
+    away_big_chances: 7,570 (63.4%)
+    home_red_cards: 7,570 (63.4%)

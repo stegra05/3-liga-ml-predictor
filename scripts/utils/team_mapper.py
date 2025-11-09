@@ -20,16 +20,23 @@ from database.db_manager import get_db
 class TeamMapper:
     """Handles team name standardization and mapping"""
 
-    def __init__(self, config_path: str = "config/team_mappings.json"):
+    def __init__(self, config_path: str = "config/team_mappings.json",
+                 fbref_config_path: str = "config/fbref_team_mapping.json"):
         """
         Initialize team mapper
 
         Args:
             config_path: Path to team mappings configuration file
+            fbref_config_path: Path to FBref-specific team mappings
         """
         self.config_path = Path(config_path)
         self.config_path.parent.mkdir(parents=True, exist_ok=True)
         self.mappings = self._load_mappings()
+
+        # Load FBref mappings
+        self.fbref_config_path = Path(fbref_config_path)
+        self.fbref_mappings = self._load_fbref_mappings()
+
         # Build normalized lookup tables
         self._build_normalized_maps()
 
@@ -91,6 +98,13 @@ class TeamMapper:
             with open(self.config_path, 'r', encoding='utf-8') as f:
                 return json.load(f)
         return {"teams": {}, "aliases": {}}
+
+    def _load_fbref_mappings(self) -> Dict:
+        """Load FBref-specific team mappings"""
+        if self.fbref_config_path.exists():
+            with open(self.fbref_config_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        return {"fbref_to_standard": {}}
 
     def save_mappings(self) -> None:
         """Save team mappings to config file"""
@@ -351,6 +365,42 @@ class TeamMapper:
         except Exception:
             pass
         return None
+
+    def get_standard_name_from_fbref(self, fbref_name: str) -> str:
+        """
+        Get standardized team name from FBref team name
+
+        Args:
+            fbref_name: Team name as it appears on FBref
+
+        Returns:
+            Standardized team name for database
+        """
+        # Direct mapping from FBref config
+        if fbref_name in self.fbref_mappings.get("fbref_to_standard", {}):
+            return self.fbref_mappings["fbref_to_standard"][fbref_name]
+
+        # Try normalization fallback
+        return self.get_standard_name(fbref_name)
+
+    def add_fbref_mapping(self, fbref_name: str, standard_name: str) -> None:
+        """
+        Add a new FBref team name mapping
+
+        Args:
+            fbref_name: Team name as seen on FBref
+            standard_name: Standard database team name
+        """
+        if "fbref_to_standard" not in self.fbref_mappings:
+            self.fbref_mappings["fbref_to_standard"] = {}
+
+        self.fbref_mappings["fbref_to_standard"][fbref_name] = standard_name
+
+        # Save updated mappings
+        with open(self.fbref_config_path, 'w', encoding='utf-8') as f:
+            json.dump(self.fbref_mappings, f, indent=2, ensure_ascii=False)
+
+        logger.info(f"Added FBref mapping: '{fbref_name}' → '{standard_name}'")
 
     def export_team_list(self, output_file: str = "data/processed/team_list.csv") -> None:
         """

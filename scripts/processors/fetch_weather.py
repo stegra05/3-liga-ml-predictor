@@ -17,6 +17,17 @@ from database.db_manager import get_db
 API = "https://archive-api.open-meteo.com/v1/archive"
 
 
+def calculate_confidence_open_meteo(exact_hour: bool = True) -> float:
+    """
+    Calculate confidence score for Open-Meteo data.
+    Base: 0.85, hour rounding penalty: -0.02
+    """
+    base = 0.85
+    hour_penalty = 0.0 if exact_hour else 0.02
+    confidence = max(base - hour_penalty, 0.7)
+    return confidence
+
+
 def fetch_hour(session: requests.Session, lat: float, lon: float, dt: datetime):
     date_str = dt.strftime("%Y-%m-%d")
     params = {
@@ -40,8 +51,10 @@ def fetch_hour(session: requests.Session, lat: float, lon: float, dt: datetime):
     data = r.json()
     hourly = data.get("hourly", {})
     times = hourly.get("time") or []
+    exact_hour = False
     try:
         idx = times.index(dt.strftime("%Y-%m-%dT%H:00"))
+        exact_hour = True
     except ValueError:
         # fallback: closest hour
         idx = None
@@ -56,6 +69,7 @@ def fetch_hour(session: requests.Session, lat: float, lon: float, dt: datetime):
         "humidity_percent": (hourly.get("relative_humidity_2m") or [None])[idx],
         "precipitation_mm": (hourly.get("precipitation") or [None])[idx],
         "wind_speed_kmh": (hourly.get("wind_speed_10m") or [None])[idx],
+        "exact_hour": exact_hour,
     }
 
 
@@ -110,11 +124,16 @@ def main():
         if not w:
             skipped += 1
             continue
+        
+        exact_hour = w.get("exact_hour", True)
+        confidence = calculate_confidence_open_meteo(exact_hour)
+        
         db.execute_insert("""
             UPDATE matches
-            SET temperature_celsius = ?, humidity_percent = ?, wind_speed_kmh = ?, precipitation_mm = ?
+            SET temperature_celsius = ?, humidity_percent = ?, wind_speed_kmh = ?, precipitation_mm = ?,
+                weather_source = 'open_meteo', weather_confidence = ?
             WHERE match_id = ?
-        """, (w["temperature_celsius"], w["humidity_percent"], w["wind_speed_kmh"], w["precipitation_mm"], mid))
+        """, (w["temperature_celsius"], w["humidity_percent"], w["wind_speed_kmh"], w["precipitation_mm"], confidence, mid))
         updated += 1
         if (updated + skipped) % 50 == 0:
             logger.info(f"Progress: updated={updated}, skipped={skipped}")

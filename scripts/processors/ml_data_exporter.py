@@ -47,7 +47,20 @@ class MLDataExporter:
 
         # Build comprehensive query joining all data sources
         query = """
-        WITH h2h_flat AS (
+        WITH season_mapping AS (
+            -- Map each season to its previous season for lookback features
+            SELECT DISTINCT season,
+                   LAG(season) OVER (ORDER BY season) as prev_season
+            FROM matches
+        ),
+        final_standings AS (
+            -- Get only the final standings per team per season (max matchday)
+            SELECT
+                ls.*,
+                ROW_NUMBER() OVER (PARTITION BY ls.team_id, ls.season ORDER BY ls.matchday DESC) as rn
+            FROM league_standings ls
+        ),
+        h2h_flat AS (
             SELECT
                 CASE WHEN team_a_id < team_b_id THEN team_a_id ELSE team_b_id END AS ta_id,
                 CASE WHEN team_a_id < team_b_id THEN team_b_id ELSE team_a_id END AS tb_id,
@@ -81,6 +94,49 @@ class MLDataExporter:
             FROM betting_odds
             WHERE bookmaker = 'oddsportal_avg'
             GROUP BY match_id
+        ),
+        -- Calculate rest days: find previous match for each team
+        home_team_matches AS (
+            SELECT 
+                m1.match_id as current_match_id,
+                m1.home_team_id as team_id,
+                m1.match_datetime as current_match_datetime,
+                (SELECT MAX(m2.match_datetime)
+                 FROM matches m2
+                 WHERE m2.is_finished = 1
+                   AND m2.match_datetime < m1.match_datetime
+                   AND (m2.home_team_id = m1.home_team_id OR m2.away_team_id = m1.home_team_id)
+                ) as previous_match_datetime
+            FROM matches m1
+            WHERE m1.is_finished = 1
+        ),
+        away_team_matches AS (
+            SELECT 
+                m1.match_id as current_match_id,
+                m1.away_team_id as team_id,
+                m1.match_datetime as current_match_datetime,
+                (SELECT MAX(m2.match_datetime)
+                 FROM matches m2
+                 WHERE m2.is_finished = 1
+                   AND m2.match_datetime < m1.match_datetime
+                   AND (m2.home_team_id = m1.away_team_id OR m2.away_team_id = m1.away_team_id)
+                ) as previous_match_datetime
+            FROM matches m1
+            WHERE m1.is_finished = 1
+        ),
+        rest_days_home AS (
+            SELECT 
+                current_match_id as match_id,
+                CAST(julianday(current_match_datetime) - julianday(previous_match_datetime) AS INTEGER) as rest_days
+            FROM home_team_matches
+            WHERE previous_match_datetime IS NOT NULL
+        ),
+        rest_days_away AS (
+            SELECT 
+                current_match_id as match_id,
+                CAST(julianday(current_match_datetime) - julianday(previous_match_datetime) AS INTEGER) as rest_days
+            FROM away_team_matches
+            WHERE previous_match_datetime IS NOT NULL
         )
         SELECT
             -- Match identifiers
@@ -161,12 +217,21 @@ class MLDataExporter:
             m.humidity_percent,
             m.wind_speed_kmh,
             m.precipitation_mm,
-            m.weather_condition,
  
-            -- Derived features (rest/travel - placeholders when not stored in DB)
-            NULL as rest_days_home,
-            NULL as rest_days_away,
+            -- Derived features (rest/travel)
+            rdh.rest_days as rest_days_home,
+            rda.rest_days as rest_days_away,
             NULL as travel_distance_km,
+
+            -- FBref features: Previous season final standings (team quality indicators)
+            hls.position as home_prev_season_position,
+            hls.points as home_prev_season_points,
+            hls.wins as home_prev_season_wins,
+            hls.goal_difference as home_prev_season_goal_diff,
+            als.position as away_prev_season_position,
+            als.points as away_prev_season_points,
+            als.wins as away_prev_season_wins,
+            als.goal_difference as away_prev_season_goal_diff,
 
             -- Head-to-head statistics (raw values, will be adjusted in feature engineering)
             h2h.total_matches as h2h_total_matches,
@@ -200,6 +265,16 @@ class MLDataExporter:
             CASE WHEN m.home_team_id < m.away_team_id THEN m.home_team_id ELSE m.away_team_id END = h2h.ta_id AND
             CASE WHEN m.home_team_id < m.away_team_id THEN m.away_team_id ELSE m.home_team_id END = h2h.tb_id
         )
+
+        -- Join rest days calculations
+        LEFT JOIN rest_days_home rdh ON m.match_id = rdh.match_id
+        LEFT JOIN rest_days_away rda ON m.match_id = rda.match_id
+
+        -- Join FBref league standings from PREVIOUS season (predictive features)
+        -- Use final_standings CTE with rn=1 to avoid duplicates from multiple matchday records
+        LEFT JOIN season_mapping sm ON m.season = sm.season
+        LEFT JOIN final_standings hls ON m.home_team_id = hls.team_id AND sm.prev_season = hls.season AND hls.rn = 1
+        LEFT JOIN final_standings als ON m.away_team_id = als.team_id AND sm.prev_season = als.season AND als.rn = 1
 
         WHERE m.is_finished = 1
             AND m.home_goals IS NOT NULL
@@ -246,6 +321,25 @@ class MLDataExporter:
         # Goal difference indicators
         df['goal_diff_l5'] = (df['home_goals_scored_l5'] - df['home_goals_conceded_l5']) - \
                              (df['away_goals_scored_l5'] - df['away_goals_conceded_l5'])
+
+        # FBref derived features (previous season quality indicators)
+        if 'home_prev_season_position' in df.columns:
+            # Position difference (lower is better, so home - away; negative = home was better)
+            df['prev_season_position_diff'] = df['home_prev_season_position'] - df['away_prev_season_position']
+
+            # Points difference (higher is better)
+            df['prev_season_points_diff'] = df['home_prev_season_points'] - df['away_prev_season_points']
+
+            # Quality tier indicators (position-based)
+            # Top 3 = promotion candidates, Bottom 3 = relegation candidates
+            df['home_was_top_tier'] = (df['home_prev_season_position'] <= 3).astype(int)
+            df['home_was_bottom_tier'] = (df['home_prev_season_position'] >= 18).astype(int)
+            df['away_was_top_tier'] = (df['away_prev_season_position'] <= 3).astype(int)
+            df['away_was_bottom_tier'] = (df['away_prev_season_position'] >= 18).astype(int)
+
+            # New teams (no previous season data) - useful indicator
+            df['home_is_new_team'] = df['home_prev_season_position'].isna().astype(int)
+            df['away_is_new_team'] = df['away_prev_season_position'].isna().astype(int)
 
         # Head-to-head features (adjust from team_a perspective to home team perspective)
         if 'h2h_total_matches' in df.columns and 'h2h_team_a_id' in df.columns:
@@ -492,6 +586,16 @@ class MLDataExporter:
                 'odds_home', 'odds_draw', 'odds_away',
                 'implied_prob_home', 'implied_prob_draw', 'implied_prob_away'
             ],
+            'fbref_features': [
+                'home_prev_season_position', 'away_prev_season_position',
+                'home_prev_season_points', 'away_prev_season_points',
+                'home_prev_season_wins', 'away_prev_season_wins',
+                'home_prev_season_goal_diff', 'away_prev_season_goal_diff',
+                'prev_season_position_diff', 'prev_season_points_diff',
+                'home_was_top_tier', 'home_was_bottom_tier',
+                'away_was_top_tier', 'away_was_bottom_tier',
+                'home_is_new_team', 'away_is_new_team'
+            ],
             'targets': [
                 'target_home_win', 'target_draw', 'target_away_win',
                 'target_multiclass',
@@ -518,7 +622,8 @@ class MLDataExporter:
             features['categorical'] +
             features['rating_features'] +
             features['form_features'] +
-            features['odds_features']
+            features['odds_features'] +
+            features['fbref_features']
         )
 
         return features
