@@ -465,7 +465,17 @@ def db_init():
 
 
 @app.callback(invoke_without_command=True)
-def main(ctx: typer.Context):
+def main(
+    ctx: typer.Context,
+    debug: Annotated[
+        bool,
+        typer.Option(
+            "--debug",
+            help="Enable debug logging with verbose output",
+            rich_help_panel="General options",
+        ),
+    ] = False,
+):
     """
     3. Liga Match Predictor - Modern CLI
 
@@ -475,6 +485,27 @@ def main(ctx: typer.Context):
 
     Running without a command defaults to predicting the next matchday.
     """
+    # Configure logging: INFO by default, DEBUG only with --debug
+    from sys import stderr
+
+    logger.remove()
+    if debug:
+        logger.add(
+            stderr,
+            level="DEBUG",
+            colorize=True,
+            format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | "
+                   "<cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>",
+        )
+        logger.debug("Debug logging enabled")
+    else:
+        logger.add(
+            stderr,
+            level="INFO",
+            colorize=True,
+            format="<level>{message}</level>",
+        )
+
     if ctx.invoked_subcommand is None:
         # Default behavior: run predict with no arguments
         ctx.invoke(predict)

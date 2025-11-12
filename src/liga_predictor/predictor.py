@@ -25,6 +25,11 @@ import pandas as pd
 import numpy as np
 from loguru import logger
 import requests
+from rich.console import Console
+from rich.table import Table
+from rich.panel import Panel
+from rich.text import Text
+from rich import box
 
 from liga_predictor.database import get_db
 from liga_predictor import config
@@ -2189,123 +2194,90 @@ class MatchPredictor:
         Args:
             predictions: Prediction results DataFrame
         """
-        print("\n" + "=" * 80)
-        print(f"{'3. LIGA MATCH PREDICTIONS':^80}")
-        print("=" * 80)
-        print(f"\nModel: Random Forest Classifier (Winner Model)")
-        print(f"Predictions generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print(f"\nTotal matches: {len(predictions)}")
-        print("\n" + "-" * 80)
+        console = Console()
 
-        for idx, row in predictions.iterrows():
-            # Parse datetime
-            match_date = pd.to_datetime(row['match_datetime'])
-            date_str = match_date.strftime('%a, %d %b %Y %H:%M')
+        header = Panel(
+            Text("3. LIGA MATCH PREDICTIONS", justify="center", style="bold white"),
+            subtitle=f"Model: Random Forest Classifier • Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+            border_style="cyan",
+            expand=True,
+        )
+        console.print()
+        console.print(header)
+        console.print(f"[cyan]Total matches:[/cyan] {len(predictions)}\n")
 
-            # Format prediction
-            pred_score = f"{int(row['predicted_home_goals'])}-{int(row['predicted_away_goals'])}"
+        table = Table(show_header=True, header_style="bold magenta", box=box.SIMPLE_HEAVY)
+        table.add_column("Kickoff", style="cyan", no_wrap=True)
+        table.add_column("Home", style="white")
+        table.add_column("", style="white", no_wrap=True)
+        table.add_column("Away", style="white")
+        table.add_column("Prediction", style="bold")
+        table.add_column("Key features", style="dim")
 
-            # Determine predicted result
-            if row['predicted_home_goals'] > row['predicted_away_goals']:
-                pred_result = "Home Win"
-            elif row['predicted_home_goals'] < row['predicted_away_goals']:
-                pred_result = "Away Win"
+        for _, row in predictions.iterrows():
+            match_date = pd.to_datetime(row["match_datetime"])
+            date_str = match_date.strftime("%a, %d %b %Y %H:%M")
+
+            phg = int(row["predicted_home_goals"])
+            pag = int(row["predicted_away_goals"])
+            pred_score = f"{phg}-{pag}"
+
+            if phg > pag:
+                pred_result = "[green]Home[/green]"
+            elif phg < pag:
+                pred_result = "[red]Away[/red]"
             else:
-                pred_result = "Draw"
+                pred_result = "[yellow]Draw[/yellow]"
 
-            print(f"\n{date_str}")
-            print(f"  {row['home_team']:30s} vs {row['away_team']:30s}")
-            print(f"  Prediction: {pred_score} ({pred_result})")
+            home = str(row["home_team"])
+            away = str(row["away_team"])
 
-            # Show key features
-            print(f"\n  Key Features:")
+            # Build compact key-features summary
+            features_parts: List[str] = []
 
-            # Elo ratings
-            if 'home_elo' in row and pd.notna(row['home_elo']):
-                home_elo = int(row['home_elo'])
-                away_elo = int(row['away_elo'])
-                elo_diff = int(row.get('elo_diff', home_elo - away_elo))
-                print(f"    Elo Ratings:     Home {home_elo} vs Away {away_elo} (diff: {elo_diff:+d})")
+            # Elo ratings / diff
+            if "elo_diff" in row and pd.notna(row["elo_diff"]):
+                features_parts.append(f"Elo Δ {int(row['elo_diff']):+d}")
+            elif "home_elo" in row and "away_elo" in row and pd.notna(row.get("home_elo")) and pd.notna(row.get("away_elo")):
+                features_parts.append(f"Elo {int(row['home_elo'])}–{int(row['away_elo'])}")
 
-            # PI ratings
-            if 'home_pi' in row and pd.notna(row['home_pi']):
-                home_pi = row['home_pi']
-                away_pi = row['away_pi']
-                pi_diff = row.get('pi_diff', home_pi - away_pi)
-                print(f"    PI Ratings:      Home {home_pi:.3f} vs Away {away_pi:.3f} (diff: {pi_diff:+.3f})")
+            # Recent form diff (last 5)
+            if "form_diff_l5" in row and pd.notna(row.get("form_diff_l5")):
+                features_parts.append(f"Form Δ {int(row['form_diff_l5']):+d}")
 
-            # Form (last 5 matches)
-            if 'home_points_l5' in row and pd.notna(row['home_points_l5']):
-                home_form = int(row['home_points_l5'])
-                away_form = int(row['away_points_l5'])
-                form_diff = int(row.get('form_diff_l5', home_form - away_form))
-                print(f"    Form (last 5):    Home {home_form} pts vs Away {away_form} pts (diff: {form_diff:+d})")
+            # Odds
+            if "odds_home" in row and pd.notna(row.get("odds_home")):
+                odds_h = row.get("odds_home")
+                odds_d = row.get("odds_draw", 0)
+                odds_a = row.get("odds_away", 0)
+                if (
+                    isinstance(odds_h, (int, float))
+                    and isinstance(odds_d, (int, float))
+                    and isinstance(odds_a, (int, float))
+                    and 0 < odds_h < 100
+                    and 0 < odds_d < 100
+                    and 0 < odds_a < 100
+                ):
+                    features_parts.append(f"Odds {odds_h:.2f}/{odds_d:.2f}/{odds_a:.2f}")
 
-            # Betting odds
-            if 'odds_home' in row and pd.notna(row['odds_home']):
-                odds_h = row['odds_home']
-                odds_d = row.get('odds_draw', 0)
-                odds_a = row.get('odds_away', 0)
-                # Check if odds are valid (positive and reasonable)
-                if odds_h > 0 and odds_d > 0 and odds_a > 0 and odds_h < 100 and odds_d < 100 and odds_a < 100:
-                    odds_source = "database" if 'implied_prob_home' in row and pd.notna(row.get('implied_prob_home')) else "heuristic"
-                    print(f"    Betting Odds:    Home {odds_h:.2f} | Draw {odds_d:.2f} | Away {odds_a:.2f} ({odds_source})")
-                else:
-                    print(f"    Betting Odds:    Invalid (using defaults)")
+            # Weather snapshot
+            if "temperature_celsius" in row and pd.notna(row.get("temperature_celsius")):
+                temp = float(row.get("temperature_celsius", 0.0))
+                precip = float(row.get("precipitation_mm", 0.0) or 0.0)
+                wind = float(row.get("wind_speed_kmh", 0.0) or 0.0)
+                features_parts.append(f"Wx {temp:.0f}°C {precip:.1f}mm {wind:.0f}km/h")
 
-            # Goal difference (last 5)
-            if 'home_goals_scored_l5' in row and pd.notna(row['home_goals_scored_l5']):
-                home_gf = int(row['home_goals_scored_l5'])
-                home_ga = int(row.get('home_goals_conceded_l5', 0))
-                away_gf = int(row.get('away_goals_scored_l5', 0))
-                away_ga = int(row.get('away_goals_conceded_l5', 0))
-                home_gd = home_gf - home_ga
-                away_gd = away_gf - away_ga
-                print(f"    Goal Diff (L5):   Home {home_gd:+d} ({home_gf}-{home_ga}) vs Away {away_gd:+d} ({away_gf}-{away_ga})")
+            key_features = " | ".join(features_parts)
 
-            # Weather conditions
-            if 'temperature_celsius' in row and pd.notna(row['temperature_celsius']):
-                temp = row['temperature_celsius']
-                precip = row.get('precipitation_mm', 0)
-                wind = row.get('wind_speed_kmh', 0)
-                weather_desc = []
-                if temp < 5:
-                    weather_desc.append("cold")
-                elif temp > 25:
-                    weather_desc.append("hot")
-                if precip > 0.5:
-                    weather_desc.append("rainy")
-                if wind > 25:
-                    weather_desc.append("windy")
-                if not weather_desc:
-                    weather_desc.append("clear")
-                print(f"    Weather:         {temp:.1f}°C, {precip:.1f}mm rain, {wind:.1f} km/h wind ({', '.join(weather_desc)})")
+            pred_text = f"{pred_score} {pred_result}"
+            if "actual_home_goals" in row and pd.notna(row.get("actual_home_goals")):
+                actual_score = f"{int(row['actual_home_goals'])}-{int(row.get('actual_away_goals', 0))}"
+                pred_text = f"{pred_text} [dim](Actual: {actual_score})[/dim]"
 
-            # Rest days
-            if 'rest_days_home' in row and pd.notna(row['rest_days_home']):
-                rest_h = int(row['rest_days_home'])
-                rest_a = int(row.get('rest_days_away', 0))
-                rest_diff = int(row.get('rest_days_diff', rest_h - rest_a))
-                print(f"    Rest Days:       Home {rest_h}d vs Away {rest_a}d (diff: {rest_diff:+d})")
+            table.add_row(date_str, home, "vs", away, pred_text, key_features)
 
-            # Travel distance
-            if 'travel_distance_km' in row and pd.notna(row['travel_distance_km']):
-                travel = row['travel_distance_km']
-                print(f"    Travel Distance: {travel:.0f} km")
-
-            # Head-to-head
-            if 'h2h_match_count' in row and pd.notna(row['h2h_match_count']) and row['h2h_match_count'] > 0:
-                h2h_count = int(row['h2h_match_count'])
-                h2h_rate = row.get('h2h_home_win_rate', 0)
-                print(f"    H2H History:     {h2h_count} matches, Home win rate: {h2h_rate:.1%}")
-
-            # Show actual if available
-            if 'actual_home_goals' in row and pd.notna(row['actual_home_goals']):
-                actual_score = f"{int(row['actual_home_goals'])}-{int(row['actual_away_goals'])}"
-                print(f"\n  Actual Result:     {actual_score}")
-
-        print("\n" + "=" * 80)
-        print()
+        console.print(table)
+        console.print()
 
 
 def main():
