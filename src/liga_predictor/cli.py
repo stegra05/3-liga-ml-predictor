@@ -127,14 +127,14 @@ def predict(
             raise typer.Exit(code=1)
 
     # Make predictions
-    predictions = predictor.predict_matchday(target_season, target_matchday)
+    predictions = predictor.predict_matches(target_season, target_matchday)
 
     if predictions is None or len(predictions) == 0:
         logger.error(f"No predictions generated for {target_season} MD {target_matchday}")
         raise typer.Exit(code=1)
 
     # Display predictions
-    predictor.display_predictions(predictions)
+    predictor.print_predictions(predictions)
 
     # Save to file if requested
     if output:
@@ -352,22 +352,6 @@ def build_h2h(
     builder = HeadToHeadBuilder()
     builder.compute_h2h()
     logger.success("Head-to-head statistics built successfully")
-
-
-@app.command("import-data")
-def import_data(
-    ctx: typer.Context,
-):
-    """
-    Import existing data from CSV files.
-
-    Imports data from existing CSV files into the database. Useful for initializing
-    the database with historical data or migrating from file-based storage.
-    """
-    from liga_predictor.processing.importer import DataImporter, main
-
-    # Call the module's main function
-    main()
 
 
 @app.command("calculate-ratings")
