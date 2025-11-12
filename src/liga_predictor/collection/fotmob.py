@@ -17,9 +17,11 @@ import json
 
 from liga_predictor.database import get_db
 from liga_predictor.utils.team_mapper import TeamMapper
+from liga_predictor.models import MatchStatistic, Match
+from liga_predictor.utils.scraper import BaseScraper
 
 
-class FotMobCollector:
+class FotMobCollector(BaseScraper):
     """Collects 3. Liga match statistics from FotMob"""
 
     BASE_URL = "https://www.fotmob.com"
@@ -32,104 +34,15 @@ class FotMobCollector:
         Args:
             use_selenium: If True, use Selenium for browser automation (recommended for FotMob)
         """
-        self.use_selenium = use_selenium
-        self.session = requests.Session()
-
-        # Headers to mimic real browser
-        self.session.headers.update({
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Connection': 'keep-alive',
-            'Upgrade-Insecure-Requests': '1',
-        })
+        # Initialize base scraper with persistent driver pattern (FotMob reuses driver)
+        super().__init__(use_selenium=use_selenium, persistent_driver=True)
 
         self.db = get_db()
         self.team_mapper = TeamMapper()
-        self.driver = None  # Will be initialized if using Selenium
 
         logger.info("FotMob collector initialized")
         if use_selenium:
             logger.info("Using Selenium for browser automation")
-
-    def __del__(self):
-        """Clean up Selenium driver on deletion"""
-        if self.driver:
-            try:
-                self.driver.quit()
-            except:
-                pass
-
-    def _init_selenium_driver(self):
-        """Initialize Selenium driver with stealth options"""
-        if self.driver is not None:
-            return
-
-        try:
-            from selenium import webdriver
-            from selenium.webdriver.chrome.options import Options
-            from selenium.webdriver.chrome.service import Service
-            from webdriver_manager.chrome import ChromeDriverManager
-
-            logger.debug("Initializing Selenium WebDriver")
-
-            chrome_options = Options()
-            chrome_options.add_argument('--headless=new')
-            chrome_options.add_argument('--no-sandbox')
-            chrome_options.add_argument('--disable-dev-shm-usage')
-            chrome_options.add_argument('--disable-blink-features=AutomationControlled')
-            chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-            chrome_options.add_experimental_option('useAutomationExtension', False)
-            chrome_options.add_argument(f'user-agent={self.session.headers["User-Agent"]}')
-
-            service = Service(ChromeDriverManager().install())
-            self.driver = webdriver.Chrome(service=service, options=chrome_options)
-            logger.success("Selenium WebDriver initialized")
-
-        except ImportError:
-            logger.error("Selenium not installed. Install with: pip install selenium webdriver-manager")
-            raise
-        except Exception as e:
-            logger.error(f"Failed to initialize Selenium: {e}")
-            raise
-
-    def _make_request_selenium(self, url: str, wait_for_selector: str = None) -> Optional[BeautifulSoup]:
-        """
-        Make request using Selenium
-
-        Args:
-            url: URL to fetch
-            wait_for_selector: Optional CSS selector to wait for
-
-        Returns:
-            BeautifulSoup object or None on error
-        """
-        try:
-            from selenium.webdriver.common.by import By
-            from selenium.webdriver.support.ui import WebDriverWait
-            from selenium.webdriver.support import expected_conditions as EC
-
-            if self.driver is None:
-                self._init_selenium_driver()
-
-            logger.debug(f"Fetching: {url}")
-            self.driver.get(url)
-
-            # Wait for content to load
-            if wait_for_selector:
-                WebDriverWait(self.driver, 15).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, wait_for_selector))
-                )
-            else:
-                time.sleep(3)  # Default wait for page load
-
-            page_source = self.driver.page_source
-            return BeautifulSoup(page_source, 'html.parser')
-
-        except Exception as e:
-            logger.error(f"Selenium request failed for {url}: {e}")
-            return None
 
     def _extract_json_from_script(self, soup: BeautifulSoup, script_id: str = "__NEXT_DATA__") -> Optional[Dict]:
         """
@@ -179,7 +92,7 @@ class FotMobCollector:
             logger.warning("FotMob requires Selenium for reliable scraping")
             return None
 
-        soup = self._make_request_selenium(url)
+        soup = super()._make_request(url, delay=0.0)
         if not soup:
             return None
 
@@ -486,10 +399,14 @@ class FotMobCollector:
 
                 if fotmob_match_id:
                     # Store FotMob match ID for future use
-                    self.db.execute_insert(
-                        "UPDATE matches SET fotmob_match_id = ? WHERE match_id = ?",
-                        (fotmob_match_id, match_id)
-                    )
+                    session = self.db.get_session()
+                    try:
+                        match_obj = session.query(Match).filter(Match.match_id == match_id).first()
+                        if match_obj:
+                            match_obj.fotmob_match_id = fotmob_match_id
+                            session.commit()
+                    finally:
+                        session.close()
                     logger.info(f"Found FotMob match ID: {fotmob_match_id}")
                 else:
                     logger.warning(f"Could not find FotMob match ID for {home_team} vs {away_team}")
@@ -560,7 +477,7 @@ class FotMobCollector:
             url = f"{self.BASE_URL}/leagues/{self.LEAGUE_ID}/matches/3-liga?group=by-round"
 
             logger.debug(f"Fetching league matches page to find match ID for {home_team} vs {away_team}")
-            soup = self._make_request_selenium(url)
+            soup = super()._make_request(url, delay=0.0)
 
             if not soup:
                 logger.warning("Could not fetch league matches page")
@@ -713,68 +630,55 @@ class FotMobCollector:
             is_home: True if home team
             stats: Statistics dictionary
         """
-        # Build INSERT query with all available fields
-        query = """
-            INSERT OR REPLACE INTO match_statistics (
-                match_id, team_id, is_home,
-                possession_percent,
-                shots_total, shots_on_target, shots_off_target, shots_blocked,
-                big_chances, big_chances_missed,
-                passes_total, passes_accurate, pass_accuracy_percent,
-                key_passes, crosses_total, crosses_accurate,
-                long_balls_total, long_balls_accurate,
-                corners, offsides,
-                tackles_total, tackles_won, interceptions, clearances,
-                duels_total, duels_won, aerials_total, aerials_won,
-                fouls_committed, fouls_won,
-                yellow_cards, red_cards,
-                touches, dribbles_attempted, dribbles_successful,
-                source, has_complete_stats, updated_at
-            ) VALUES (
-                ?, ?, ?,
-                ?, ?, ?, ?, ?,
-                ?, ?,
-                ?, ?, ?,
-                ?, ?, ?,
-                ?, ?,
-                ?, ?,
-                ?, ?, ?, ?,
-                ?, ?, ?, ?,
-                ?, ?,
-                ?, ?,
-                ?, ?, ?,
-                'fotmob', ?, CURRENT_TIMESTAMP
-            )
-        """
-
         # Calculate total duels and aerials if we have won counts
         duels_total = stats.get('duels_won')  # FotMob only provides won duels
         aerials_total = stats.get('aerials_won')  # FotMob only provides won aerials
 
-        params = (
-            match_id, team_id, is_home,
-            stats.get('possession'),
-            stats.get('shots_total'), stats.get('shots_on_target'),
-            stats.get('shots_off_target'), stats.get('shots_blocked'),
-            stats.get('big_chances'), stats.get('big_chances_missed'),
-            stats.get('passes_total'), stats.get('passes_accurate'),
-            stats.get('pass_accuracy_percent'),
-            stats.get('key_passes'), stats.get('crosses_total'),
-            stats.get('crosses_accurate'),
-            stats.get('long_balls_total'), stats.get('long_balls_accurate'),
-            stats.get('corners'), stats.get('offsides'),
-            stats.get('tackles_total'), stats.get('tackles_won'),
-            stats.get('interceptions'), stats.get('clearances'),
-            duels_total, stats.get('duels_won'),
-            aerials_total, stats.get('aerials_won'),
-            stats.get('fouls_committed'), stats.get('fouls_won'),
-            stats.get('yellow_cards'), stats.get('red_cards'),
-            stats.get('touches'), stats.get('dribbles_attempted'),
-            stats.get('dribbles_successful'),
-            1 if len(stats) >= 10 else 0  # has_complete_stats
-        )
+        stat_data = {
+            'match_id': match_id,
+            'team_id': team_id,
+            'is_home': is_home,
+            'possession_percent': stats.get('possession'),
+            'shots_total': stats.get('shots_total'),
+            'shots_on_target': stats.get('shots_on_target'),
+            'shots_off_target': stats.get('shots_off_target'),
+            'shots_blocked': stats.get('shots_blocked'),
+            'big_chances': stats.get('big_chances'),
+            'big_chances_missed': stats.get('big_chances_missed'),
+            'passes_total': stats.get('passes_total'),
+            'passes_accurate': stats.get('passes_accurate'),
+            'pass_accuracy_percent': stats.get('pass_accuracy_percent'),
+            'key_passes': stats.get('key_passes'),
+            'crosses_total': stats.get('crosses_total'),
+            'crosses_accurate': stats.get('crosses_accurate'),
+            'long_balls_total': stats.get('long_balls_total'),
+            'long_balls_accurate': stats.get('long_balls_accurate'),
+            'corners': stats.get('corners'),
+            'offsides': stats.get('offsides'),
+            'tackles_total': stats.get('tackles_total'),
+            'tackles_won': stats.get('tackles_won'),
+            'interceptions': stats.get('interceptions'),
+            'clearances': stats.get('clearances'),
+            'duels_total': duels_total,
+            'duels_won': stats.get('duels_won'),
+            'aerials_total': aerials_total,
+            'aerials_won': stats.get('aerials_won'),
+            'fouls_committed': stats.get('fouls_committed'),
+            'fouls_won': stats.get('fouls_won'),
+            'yellow_cards': stats.get('yellow_cards'),
+            'red_cards': stats.get('red_cards'),
+            'touches': stats.get('touches'),
+            'dribbles_attempted': stats.get('dribbles_attempted'),
+            'dribbles_successful': stats.get('dribbles_successful'),
+            'source': 'fotmob',
+            'has_complete_stats': len(stats) >= 10
+        }
 
-        self.db.execute_insert(query, params)
+        self.db.merge_or_create(
+            MatchStatistic,
+            filter_dict={'match_id': match_id, 'team_id': team_id},
+            defaults=stat_data
+        )
 
     def collect_season(self, season: str, start_matchday: int = 1,
                        end_matchday: int = 38, update_existing: bool = False) -> Dict[str, int]:
@@ -879,16 +783,17 @@ class FotMobCollector:
                 if match_data and match_data.get('referee'):
                     referee = match_data['referee']
                     # Update match with referee
-                    update_query = """
-                        UPDATE matches
-                        SET referee = ?,
-                            updated_at = CURRENT_TIMESTAMP
-                        WHERE match_id = ?
-                    """
-                    self.db.execute_insert(update_query, (referee, match_id))
-                    stats['referees_found'] += 1
-                    stats['referees_updated'] += 1
-                    logger.debug(f"Updated referee for {match['home_team']} vs {match['away_team']}: {referee}")
+                    session = self.db.get_session()
+                    try:
+                        match_obj = session.query(Match).filter(Match.match_id == match_id).first()
+                        if match_obj:
+                            match_obj.referee = referee
+                            session.commit()
+                            stats['referees_found'] += 1
+                            stats['referees_updated'] += 1
+                            logger.debug(f"Updated referee for {match['home_team']} vs {match['away_team']}: {referee}")
+                    finally:
+                        session.close()
                 else:
                     logger.debug(f"No referee data found for {match['home_team']} vs {match['away_team']}")
                 
@@ -971,64 +876,7 @@ class FotMobCollector:
         return total_stats
 
 
-def main():
-    """Main CLI entry point"""
-    import argparse
-
-    parser = argparse.ArgumentParser(description='FotMob Statistics Collector for 3. Liga')
-    parser.add_argument('--season', type=str, help='Season (e.g., 2024-2025)')
-    parser.add_argument('--matchday', type=int, help='Specific matchday to collect')
-    parser.add_argument('--start-matchday', type=int, default=1, help='Start matchday for season collection')
-    parser.add_argument('--end-matchday', type=int, default=38, help='End matchday for season collection')
-    parser.add_argument('--fill-gaps', action='store_true', help='Fill missing statistics')
-    parser.add_argument('--identify-gaps', action='store_true', help='Identify missing statistics')
-    parser.add_argument('--limit', type=int, help='Limit number of matchdays to process')
-    parser.add_argument('--update', action='store_true', help='Update existing statistics')
-    parser.add_argument('--no-selenium', action='store_true', help='Disable Selenium (not recommended)')
-
-    args = parser.parse_args()
-
-    # Initialize collector
-    collector = FotMobCollector(use_selenium=not args.no_selenium)
-
-    try:
-        if args.identify_gaps:
-            # Identify gaps
-            gaps = collector.identify_gaps(season=args.season)
-            print(f"\nFound {len(gaps)} matchdays with missing statistics:")
-            for season, matchday in gaps:
-                print(f"  {season} matchday {matchday}")
-
-        elif args.fill_gaps:
-            # Fill gaps
-            collector.fill_gaps(limit=args.limit, season=args.season)
-
-        elif args.matchday and args.season:
-            # Collect specific matchday
-            collector.collect_matchday(args.season, args.matchday, update_existing=args.update)
-
-        elif args.season:
-            # Collect entire season
-            collector.collect_season(
-                args.season,
-                start_matchday=args.start_matchday,
-                end_matchday=args.end_matchday,
-                update_existing=args.update
-            )
-
-        else:
-            parser.print_help()
-            print("\nExamples:")
-            print("  python scripts/collectors/fotmob_collector.py --season 2024-2025 --matchday 15")
-            print("  python scripts/collectors/fotmob_collector.py --season 2024-2025")
-            print("  python scripts/collectors/fotmob_collector.py --fill-gaps --limit 10")
-            print("  python scripts/collectors/fotmob_collector.py --identify-gaps")
-
-    finally:
-        # Clean up
-        if collector.driver:
-            collector.driver.quit()
-
-
 if __name__ == "__main__":
-    main()
+    print("Use CLI instead: liga-predictor collect-fotmob")
+    import sys
+    sys.exit(1)

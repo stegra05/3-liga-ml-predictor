@@ -12,6 +12,7 @@ import time
 
 from liga_predictor.database import get_db
 from liga_predictor.utils.team_mapper import TeamMapper
+from liga_predictor.models import Team, Match, MatchEvent, LeagueStanding
 
 
 class OpenLigaDBCollector:
@@ -178,15 +179,20 @@ class OpenLigaDBCollector:
         home_team_openligadb_id = team1.get('teamId')
         away_team_openligadb_id = team2.get('teamId')
 
-        # Get or create team IDs
-        home_team_id = self.db.get_or_create_team(
-            team_name=home_team_name,
-            openligadb_id=home_team_openligadb_id
+        # Get or create team IDs using ORM helper
+        home_team = self.db.merge_or_create(
+            Team,
+            filter_dict={'team_name': home_team_name} if home_team_openligadb_id is None else {'openligadb_id': home_team_openligadb_id},
+            defaults={'team_name': home_team_name, 'openligadb_id': home_team_openligadb_id}
         )
-        away_team_id = self.db.get_or_create_team(
-            team_name=away_team_name,
-            openligadb_id=away_team_openligadb_id
+        home_team_id = home_team.team_id
+
+        away_team = self.db.merge_or_create(
+            Team,
+            filter_dict={'team_name': away_team_name} if away_team_openligadb_id is None else {'openligadb_id': away_team_openligadb_id},
+            defaults={'team_name': away_team_name, 'openligadb_id': away_team_openligadb_id}
         )
+        away_team_id = away_team.team_id
 
         # Match results
         results = match.get('matchResults', [])
@@ -312,10 +318,13 @@ class OpenLigaDBCollector:
             team_name = entry.get('teamName', entry.get('shortName', ''))
             openligadb_id = entry.get('teamInfoId')
 
-            team_id = self.db.get_or_create_team(
-                team_name=team_name,
-                openligadb_id=openligadb_id
+            # Get or create team using ORM helper
+            team = self.db.merge_or_create(
+                Team,
+                filter_dict={'team_name': team_name} if openligadb_id is None else {'openligadb_id': openligadb_id},
+                defaults={'team_name': team_name, 'openligadb_id': openligadb_id}
             )
+            team_id = team.team_id
 
             # Get position - use index if rank is not available
             position = entry.get('rank')
@@ -370,13 +379,21 @@ class OpenLigaDBCollector:
                 team2_name = team2.get('teamName') or team2.get('shortName', '')
 
                 if team1_name:
-                    t1_db_id = self.db.get_or_create_team(team_name=team1_name, openligadb_id=team1_id)
+                    t1 = self.db.merge_or_create(
+                        Team,
+                        filter_dict={'team_name': team1_name} if team1_id is None else {'openligadb_id': team1_id},
+                        defaults={'team_name': team1_name, 'openligadb_id': team1_id}
+                    )
                     if home_team_id is None:
-                        home_team_id = t1_db_id
+                        home_team_id = t1.team_id
                 if team2_name:
-                    t2_db_id = self.db.get_or_create_team(team_name=team2_name, openligadb_id=team2_id)
+                    t2 = self.db.merge_or_create(
+                        Team,
+                        filter_dict={'team_name': team2_name} if team2_id is None else {'openligadb_id': team2_id},
+                        defaults={'team_name': team2_name, 'openligadb_id': team2_id}
+                    )
                     if away_team_id is None:
-                        away_team_id = t2_db_id
+                        away_team_id = t2.team_id
 
         for goal in goals:
             # Determine which team scored based on score progression
@@ -433,43 +450,46 @@ class OpenLigaDBCollector:
             return 0
 
         inserted = 0
-        conn = self.db.get_connection()
+        for event in events:
+            try:
+                # Check if event already exists (idempotency) - use raw query for complex filter
+                existing = self.db.execute_query("""
+                    SELECT event_id FROM match_events
+                    WHERE match_id = ? AND event_type = ? AND minute = ?
+                    AND COALESCE(player_name, '') = COALESCE(?, '')
+                    AND COALESCE(is_penalty, 0) = COALESCE(?, 0)
+                    AND COALESCE(is_own_goal, 0) = COALESCE(?, 0)
+                    LIMIT 1
+                """, (
+                    event['match_id'], event['event_type'], event.get('minute'),
+                    event.get('player_name'), event.get('is_penalty', False),
+                    event.get('is_own_goal', False)
+                ))
 
-        try:
-            for event in events:
-                # Use INSERT OR IGNORE for idempotency (based on match_id + minute + player_name)
-                query = """
-                    INSERT OR IGNORE INTO match_events
-                    (match_id, team_id, event_type, minute, minute_extra, player_id, player_name,
-                     is_penalty, is_own_goal, assist_player_id, assist_player_name,
-                     player_out_id, player_out_name)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                """
-
-                try:
-                    conn.execute(query, (
-                        event['match_id'],
-                        event.get('team_id'),
-                        event['event_type'],
-                        event.get('minute'),
-                        event.get('minute_extra'),
-                        event.get('player_id'),
-                        event.get('player_name'),
-                        event.get('is_penalty', False),
-                        event.get('is_own_goal', False),
-                        event.get('assist_player_id'),
-                        event.get('assist_player_name'),
-                        event.get('player_out_id'),
-                        event.get('player_out_name')
-                    ))
+                if not existing:
+                    self.db.merge_or_create(
+                        MatchEvent,
+                        filter_dict={},  # No unique filter, just insert
+                        defaults={
+                            'match_id': event['match_id'],
+                            'team_id': event.get('team_id'),
+                            'event_type': event['event_type'],
+                            'minute': event.get('minute'),
+                            'minute_extra': event.get('minute_extra'),
+                            'player_id': event.get('player_id'),
+                            'player_name': event.get('player_name'),
+                            'is_penalty': event.get('is_penalty', False),
+                            'is_own_goal': event.get('is_own_goal', False),
+                            'assist_player_id': event.get('assist_player_id'),
+                            'assist_player_name': event.get('assist_player_name'),
+                            'player_out_id': event.get('player_out_id'),
+                            'player_out_name': event.get('player_out_name')
+                        }
+                    )
                     inserted += 1
-                except Exception as e:
-                    logger.debug(f"Error inserting event: {e}")
-                    continue
-
-            conn.commit()
-        finally:
-            conn.close()
+            except Exception as e:
+                logger.debug(f"Error inserting event: {e}")
+                continue
 
         return inserted
 
@@ -495,60 +515,33 @@ class OpenLigaDBCollector:
                     logger.warning(f"Match missing openligadb_match_id, skipping")
                     continue
 
-                # Check if match exists by openligadb_match_id (most reliable)
-                query_check = "SELECT match_id FROM matches WHERE openligadb_match_id = ? LIMIT 1"
-                existing = self.db.execute_query(query_check, (openligadb_match_id,))
-
-                if existing:
-                    # Update existing match (can update all fields including matchday/season if corrected)
-                    existing_id = existing[0]['match_id']
-                    match_id_map[openligadb_match_id] = existing_id
-                    query = """
-                        UPDATE matches
-                        SET season = ?, matchday = ?, match_datetime = ?,
-                            home_team_id = ?, away_team_id = ?,
-                            home_goals = ?, away_goals = ?, result = ?,
-                            is_finished = ?, venue = ?, attendance = ?, referee = ?, updated_at = CURRENT_TIMESTAMP
-                        WHERE match_id = ?
-                    """
-                    conn = self.db.get_connection()
-                    conn.execute(query, (
-                        match['season'], match['matchday'], match['match_datetime'],
-                        match['home_team_id'], match['away_team_id'],
-                        match['home_goals'], match['away_goals'], match['result'],
-                        match['is_finished'], match['venue'], match.get('attendance'), match.get('referee'), existing_id
-                    ))
-                    conn.commit()
-                    conn.close()
-                else:
-                    # Insert new match
-                    query = """
-                        INSERT INTO matches
-                        (openligadb_match_id, season, matchday, match_datetime,
-                         home_team_id, away_team_id, home_goals, away_goals,
-                         result, is_finished, venue, attendance, referee)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    """
-                    conn = self.db.get_connection()
-                    cursor = conn.cursor()
-                    cursor.execute(query, (
-                        match['openligadb_match_id'], match['season'],
-                        match['matchday'], match['match_datetime'],
-                        match['home_team_id'], match['away_team_id'],
-                        match['home_goals'], match['away_goals'],
-                        match['result'], match['is_finished'], match['venue'],
-                        match.get('attendance'), match.get('referee')
-                    ))
-                    match_id_map[openligadb_match_id] = cursor.lastrowid
-                    conn.commit()
-                    conn.close()
-
+                # Upsert match using helper
+                match_obj = self.db.merge_or_create(
+                    Match,
+                    filter_dict={'openligadb_match_id': openligadb_match_id},
+                    defaults={
+                        'season': match['season'],
+                        'matchday': match['matchday'],
+                        'match_datetime': match['match_datetime'],
+                        'home_team_id': match['home_team_id'],
+                        'away_team_id': match['away_team_id'],
+                        'home_goals': match['home_goals'],
+                        'away_goals': match['away_goals'],
+                        'result': match['result'],
+                        'is_finished': match['is_finished'],
+                        'venue': match.get('venue'),
+                        'attendance': match.get('attendance'),
+                        'referee': match.get('referee')
+                    }
+                )
+                match_id_map[openligadb_match_id] = match_obj.match_id
                 inserted += 1
 
             except Exception as e:
                 logger.error(f"Error inserting match {match.get('openligadb_match_id')}: {e}")
                 import traceback
                 logger.debug(traceback.format_exc())
+                continue
 
         # Insert match events if raw_matches provided
         if raw_matches and match_id_map:
@@ -582,27 +575,31 @@ class OpenLigaDBCollector:
             Number of standings inserted
         """
         inserted = 0
-
         for standing in standings:
             try:
-                query = """
-                    INSERT OR REPLACE INTO league_standings
-                    (season, matchday, team_id, position, matches_played,
-                     wins, draws, losses, goals_for, goals_against,
-                     goal_difference, points)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                """
-                self.db.execute_insert(query, (
-                    standing['season'], standing['matchday'], standing['team_id'],
-                    standing['position'], standing['matches_played'],
-                    standing['wins'], standing['draws'], standing['losses'],
-                    standing['goals_for'], standing['goals_against'],
-                    standing['goal_difference'], standing['points']
-                ))
+                self.db.merge_or_create(
+                    LeagueStanding,
+                    filter_dict={
+                        'season': standing['season'],
+                        'matchday': standing['matchday'],
+                        'team_id': standing['team_id']
+                    },
+                    defaults={
+                        'position': standing['position'],
+                        'matches_played': standing['matches_played'],
+                        'wins': standing['wins'],
+                        'draws': standing['draws'],
+                        'losses': standing['losses'],
+                        'goals_for': standing['goals_for'],
+                        'goals_against': standing['goals_against'],
+                        'goal_difference': standing['goal_difference'],
+                        'points': standing['points']
+                    }
+                )
                 inserted += 1
-
             except Exception as e:
                 logger.error(f"Error inserting standing: {e}")
+                continue
 
         return inserted
 
@@ -913,137 +910,7 @@ Errors: {total_stats['errors']}
         """)
 
 
-def main():
-    """Main execution function"""
-    import argparse
-
-    parser = argparse.ArgumentParser(
-        description="OpenLigaDB Collector for 3. Liga",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  # Collect full season
-  python openligadb_collector.py --season 2022
-
-  # Collect specific matchday range
-  python openligadb_collector.py --season 2022 --start-matchday 22 --end-matchday 38
-
-  # Collect all historical data
-  python openligadb_collector.py --all-historical
-
-  # Use season string format
-  python openligadb_collector.py --season-str 2022-2023 --start-matchday 22 --end-matchday 38
-        """
-    )
-    parser.add_argument(
-        '--season',
-        type=str,
-        help='Season year (e.g., "2022" for 2022-2023 season)'
-    )
-    parser.add_argument(
-        '--season-str',
-        type=str,
-        help='Season string (e.g., "2022-2023"). If provided, extracts year automatically.'
-    )
-    parser.add_argument(
-        '--start-matchday',
-        type=int,
-        help='First matchday to collect (for range collection)'
-    )
-    parser.add_argument(
-        '--end-matchday',
-        type=int,
-        help='Last matchday to collect (for range collection)'
-    )
-    parser.add_argument(
-        '--full-season',
-        action='store_true',
-        help='Collect full season (all matchdays)'
-    )
-    parser.add_argument(
-        '--all-historical',
-        action='store_true',
-        help='Collect all historical data from 2009 to current year'
-    )
-    parser.add_argument(
-        '--init-db',
-        action='store_true',
-        default=True,
-        help='Initialize database schema (default: True)'
-    )
-    parser.add_argument(
-        '--use-full-season-fetch',
-        action='store_true',
-        help='Fetch full season and filter locally (useful when matchday endpoints fail)'
-    )
-
-    args = parser.parse_args()
-
-    collector = OpenLigaDBCollector()
-
-    # Initialize database if requested
-    if args.init_db:
-        logger.info("Initializing database...")
-        collector.db.initialize_schema()
-
-    # Determine season year from arguments
-    season_year = None
-    if args.season:
-        season_year = args.season
-    elif args.season_str:
-        # Extract year from season string (e.g., "2022-2023" -> "2022")
-        season_year = args.season_str.split('-')[0]
-
-    # Execute based on arguments
-    if args.all_historical:
-        # Collect all historical data
-        collector.collect_all_historical_data(start_year=2009, end_year=2024)
-
-        # Get current season too
-        current_year = datetime.now().year
-        if datetime.now().month >= 7:  # Season starts around July
-            collector.collect_season(str(current_year))
-
-    elif season_year:
-        if args.start_matchday is not None and args.end_matchday is not None:
-            # Collect matchday range
-            if args.use_full_season_fetch:
-                # Use full season fetch method
-                target_matchdays = list(range(args.start_matchday, args.end_matchday + 1))
-                collector.collect_matchday_range_from_full_season(
-                    season_year=season_year,
-                    target_matchdays=target_matchdays
-                )
-            else:
-                # Use individual matchday endpoints
-                collector.collect_matchday_range(
-                    season_year=season_year,
-                    start_matchday=args.start_matchday,
-                    end_matchday=args.end_matchday
-                )
-        elif args.full_season:
-            # Collect full season
-            collector.collect_season(season_year)
-        else:
-            # Default: collect full season if no range specified
-            logger.info("No matchday range specified, collecting full season...")
-            collector.collect_season(season_year)
-    else:
-        # Default behavior: collect all historical data
-        logger.info("No arguments provided, collecting all historical data...")
-        collector.collect_all_historical_data(start_year=2009, end_year=2024)
-
-        # Get current season too
-        current_year = datetime.now().year
-        if datetime.now().month >= 7:  # Season starts around July
-            collector.collect_season(str(current_year))
-
-    # Print database stats
-    stats = collector.db.get_database_stats()
-    print("\n=== Database Statistics ===")
-    for key, value in stats.items():
-        print(f"{key}: {value}")
-
-
 if __name__ == "__main__":
-    main()
+    print("Use CLI instead: liga-predictor collect-openligadb")
+    import sys
+    sys.exit(1)

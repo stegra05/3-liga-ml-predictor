@@ -719,20 +719,7 @@ class MLDataExporter:
         logger.success(f"Saved dataset summary: {summary_file}")
 
 
-def main():
-    """Main execution"""
-    exporter = MLDataExporter()
-
-    # Export all datasets
-    exporter.export_to_csv(save_splits=True)
-
-    print("\n✓ ML dataset export complete!")
-    print(f"  Output directory: {exporter.output_dir}")
-    print("\nFiles created:")
-    for file in sorted(exporter.output_dir.glob("*.csv")):
-        size_mb = file.stat().st_size / (1024 * 1024)
-        print(f"  - {file.name} ({size_mb:.2f} MB)")
-
-
 if __name__ == "__main__":
-    main()
+    print("Use CLI instead: liga-predictor export-ml-data")
+    import sys
+    sys.exit(1)

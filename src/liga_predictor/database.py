@@ -9,6 +9,11 @@ from typing import Optional, List, Dict, Any
 from datetime import datetime
 import pandas as pd
 from loguru import logger
+from sqlalchemy import create_engine, event
+from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.pool import StaticPool
+
+from liga_predictor.models import Base
 
 
 class DatabaseManager:
@@ -23,6 +28,32 @@ class DatabaseManager:
         """
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Create SQLAlchemy engine with optimized settings
+        db_url = f"sqlite:///{self.db_path}"
+        self.engine = create_engine(
+            db_url,
+            poolclass=StaticPool,
+            connect_args={
+                "check_same_thread": False,
+                "timeout": 20
+            },
+            echo=False
+        )
+        
+        # Configure SQLite pragmas via event listeners
+        @event.listens_for(self.engine, "connect")
+        def set_sqlite_pragma(dbapi_conn, connection_record):
+            cursor = dbapi_conn.cursor()
+            cursor.execute("PRAGMA journal_mode=WAL")
+            cursor.execute("PRAGMA synchronous=NORMAL")
+            cursor.execute("PRAGMA cache_size=-64000")  # 64MB cache
+            cursor.execute("PRAGMA foreign_keys=ON")
+            cursor.close()
+        
+        # Create session factory
+        self.SessionLocal = sessionmaker(bind=self.engine, autocommit=False, autoflush=False)
+        
         logger.info(f"Database manager initialized: {self.db_path}")
 
     def get_connection(self) -> sqlite3.Connection:
@@ -41,9 +72,19 @@ class DatabaseManager:
         conn.execute("PRAGMA foreign_keys=ON")  # Enable foreign key constraints
         return conn
 
+    def get_session(self) -> Session:
+        """
+        Get SQLAlchemy session for ORM operations
+
+        Returns:
+            SQLAlchemy session object
+        """
+        return self.SessionLocal()
+
     def initialize_schema(self, schema_file: str = "database/schema.sql") -> None:
         """
         Initialize database with schema from SQL file
+        Note: For new projects, use Alembic migrations instead
 
         Args:
             schema_file: Path to schema SQL file
@@ -63,40 +104,6 @@ class DatabaseManager:
             conn.executescript(schema_sql)
             conn.commit()
             logger.success("Database schema initialized successfully")
-
-            # --- Schema Migrations ---
-            # Add 'updated_at' column to match_statistics if it doesn't exist
-            cursor = conn.cursor()
-            cursor.execute("PRAGMA table_info(match_statistics)")
-            columns = [col[1] for col in cursor.fetchall()]
-            if 'updated_at' not in columns:
-                logger.info("Adding 'updated_at' column to 'match_statistics' table...")
-                cursor.execute("ALTER TABLE match_statistics ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-                conn.commit()
-                logger.success("'updated_at' column added to 'match_statistics' table.")
-
-            # Add weather_source and weather_confidence columns to matches if they don't exist
-            cursor.execute("PRAGMA table_info(matches)")
-            match_columns = [col[1] for col in cursor.fetchall()]
-            if 'weather_source' not in match_columns:
-                logger.info("Adding 'weather_source' column to 'matches' table...")
-                cursor.execute("ALTER TABLE matches ADD COLUMN weather_source TEXT")
-                conn.commit()
-                logger.success("'weather_source' column added to 'matches' table.")
-            if 'weather_confidence' not in match_columns:
-                logger.info("Adding 'weather_confidence' column to 'matches' table...")
-                cursor.execute("ALTER TABLE matches ADD COLUMN weather_confidence REAL")
-                conn.commit()
-                logger.success("'weather_confidence' column added to 'matches' table.")
-
-            # Add fotmob_match_id column to matches if it doesn't exist
-            if 'fotmob_match_id' not in match_columns:
-                logger.info("Adding 'fotmob_match_id' column to 'matches' table...")
-                cursor.execute("ALTER TABLE matches ADD COLUMN fotmob_match_id INTEGER")
-                conn.commit()
-                logger.success("'fotmob_match_id' column added to 'matches' table.")
-            # --- End Schema Migrations ---
-
         except sqlite3.Error as e:
             logger.error(f"Error initializing schema: {e}")
             raise
@@ -204,6 +211,110 @@ class DatabaseManager:
         finally:
             conn.close()
 
+    def get_or_create_team(self, team_name: str, openligadb_id: Optional[int] = None) -> int:
+        """
+        Get team ID or create if doesn't exist (using ORM)
+
+        Args:
+            team_name: Team name
+            openligadb_id: OpenLigaDB team ID
+
+        Returns:
+            Team ID
+        """
+        from liga_predictor.models import Team
+
+        session = self.get_session()
+        try:
+            team = session.query(Team).filter(
+                (Team.team_name == team_name) | (Team.openligadb_id == openligadb_id)
+            ).first()
+
+            if not team:
+                team = Team(team_name=team_name, openligadb_id=openligadb_id)
+                session.add(team)
+                session.flush()
+                logger.info(f"Created new team: {team_name} (ID: {team.team_id})")
+
+            return team.team_id
+        finally:
+            session.commit()
+            session.close()
+
+    def merge_or_create(self, model_class, filter_dict: Dict[str, Any], defaults: Dict[str, Any]):
+        """
+        Helper to merge (update if exists, create if not) using SQLAlchemy merge()
+        This reduces verbose if/else patterns in collection scripts
+        
+        Args:
+            model_class: SQLAlchemy model class
+            filter_dict: Dictionary of filters to find existing record (empty = insert only)
+            defaults: Dictionary of values to set (for both create and update)
+            
+        Returns:
+            The model instance (existing or newly created)
+        """
+        session = self.get_session()
+        try:
+            existing = None
+            if filter_dict:
+                # Build filter query
+                query = session.query(model_class)
+                for key, value in filter_dict.items():
+                    query = query.filter(getattr(model_class, key) == value)
+                existing = query.first()
+            
+            if existing:
+                # Update existing
+                for key, value in defaults.items():
+                    setattr(existing, key, value)
+                session.commit()
+                return existing
+            else:
+                # Create new
+                new_obj = model_class(**{**filter_dict, **defaults})
+                session.add(new_obj)
+                session.flush()
+                session.commit()
+                return new_obj
+        except Exception as e:
+            session.rollback()
+            raise
+        finally:
+            session.close()
+
+    def get_team_id_by_name(self, team_name: str) -> Optional[int]:
+        """
+        Get team ID by name (fuzzy matching supported)
+
+        Args:
+            team_name: Team name to search for
+
+        Returns:
+            Team ID or None if not found
+        """
+        from liga_predictor.models import Team
+
+        session = self.get_session()
+        try:
+            # Exact match
+            team = session.query(Team).filter(
+                (Team.team_name == team_name) | (Team.team_name_alt == team_name)
+            ).first()
+
+            if team:
+                return team.team_id
+
+            # Fuzzy match (contains) - use raw SQL for LIKE
+            result = self.execute_query(
+                "SELECT team_id FROM teams WHERE team_name LIKE ? LIMIT 1",
+                (f"%{team_name}%",)
+            )
+
+            return result[0]['team_id'] if result else None
+        finally:
+            session.close()
+
     def log_collection(self, source: str, collection_type: str, season: Optional[str] = None,
                       matchday: Optional[int] = None, status: str = 'started',
                       records_collected: int = 0, error_message: Optional[str] = None,
@@ -224,207 +335,31 @@ class DatabaseManager:
         Returns:
             Log entry ID
         """
-        query = """
-            INSERT INTO collection_logs
-            (source, collection_type, season, matchday, status, records_collected,
-             error_message, started_at, completed_at, duration_seconds)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """
+        from liga_predictor.models import CollectionLog
 
         started = started_at or datetime.now()
         completed = datetime.now() if status != 'started' else None
         duration = (completed - started).total_seconds() if completed else None
 
-        params = (
-            source, collection_type, season, matchday, status,
-            records_collected, error_message, started,
-            completed, duration
-        )
-
-        return self.execute_insert(query, params)
-
-    def get_or_create_team(self, team_name: str, openligadb_id: Optional[int] = None) -> int:
-        """
-        Get team ID or create if doesn't exist
-
-        Args:
-            team_name: Team name
-            openligadb_id: OpenLigaDB team ID
-
-        Returns:
-            Team ID
-        """
-        # Try to find existing team
-        query = """
-            SELECT team_id FROM teams
-            WHERE team_name = ? OR openligadb_id = ?
-            LIMIT 1
-        """
-        result = self.execute_query(query, (team_name, openligadb_id))
-
-        if result:
-            return result[0]['team_id']
-
-        # Create new team
-        insert_query = """
-            INSERT INTO teams (team_name, openligadb_id)
-            VALUES (?, ?)
-        """
-        team_id = self.execute_insert(insert_query, (team_name, openligadb_id))
-        logger.info(f"Created new team: {team_name} (ID: {team_id})")
-        return team_id
-
-    def get_team_id_by_name(self, team_name: str) -> Optional[int]:
-        """
-        Get team ID by name (fuzzy matching supported)
-
-        Args:
-            team_name: Team name to search for
-
-        Returns:
-            Team ID or None if not found
-        """
-        # Exact match
-        query = "SELECT team_id FROM teams WHERE team_name = ? OR team_name_alt = ? LIMIT 1"
-        result = self.execute_query(query, (team_name, team_name))
-
-        if result:
-            return result[0]['team_id']
-
-        # Fuzzy match (contains)
-        query = "SELECT team_id FROM teams WHERE team_name LIKE ? LIMIT 1"
-        result = self.execute_query(query, (f"%{team_name}%",))
-
-        return result[0]['team_id'] if result else None
-
-    def get_match_id(self, season: str, home_team_id: int, away_team_id: int,
-                    match_datetime: datetime) -> Optional[int]:
-        """
-        Get match ID for existing match
-
-        Args:
-            season: Season string (e.g., "2024-2025")
-            home_team_id: Home team ID
-            away_team_id: Away team ID
-            match_datetime: Match date and time
-
-        Returns:
-            Match ID or None if not found
-        """
-        query = """
-            SELECT match_id FROM matches
-            WHERE season = ? AND home_team_id = ? AND away_team_id = ?
-            AND date(match_datetime) = date(?)
-            LIMIT 1
-        """
-        result = self.execute_query(query, (season, home_team_id, away_team_id, match_datetime))
-        return result[0]['match_id'] if result else None
-
-    def get_or_create_player(self, full_name: str, date_of_birth: Optional[str] = None,
-                             nationality: Optional[str] = None, position: Optional[str] = None) -> int:
-        """
-        Get existing player ID or create new player
-
-        Args:
-            full_name: Player's full name
-            date_of_birth: Date of birth (optional)
-            nationality: Nationality (optional)
-            position: Position (optional)
-
-        Returns:
-            Player ID
-        """
-        # Check if player exists
-        query = "SELECT player_id FROM players WHERE full_name = ? LIMIT 1"
-        result = self.execute_query(query, (full_name,))
-
-        if result:
-            return result[0]['player_id']
-
-        # Create new player
-        insert_query = """
-            INSERT INTO players (full_name, date_of_birth, nationality, position)
-            VALUES (?, ?, ?, ?)
-        """
-        player_id = self.execute_insert(insert_query, (full_name, date_of_birth, nationality, position))
-        logger.debug(f"Created new player: {full_name} (ID: {player_id})")
-        return player_id
-
-    def insert_player_season_stats(self, player_id: int, team_id: int, season: str,
-                                   stats: Dict[str, Any], source: str = 'fbref') -> None:
-        """
-        Insert or update player season statistics
-
-        Args:
-            player_id: Player ID
-            team_id: Team ID
-            season: Season string
-            stats: Dictionary of statistics
-            source: Data source
-        """
-        query = """
-            INSERT OR REPLACE INTO player_season_stats
-            (player_id, team_id, season, matches_played, minutes_played, starts,
-             goals, assists, penalties_scored, yellow_cards, red_cards,
-             shots_total, shots_on_target, pass_accuracy_percent, tackles_won, source)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """
-
-        params = (
-            player_id,
-            team_id,
-            season,
-            stats.get('matches_played', 0),
-            stats.get('minutes_played', 0),
-            stats.get('starts', 0),
-            stats.get('goals', 0),
-            stats.get('assists', 0),
-            stats.get('penalties_scored', 0),
-            stats.get('yellow_cards', 0),
-            stats.get('red_cards', 0),
-            stats.get('shots_total'),
-            stats.get('shots_on_target'),
-            stats.get('pass_accuracy_percent'),
-            stats.get('tackles_won'),
-            source
-        )
-
-        self.execute_insert(query, params)
-
-    def insert_league_standing(self, season: str, matchday: int, team_id: int,
-                               standing_data: Dict[str, Any]) -> None:
-        """
-        Insert league standing for a team
-
-        Args:
-            season: Season string
-            matchday: Matchday number
-            team_id: Team ID
-            standing_data: Dictionary with standing information
-        """
-        query = """
-            INSERT OR REPLACE INTO league_standings
-            (season, matchday, team_id, position, matches_played, wins, draws, losses,
-             goals_for, goals_against, goal_difference, points)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """
-
-        params = (
-            season,
-            matchday,
-            team_id,
-            standing_data.get('position', 0),
-            standing_data.get('matches_played', 0),
-            standing_data.get('wins', 0),
-            standing_data.get('draws', 0),
-            standing_data.get('losses', 0),
-            standing_data.get('goals_for', 0),
-            standing_data.get('goals_against', 0),
-            standing_data.get('goal_difference', 0),
-            standing_data.get('points', 0)
-        )
-
-        self.execute_insert(query, params)
+        session = self.get_session()
+        try:
+            log_entry = CollectionLog(
+                source=source,
+                collection_type=collection_type,
+                season=season,
+                matchday=matchday,
+                status=status,
+                records_collected=records_collected,
+                error_message=error_message,
+                started_at=started,
+                completed_at=completed,
+                duration_seconds=duration
+            )
+            session.add(log_entry)
+            session.commit()
+            return log_entry.log_id
+        finally:
+            session.close()
 
     def get_database_stats(self) -> Dict[str, Any]:
         """

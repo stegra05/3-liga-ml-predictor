@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Dict, List, Tuple
 
 from liga_predictor.database import get_db
+from liga_predictor.models import Team, Match, MatchStatistic, LeagueStanding, TeamRating, HeadToHead
 
 
 # Define canonicalization map: old_name -> canonical_name
@@ -26,9 +27,13 @@ class TeamUnifier:
         self.db = get_db()
 
     def get_team_id_by_name(self, name: str) -> int:
-        """Get team ID by team name"""
-        res = self.db.execute_query("SELECT team_id FROM teams WHERE team_name = ? LIMIT 1", (name,))
-        return res[0]["team_id"] if res else None
+        """Get team ID by team name using ORM"""
+        session = self.db.get_session()
+        try:
+            team = session.query(Team).filter(Team.team_name == name).first()
+            return team.team_id if team else None
+        finally:
+            session.close()
 
     def unify_team(self, old_name: str, canonical_name: str) -> Tuple[int, int]:
         """
@@ -44,7 +49,14 @@ class TeamUnifier:
         if canonical_id is None:
             # Rename old team to canonical if canonical doesn't exist
             logger.info(f"Canonical team not found; renaming '{old_name}' to '{canonical_name}'")
-            self.db.execute_insert("UPDATE teams SET team_name = ? WHERE team_id = ?", (canonical_name, old_id))
+            session = self.db.get_session()
+            try:
+                team = session.query(Team).filter(Team.team_id == old_id).first()
+                if team:
+                    team.team_name = canonical_name
+                    session.commit()
+            finally:
+                session.close()
             return old_id, old_id
 
         if old_id == canonical_id:
@@ -53,35 +65,53 @@ class TeamUnifier:
 
         logger.info(f"Merging '{old_name}' (id={old_id}) -> '{canonical_name}' (id={canonical_id})")
 
-        # Update references across tables
-        updates: List[Tuple[str, str]] = [
-            ("matches", "home_team_id"),
-            ("matches", "away_team_id"),
-            ("match_statistics", "team_id"),
-            ("league_standings", "team_id"),
-            ("team_ratings", "team_id"),
-            ("head_to_head", "team_a_id"),
-            ("head_to_head", "team_b_id"),
-        ]
-        for table, col in updates:
-            self.db.execute_insert(f"UPDATE {table} SET {col} = ? WHERE {col} = ?", (canonical_id, old_id))
+        # Update references across tables using ORM
+        session = self.db.get_session()
+        try:
+            # Update matches
+            session.query(Match).filter(Match.home_team_id == old_id).update({Match.home_team_id: canonical_id})
+            session.query(Match).filter(Match.away_team_id == old_id).update({Match.away_team_id: canonical_id})
+            
+            # Update match_statistics
+            session.query(MatchStatistic).filter(MatchStatistic.team_id == old_id).update({MatchStatistic.team_id: canonical_id})
+            
+            # Update league_standings
+            session.query(LeagueStanding).filter(LeagueStanding.team_id == old_id).update({LeagueStanding.team_id: canonical_id})
+            
+            # Update team_ratings
+            session.query(TeamRating).filter(TeamRating.team_id == old_id).update({TeamRating.team_id: canonical_id})
+            
+            # Update head_to_head
+            session.query(HeadToHead).filter(HeadToHead.team_a_id == old_id).update({HeadToHead.team_a_id: canonical_id})
+            session.query(HeadToHead).filter(HeadToHead.team_b_id == old_id).update({HeadToHead.team_b_id: canonical_id})
 
-        # Deduplicate head_to_head rows (keep one per pair)
-        self.db.execute_insert("""
-            DELETE FROM head_to_head
-            WHERE rowid NOT IN (
-                SELECT MIN(rowid) FROM head_to_head GROUP BY team_a_id, team_b_id
-            )
-        """, ())
+            # Deduplicate head_to_head rows (keep one per pair) - use raw SQL for this complex operation
+            from sqlalchemy import text
+            session.execute(text("""
+                DELETE FROM head_to_head
+                WHERE rowid NOT IN (
+                    SELECT MIN(rowid) FROM head_to_head GROUP BY team_a_id, team_b_id
+                )
+            """))
 
-        # Remove old team row
-        self.db.execute_insert("DELETE FROM teams WHERE team_id = ?", (old_id,))
+            # Remove old team row
+            session.query(Team).filter(Team.team_id == old_id).delete()
+
+            session.commit()
+        finally:
+            session.close()
 
         return old_id, canonical_id
 
     def add_unique_index(self) -> None:
         """Add a unique index on teams(team_name) to prevent future duplicates."""
-        self.db.execute_insert("CREATE UNIQUE INDEX IF NOT EXISTS ux_teams_name ON teams(team_name)", ())
+        from sqlalchemy import text
+        session = self.db.get_session()
+        try:
+            session.execute(text("CREATE UNIQUE INDEX IF NOT EXISTS ux_teams_name ON teams(team_name)"))
+            session.commit()
+        finally:
+            session.close()
 
     def unify_all(self):
         """Unify all teams in the canonical map"""

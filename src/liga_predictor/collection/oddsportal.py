@@ -15,6 +15,7 @@ from loguru import logger
 
 from liga_predictor.database import get_db
 from liga_predictor.utils.team_mapper import TeamMapper
+from liga_predictor.models import BettingOdds
 
 
 class OddsPortalCollector:
@@ -328,60 +329,22 @@ class OddsPortalCollector:
             implied_draw = self._calculate_implied_probability(match_data.get('odds_draw'))
             implied_away = self._calculate_implied_probability(match_data.get('odds_away'))
 
-            # Check if odds already exist
-            check_query = """
-                SELECT odds_id FROM betting_odds
-                WHERE match_id = ? AND bookmaker = 'oddsportal_avg'
-            """
-            existing = self.db.execute_query(check_query, (match_id,))
-
-            if existing:
-                # Update existing odds
-                query = """
-                    UPDATE betting_odds
-                    SET odds_home = ?,
-                        odds_draw = ?,
-                        odds_away = ?,
-                        implied_prob_home = ?,
-                        implied_prob_draw = ?,
-                        implied_prob_away = ?,
-                        collected_at = CURRENT_TIMESTAMP
-                    WHERE match_id = ? AND bookmaker = 'oddsportal_avg'
-                """
-                params = (
-                    match_data.get('odds_home'),
-                    match_data.get('odds_draw'),
-                    match_data.get('odds_away'),
-                    implied_home, implied_draw, implied_away,
-                    match_id
-                )
-                # Updating existing odds
-            else:
-                # Insert new odds
-                query = """
-                    INSERT INTO betting_odds (
-                        match_id, bookmaker, odds_home, odds_draw, odds_away,
-                        implied_prob_home, implied_prob_draw, implied_prob_away,
-                        odds_type, collected_at
-                    ) VALUES (?, 'oddsportal_avg', ?, ?, ?, ?, ?, ?, 'closing', CURRENT_TIMESTAMP)
-                """
-                params = (
-                    match_id,
-                    match_data.get('odds_home'),
-                    match_data.get('odds_draw'),
-                    match_data.get('odds_away'),
-                    implied_home, implied_draw, implied_away
-                )
-                # Inserting new odds
-
-            conn = self.db.get_connection()
-            try:
-                cursor = conn.cursor()
-                cursor.execute(query, params)
-                conn.commit()
-                return True
-            finally:
-                conn.close()
+            # Upsert odds using helper
+            self.db.merge_or_create(
+                BettingOdds,
+                filter_dict={'match_id': match_id, 'bookmaker': 'oddsportal_avg'},
+                defaults={
+                    'odds_home': match_data.get('odds_home'),
+                    'odds_draw': match_data.get('odds_draw'),
+                    'odds_away': match_data.get('odds_away'),
+                    'implied_prob_home': implied_home,
+                    'implied_prob_draw': implied_draw,
+                    'implied_prob_away': implied_away,
+                    'odds_type': 'closing',
+                    'collected_at': datetime.now()
+                }
+            )
+            return True
 
         except Exception as e:
             logger.error(f"Error inserting/updating odds: {e}")
@@ -1238,79 +1201,8 @@ class OddsPortalCollector:
         return total_stats
 
 
-def main():
-    """Main execution with CLI argument parsing"""
-    import argparse
-
-    parser = argparse.ArgumentParser(
-        description='OddsPortal Collector for 3. Liga Betting Odds'
-    )
-
-    parser.add_argument(
-        '--mode',
-        type=str,
-        choices=['upcoming', 'recent', 'season', 'all'],
-        default='recent',
-        help='Collection mode (default: recent)'
-    )
-    parser.add_argument(
-        '--season',
-        type=str,
-        help='Specific season to collect (e.g., 2023-2024)'
-    )
-    parser.add_argument(
-        '--days',
-        type=int,
-        default=7,
-        help='Number of days for recent mode (default: 7)'
-    )
-    parser.add_argument(
-        '--skip-existing',
-        action='store_true',
-        default=True,
-        help='Skip matches that already have odds (default: True)'
-    )
-    parser.add_argument(
-        '--no-skip-existing',
-        action='store_false',
-        dest='skip_existing',
-        help='Re-scrape all matches, even if they have odds'
-    )
-
-    args = parser.parse_args()
-
-    collector = OddsPortalCollector(use_selenium=True)
-
-    try:
-        if args.mode == 'upcoming':
-            stats = collector.collect_upcoming_matches()
-        elif args.mode == 'recent':
-            stats = collector.collect_recent_matches(days=args.days)
-        elif args.mode == 'season':
-            if not args.season:
-                logger.error("--season required for 'season' mode")
-                sys.exit(1)
-            stats = collector.collect_season_odds(args.season, skip_existing=args.skip_existing)
-        elif args.mode == 'all':
-            stats = collector.collect_all_seasons(skip_existing=args.skip_existing)
-        else:
-            logger.error(f"Unknown mode: {args.mode}")
-            sys.exit(1)
-
-        # Print summary
-        print("\n" + "=" * 60)
-        print("ODDSPORTAL COLLECTION SUMMARY")
-        print("=" * 60)
-        for key, value in stats.items():
-            print(f"{key}: {value}")
-        print("=" * 60)
-
-    except KeyboardInterrupt:
-        logger.info("Collection interrupted by user")
-        sys.exit(130)
-    except Exception as e:
-        logger.error(f"Collection failed: {e}")
-        import traceback
-        traceback.print_exc()
-        sys.exit(1)
+if __name__ == "__main__":
+    print("Use CLI instead: liga-predictor collect-oddsportal")
+    import sys
+    sys.exit(1)
 
