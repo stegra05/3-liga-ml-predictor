@@ -13,6 +13,7 @@ from datetime import datetime
 import argparse
 
 from liga_predictor.database import get_db
+from liga_predictor.models import TeamRating
 
 
 class RatingCalculator:
@@ -277,25 +278,28 @@ class RatingCalculator:
         return float(np.mean(goals)) if goals else 0.0
 
     def _bulk_insert_ratings(self, ratings: List[Dict]):
-        """Bulk insert ratings into database"""
+        """Bulk insert ratings into database using ORM"""
         if not ratings:
             return
 
-        query = """
-            INSERT OR REPLACE INTO team_ratings
-            (team_id, match_id, season, matchday, elo_rating, pi_rating,
-             points_last_5, points_last_10, goals_scored_last_5, goals_conceded_last_5)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """
-
-        params_list = [
-            (r['team_id'], r['match_id'], r['season'], r['matchday'],
-             r['elo_rating'], r['pi_rating'], r['points_last_5'], r['points_last_10'],
-             r['goals_scored_last_5'], r['goals_conceded_last_5'])
-            for r in ratings
-        ]
-
-        self.db.execute_many(query, params_list)
+        for r in ratings:
+            self.db.merge_or_create(
+                TeamRating,
+                filter_dict={
+                    'team_id': r['team_id'],
+                    'match_id': r.get('match_id'),
+                    'season': r['season'],
+                    'matchday': r['matchday']
+                },
+                defaults={
+                    'elo_rating': r['elo_rating'],
+                    'pi_rating': r['pi_rating'],
+                    'points_last_5': r['points_last_5'],
+                    'points_last_10': r['points_last_10'],
+                    'goals_scored_last_5': r['goals_scored_last_5'],
+                    'goals_conceded_last_5': r['goals_conceded_last_5']
+                }
+            )
 
 
 def update_latest_ratings(season: str = None):
@@ -474,32 +478,7 @@ def update_latest_ratings(season: str = None):
     return updated_count
 
 
-def main():
-    """Main execution"""
-    calculator = RatingCalculator(initial_elo=1500.0, k_factor=32.0)
-
-    # Calculate ratings for all matches
-    calculator.calculate_all_ratings()
-
-    # Print statistics
-    stats = calculator.db.get_database_stats()
-    print("\n=== Database Statistics ===")
-    for key, value in stats.items():
-        print(f"{key}: {value}")
-
-    # Show sample ratings
-    query = """
-        SELECT t.team_name, tr.season, tr.matchday,
-               tr.elo_rating, tr.pi_rating, tr.points_last_5
-        FROM team_ratings tr
-        JOIN teams t ON tr.team_id = t.team_id
-        ORDER BY tr.season DESC, tr.matchday DESC
-        LIMIT 20
-    """
-    ratings_sample = calculator.db.query_to_dataframe(query)
-    print("\n=== Sample Ratings (Recent) ===")
-    print(ratings_sample.to_string(index=False))
-
-
 if __name__ == "__main__":
-    main()
+    print("Use CLI instead: liga-predictor calculate-ratings")
+    import sys
+    sys.exit(1)

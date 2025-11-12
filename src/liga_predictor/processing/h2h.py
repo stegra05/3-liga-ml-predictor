@@ -7,6 +7,7 @@ from collections import defaultdict
 from datetime import datetime
 
 from liga_predictor.database import get_db
+from liga_predictor.models import HeadToHead
 
 
 class HeadToHeadBuilder:
@@ -65,30 +66,27 @@ class HeadToHeadBuilder:
 
         logger.info(f"Computed H2H for {len(key_to_counts)} team pairs")
 
-        # Upsert into head_to_head
+        # Upsert into head_to_head using ORM helper
         inserted = 0
         for (a_id, b_id), ct in key_to_counts.items():
-            self.db.execute_insert("""
-                INSERT OR REPLACE INTO head_to_head
-                (team_a_id, team_b_id, total_matches, team_a_wins, draws, team_b_wins,
-                 team_a_home_wins, team_a_away_wins, last_updated)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                a_id, b_id,
-                ct['total'], ct['a_wins'], ct['draws'], ct['b_wins'],
-                ct.get('a_home_wins', 0), ct.get('a_away_wins', 0),
-                datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
-            ))
+            self.db.merge_or_create(
+                HeadToHead,
+                filter_dict={'team_a_id': a_id, 'team_b_id': b_id},
+                defaults={
+                    'total_matches': ct['total'],
+                    'team_a_wins': ct['a_wins'],
+                    'draws': ct['draws'],
+                    'team_b_wins': ct['b_wins'],
+                    'team_a_home_wins': ct.get('a_home_wins', 0),
+                    'team_a_away_wins': ct.get('a_away_wins', 0)
+                }
+            )
             inserted += 1
 
         logger.success(f"Inserted/updated {inserted} head_to_head rows")
 
 
-def main():
-    logger.info("=== Building Head-to-Head table ===")
-    builder = HeadToHeadBuilder()
-    builder.compute_h2h()
-
-
 if __name__ == "__main__":
-    main()
+    print("Use CLI instead: liga-predictor build-h2h")
+    import sys
+    sys.exit(1)

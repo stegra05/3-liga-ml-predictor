@@ -724,46 +724,8 @@ class TransfermarktRefereeCollector:
         return total_stats
 
 
-def main():
-    """Main execution"""
-    logger.info("Starting Transfermarkt referee collection")
-    
-    collector = TransfermarktRefereeCollector()
-    
-    # Collect all historical data
-    stats = collector.collect_all_seasons()
-    
-    logger.info("Collection complete!")
-    
-    # Print summary
-    print("\n" + "="*60)
-    print("REFEREE DATA COLLECTION SUMMARY")
-    print("="*60)
-    print(f"Seasons processed: {stats['seasons_processed']}")
-    print(f"Matches scraped: {stats['matches_scraped']}")
-    print(f"Matches matched to database: {stats['matches_matched']}")
-    print(f"Matches updated: {stats['matches_updated']}")
-    if 'matches_skipped' in stats:
-        print(f"Matches skipped (already had data): {stats['matches_skipped']}")
-    print(f"Errors: {stats['errors']}")
-    print("="*60)
-    
-    # Check coverage
-    db = get_db()
-    result = db.execute_query("""
-        SELECT 
-            COUNT(*) as total_matches,
-            COUNT(referee) as with_referee,
-            ROUND(COUNT(referee) * 100.0 / COUNT(*), 2) as percentage
-        FROM matches 
-        WHERE is_finished = 1
-    """)
-    
-    if result:
-        row = result[0]
-        print("\nDATABASE REFEREE COVERAGE:")
-        print(f"Total finished matches: {row['total_matches']}")
-        print(f"Matches with referee: {row['with_referee']}")
-        print(f"Coverage: {row['percentage']}%")
-        print("="*60)
+if __name__ == "__main__":
+    print("Use CLI instead: liga-predictor collect-transfermarkt")
+    import sys
+    sys.exit(1)
 

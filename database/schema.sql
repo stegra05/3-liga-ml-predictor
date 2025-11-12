@@ -411,45 +411,7 @@ CREATE INDEX IF NOT EXISTS idx_logs_source ON collection_logs(source);
 CREATE INDEX IF NOT EXISTS idx_logs_status ON collection_logs(status);
 
 -- =============================================
--- VIEWS FOR COMMON QUERIES
+-- VIEWS REMOVED
 -- =============================================
-
--- Comprehensive match view with team names
-CREATE VIEW IF NOT EXISTS v_matches_detailed AS
-SELECT
-    m.match_id,
-    m.openligadb_match_id,
-    m.season,
-    m.matchday,
-    m.match_datetime,
-    ht.team_name as home_team,
-    at.team_name as away_team,
-    m.home_goals,
-    m.away_goals,
-    m.result,
-    m.venue,
-    m.attendance,
-    m.temperature_celsius,
-    m.humidity_percent,
-    m.is_midweek,
-    m.is_derby
-FROM matches m
-JOIN teams ht ON m.home_team_id = ht.team_id
-JOIN teams at ON m.away_team_id = at.team_id;
-
--- Team performance summary per season
-CREATE VIEW IF NOT EXISTS v_team_season_summary AS
-SELECT
-    t.team_name,
-    ls.season,
-    MAX(ls.position) as final_position,
-    SUM(ls.matches_played) / COUNT(DISTINCT ls.matchday) as avg_matches,
-    SUM(ls.wins) as total_wins,
-    SUM(ls.draws) as total_draws,
-    SUM(ls.losses) as total_losses,
-    SUM(ls.goals_for) as total_goals_for,
-    SUM(ls.goals_against) as total_goals_against,
-    SUM(ls.points) as total_points
-FROM league_standings ls
-JOIN teams t ON ls.team_id = t.team_id
-GROUP BY t.team_name, ls.season;
+-- Views (v_matches_detailed, v_team_season_summary) have been removed.
+-- Use SQLAlchemy ORM queries instead for better type safety and maintainability.

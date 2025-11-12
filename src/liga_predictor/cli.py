@@ -8,8 +8,8 @@ defaults to predicting matches.
 Usage:
     liga-predictor                    # Predict next matchday (default)
     liga-predictor predict            # Explicit prediction
-    liga-predictor predict --help     # Show prediction options
-    liga-predictor collect-fbref      # Collect FBref data
+    liga-predictor collect fbref      # Collect FBref data
+    liga-predictor process h2h        # Build head-to-head stats
     liga-predictor --help             # List all available commands
 """
 
@@ -216,230 +216,113 @@ def evaluate(
         console.print("  Then open http://localhost:5000 in your browser")
 
 
-@app.command("collect-fbref")
-def collect_fbref(
-    ctx: typer.Context,
+@app.command()
+def collect(
+    source: Annotated[
+        str,
+        typer.Argument(help="Data source: fbref, openligadb, transfermarkt, oddsportal, fotmob"),
+    ],
 ):
     """
-    Collect data from FBref.
+    Collect data from specified source.
 
-    Collects team standings and player statistics from FBref for 3. Liga seasons.
-    Pass additional arguments after the command for collector-specific options.
+    Collects data from various sources for 3. Liga matches, teams, and statistics.
     """
-    from liga_predictor.collection.fbref import FBrefCollector, main
+    match source.lower():
+        case "fbref":
+            from liga_predictor.collection.fbref import FBrefCollector
 
-    # Call the module's main function
-    main()
+            collector = FBrefCollector(use_selenium=True)
+            collector.collect_all_seasons()
+        case "openligadb":
+            from liga_predictor.collection.openligadb import OpenLigaDBCollector
+            from datetime import datetime
+
+            collector = OpenLigaDBCollector()
+            collector.collect_all_historical_data(start_year=2009, end_year=2024)
+            current_year = datetime.now().year
+            if datetime.now().month >= 7:  # Season starts around July
+                collector.collect_season(str(current_year))
+        case "transfermarkt":
+            from liga_predictor.collection.transfermarkt import TransfermarktRefereeCollector
+
+            collector = TransfermarktRefereeCollector()
+            collector.collect_all_seasons()
+        case "oddsportal":
+            from liga_predictor.collection.oddsportal import OddsPortalCollector
+
+            collector = OddsPortalCollector(use_selenium=True)
+            collector.collect_recent_matches(days=7)
+        case "fotmob":
+            from liga_predictor.collection.fotmob import FotMobCollector
+
+            collector = FotMobCollector()
+            # Collect recent seasons (similar to other collectors)
+            for year in range(2021, 2026):
+                collector.collect_season(f"{year}-{year+1}")
+        case _:
+            logger.error(f"Unknown source: {source}")
+            logger.info("Valid sources: fbref, openligadb, transfermarkt, oddsportal, fotmob")
+            raise typer.Exit(code=1)
 
 
-@app.command("collect-openligadb")
-def collect_openligadb(
-    ctx: typer.Context,
+@app.command()
+def process(
+    step: Annotated[
+        str,
+        typer.Argument(help="Processing step: ml-export, weather, locations, h2h, ratings, unify"),
+    ],
 ):
     """
-    Collect data from OpenLigaDB API.
+    Run data processing step.
 
-    Collects match data, scores, and fixtures from the OpenLigaDB API for 3. Liga.
-    Pass additional arguments after the command for collector-specific options.
+    Executes various data processing and feature engineering steps for the prediction system.
     """
-    from liga_predictor.collection.openligadb import OpenLigaDBCollector, main
+    match step.lower():
+        case "ml-export":
+            from liga_predictor.processing.ml_export import MLDataExporter
 
-    # Call the module's main function
-    main()
+            exporter = MLDataExporter()
+            exporter.export_to_csv(save_splits=True)
+        case "weather":
+            from liga_predictor.processing.weather import get_db, run_weather_stage
 
+            db = get_db()
+            logger.info("=== Simplified Weather Fetching ===")
+            run_weather_stage("meteostat", "meteostat")
+            run_weather_stage("open_meteo", "open-meteo")
+            run_weather_stage("dwd", "dwd")
+            logger.success("Weather fetching complete")
+        case "locations":
+            from liga_predictor.processing.locations import TeamLocationBuilder
 
-@app.command("collect-transfermarkt")
-def collect_transfermarkt(
-    ctx: typer.Context,
-):
-    """
-    Collect referee data from Transfermarkt.
+            builder = TeamLocationBuilder()
+            builder.build_locations()
+        case "h2h":
+            from liga_predictor.processing.h2h import HeadToHeadBuilder
 
-    Collects referee information and statistics from Transfermarkt for 3. Liga matches.
-    Pass additional arguments after the command for collector-specific options.
-    """
-    from liga_predictor.collection.transfermarkt import TransfermarktRefereeCollector, main
+            logger.info("=== Building Head-to-Head table ===")
+            builder = HeadToHeadBuilder()
+            builder.compute_h2h()
+            logger.success("Head-to-head statistics built successfully")
+        case "ratings":
+            from liga_predictor.processing.ratings import RatingCalculator
 
-    # Call the module's main function
-    main()
+            calculator = RatingCalculator(initial_elo=1500.0, k_factor=32.0)
+            calculator.calculate_all_ratings()
+            stats = calculator.db.get_database_stats()
+            logger.info("\n=== Database Statistics ===")
+            for key, value in stats.items():
+                logger.info(f"{key}: {value}")
+        case "unify":
+            from liga_predictor.processing.unify import TeamUnifier
 
-
-@app.command("collect-oddsportal")
-def collect_oddsportal(
-    ctx: typer.Context,
-):
-    """
-    Collect betting odds from OddsPortal.
-
-    Collects 1X2 betting odds from OddsPortal.com for 3. Liga matches.
-    Pass additional arguments after the command for collector-specific options.
-    """
-    from liga_predictor.collection.oddsportal import OddsPortalCollector, main
-
-    # Call the module's main function
-    main()
-
-
-@app.command("export-ml-data")
-def export_ml_data(
-    ctx: typer.Context,
-):
-    """
-    Export ML training data.
-
-    Exports processed match data with features for machine learning model training.
-    Creates a comprehensive dataset with all features needed for prediction.
-    Pass additional arguments after the command for exporter-specific options.
-    """
-    from liga_predictor.processing.ml_export import MLDataExporter, main
-
-    # Call the module's main function
-    main()
-
-
-@app.command("fetch-weather")
-def fetch_weather(
-    limit: Annotated[
-        Optional[int],
-        typer.Option(help="Limit matches per stage (for testing)"),
-    ] = None,
-    dry_run: Annotated[
-        bool,
-        typer.Option("--dry-run", help="Show what would be done without running"),
-    ] = False,
-    sleep: Annotated[
-        float,
-        typer.Option(help="Sleep between API calls (seconds)"),
-    ] = 1.0,
-    target_coverage: Annotated[
-        float,
-        typer.Option(help="Target coverage percentage"),
-    ] = 95.0,
-    skip_meteostat: Annotated[
-        bool,
-        typer.Option("--skip-meteostat", help="Skip Meteostat stage"),
-    ] = False,
-    skip_open_meteo: Annotated[
-        bool,
-        typer.Option("--skip-open-meteo", help="Skip Open-Meteo stage"),
-    ] = False,
-    skip_dwd: Annotated[
-        bool,
-        typer.Option("--skip-dwd", help="Skip DWD stage"),
-    ] = False,
-):
-    """
-    Fetch weather data from multiple sources.
-
-    Runs a multi-source weather fetching pipeline to collect historical weather data
-    for matches. Uses Meteostat, Open-Meteo, and DWD sources to maximize coverage.
-    """
-    from liga_predictor.processing.weather import get_db, get_weather_coverage, get_matches_needing_weather, run_weather_stage
-    from datetime import datetime
-
-    db = get_db()
-
-    logger.info("=== Multi-Source Weather Fetching Pipeline ===")
-
-    # Initial coverage check
-    initial_coverage = get_weather_coverage(db)
-    matches_needing = get_matches_needing_weather(db)
-
-    logger.info(f"Initial coverage: {initial_coverage:.2f}%")
-    logger.info(f"Matches needing weather: {matches_needing}")
-
-    if dry_run:
-        logger.info("Dry run mode - showing stages that would be executed:")
-        if not skip_meteostat:
-            logger.info("  1. Meteostat")
-        if not skip_open_meteo:
-            logger.info("  2. Open-Meteo")
-        if not skip_dwd:
-            logger.info("  3. DWD")
-        return
-
-    # Run stages
-    if not skip_meteostat:
-        logger.info("\n=== Stage 1: Meteostat ===")
-        run_weather_stage("meteostat", "meteostat", limit=limit, sleep=sleep)
-
-    if not skip_open_meteo:
-        logger.info("\n=== Stage 2: Open-Meteo ===")
-        run_weather_stage("open_meteo", "open-meteo", limit=limit, sleep=sleep)
-
-    if not skip_dwd:
-        logger.info("\n=== Stage 3: DWD ===")
-        run_weather_stage("dwd", "dwd", limit=limit, sleep=sleep)
-
-    # Final coverage check
-    final_coverage = get_weather_coverage(db)
-    final_needing = get_matches_needing_weather(db)
-
-    logger.info(f"\n=== Final Results ===")
-    logger.info(f"Initial coverage: {initial_coverage:.2f}%")
-    logger.info(f"Final coverage: {final_coverage:.2f}%")
-    logger.info(f"Improvement: +{final_coverage - initial_coverage:.2f}%")
-    logger.info(f"Matches still needing weather: {final_needing}")
-
-    if final_coverage >= target_coverage:
-        logger.success(
-            f"✓ Target coverage achieved: {final_coverage:.2f}% >= {target_coverage}%"
-        )
-    else:
-        logger.warning(
-            f"⚠ Target coverage not reached: {final_coverage:.2f}% < {target_coverage}%"
-        )
-        logger.info(f"  Remaining gaps: {final_needing} matches")
-
-
-@app.command("build-locations")
-def build_locations(
-    ctx: typer.Context,
-):
-    """
-    Build team location mappings.
-
-    Builds and updates team location data including coordinates for travel distance
-    calculations and weather lookups.
-    """
-    from liga_predictor.processing.locations import main
-
-    # Call the module's main function
-    main()
-
-
-@app.command("build-h2h")
-def build_h2h(
-    ctx: typer.Context,
-):
-    """
-    Build head-to-head statistics.
-
-    Computes head-to-head match statistics between all team pairs from historical
-    match data. Creates a comprehensive H2H table for prediction features.
-    """
-    from liga_predictor.processing.h2h import HeadToHeadBuilder
-
-    logger.info("=== Building Head-to-Head table ===")
-    builder = HeadToHeadBuilder()
-    builder.compute_h2h()
-    logger.success("Head-to-head statistics built successfully")
-
-
-@app.command("calculate-ratings")
-def calculate_ratings(
-    ctx: typer.Context,
-):
-    """
-    Calculate team ratings.
-
-    Calculates and updates team rating statistics based on recent performance.
-    Computes Elo-style ratings and other performance metrics for prediction features.
-    """
-    from liga_predictor.processing.ratings import RatingCalculator, main
-
-    # Call the module's main function
-    main()
+            unifier = TeamUnifier()
+            unifier.unify_all()
+        case _:
+            logger.error(f"Unknown processing step: {step}")
+            logger.info("Valid steps: ml-export, weather, locations, h2h, ratings, unify")
+            raise typer.Exit(code=1)
 
 
 @app.command("db-init")

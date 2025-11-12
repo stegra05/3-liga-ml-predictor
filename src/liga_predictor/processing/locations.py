@@ -7,6 +7,7 @@ from loguru import logger
 import requests
 
 from liga_predictor.database import get_db
+from liga_predictor.models import TeamLocation
 
 GEOCODE_URL = "https://geocoding-api.open-meteo.com/v1/search"
 
@@ -76,10 +77,18 @@ class TeamLocationBuilder:
             if lat is None:
                 skipped += 1
                 continue
-            self.db.execute_insert("""
-                INSERT OR REPLACE INTO team_locations (team_id, team_name, lat, lon, source, updated_at)
-                VALUES (?, ?, ?, ?, 'open-meteo-geocoding', CURRENT_TIMESTAMP)
-            """, (tid, t["team_name"], lat, lon))
+            
+            # Insert or update using ORM helper
+            self.db.merge_or_create(
+                TeamLocation,
+                filter_dict={'team_id': tid},
+                defaults={
+                    'team_name': t["team_name"],
+                    'lat': lat,
+                    'lon': lon,
+                    'source': 'open-meteo-geocoding'
+                }
+            )
             inserted += 1
             if (inserted + skipped) % 10 == 0:
                 logger.info(f"Progress: {inserted} inserted, {skipped} skipped")
@@ -87,10 +96,7 @@ class TeamLocationBuilder:
         logger.success(f"team_locations update complete: {inserted} inserted/updated, {skipped} skipped")
 
 
-def main():
-    builder = TeamLocationBuilder()
-    builder.build_locations()
-
-
 if __name__ == "__main__":
-    main()
+    print("Use CLI instead: liga-predictor build-locations")
+    import sys
+    sys.exit(1)

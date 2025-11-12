@@ -14,9 +14,11 @@ import re
 
 from liga_predictor.database import get_db
 from liga_predictor.utils.team_mapper import TeamMapper
+from liga_predictor.utils.scraper import BaseScraper
+from liga_predictor.models import Player, PlayerSeasonStats, FBrefCollectionLog
 
 
-class FBrefCollector:
+class FBrefCollector(BaseScraper):
     """Collects 3. Liga data from FBref"""
 
     BASE_URL = "https://fbref.com"
@@ -35,22 +37,8 @@ class FBrefCollector:
         Args:
             use_selenium: If True, use Selenium for browser automation (slower but bypasses bot detection)
         """
-        self.use_selenium = use_selenium
-        self.session = requests.Session()
-
-        # More comprehensive headers to mimic real browser
-        self.session.headers.update({
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Connection': 'keep-alive',
-            'Upgrade-Insecure-Requests': '1',
-            'Sec-Fetch-Dest': 'document',
-            'Sec-Fetch-Mode': 'navigate',
-            'Sec-Fetch-Site': 'none',
-            'Cache-Control': 'max-age=0'
-        })
+        # Initialize base scraper with per-request driver pattern (not persistent)
+        super().__init__(use_selenium=use_selenium, persistent_driver=False)
 
         self.db = get_db()
         self.team_mapper = TeamMapper()
@@ -62,103 +50,8 @@ class FBrefCollector:
             logger.warning("If you encounter 403 errors, run with use_selenium=True")
 
     def _make_request(self, url: str, delay: float = 3.0) -> Optional[BeautifulSoup]:
-        """
-        Make HTTP request with error handling and rate limiting
-
-        Args:
-            url: Full URL to fetch
-            delay: Seconds to wait after request (respect rate limits)
-
-        Returns:
-            BeautifulSoup object or None on error
-        """
-        if self.use_selenium:
-            return self._make_request_selenium(url, delay)
-        else:
-            return self._make_request_requests(url, delay)
-
-    def _make_request_requests(self, url: str, delay: float) -> Optional[BeautifulSoup]:
-        """Make request using requests library"""
-        try:
-            logger.debug(f"Fetching with requests: {url}")
-            response = self.session.get(url, timeout=30, allow_redirects=True)
-            response.raise_for_status()
-
-            # Rate limiting - be respectful to FBref
-            time.sleep(delay)
-
-            return BeautifulSoup(response.content, 'html.parser')
-
-        except requests.exceptions.HTTPError as e:
-            if e.response.status_code == 403:
-                logger.error(f"Access forbidden (403) - FBref is blocking automated requests")
-                logger.warning("Please run the collector with use_selenium=True to bypass this")
-                logger.info("Example: collector = FBrefCollector(use_selenium=True)")
-            else:
-                logger.error(f"HTTP error {e.response.status_code}: {url}")
-            return None
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Request failed: {url} - {e}")
-            return None
-
-    def _make_request_selenium(self, url: str, delay: float) -> Optional[BeautifulSoup]:
-        """Make request using Selenium (bypasses bot detection)"""
-        try:
-            from selenium import webdriver
-            from selenium.webdriver.chrome.options import Options
-            from selenium.webdriver.chrome.service import Service
-            from selenium.webdriver.common.by import By
-            from selenium.webdriver.support.ui import WebDriverWait
-            from selenium.webdriver.support import expected_conditions as EC
-            from webdriver_manager.chrome import ChromeDriverManager
-
-            logger.debug(f"Fetching with Selenium: {url}")
-
-            # Configure Chrome options for headless mode
-            chrome_options = Options()
-            chrome_options.add_argument('--headless=new')  # New headless mode
-            chrome_options.add_argument('--no-sandbox')
-            chrome_options.add_argument('--disable-dev-shm-usage')
-            chrome_options.add_argument('--disable-blink-features=AutomationControlled')  # Hide automation flags
-            chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-            chrome_options.add_experimental_option('useAutomationExtension', False)
-            chrome_options.add_argument(f'user-agent={self.session.headers["User-Agent"]}')
-
-            # Initialize driver with webdriver-manager (auto-downloads ChromeDriver)
-            service = Service(ChromeDriverManager().install())
-            driver = webdriver.Chrome(service=service, options=chrome_options)
-
-            try:
-                driver.get(url)
-
-                # Wait for page to load (wait for table to appear)
-                WebDriverWait(driver, 15).until(
-                    EC.presence_of_element_located((By.TAG_NAME, "table"))
-                )
-
-                # Additional wait to ensure all content loaded
-                time.sleep(2)
-
-                # Get page source after JavaScript execution
-                page_source = driver.page_source
-
-                # Rate limiting
-                time.sleep(delay)
-
-                return BeautifulSoup(page_source, 'html.parser')
-
-            finally:
-                driver.quit()
-
-        except ImportError as e:
-            logger.error(f"Missing dependency: {e}")
-            logger.info("Install with: pip install selenium webdriver-manager")
-            return None
-        except Exception as e:
-            logger.error(f"Selenium request failed: {url} - {e}")
-            import traceback
-            logger.debug(traceback.format_exc())
-            return None
+        """Make HTTP request with error handling and rate limiting"""
+        return super()._make_request(url, delay=delay, wait_for="table" if self.use_selenium else None)
 
     def _extract_tables_from_html(self, html_content: str) -> List[pd.DataFrame]:
         """
@@ -492,21 +385,20 @@ class FBrefCollector:
 
                     # Only save if they have some playing time
                     if player_stats_data['matches_played'] > 0 or player_stats_data['minutes_played'] > 0:
-                        # Get or create player in database
+                        # Get or create player, then upsert season stats
                         nationality = str(row.get('Nation', '')).strip().replace('flag', '').strip() if 'Nation' in player_df.columns else None
-                        player_id = self.db.get_or_create_player(
-                            full_name=player_name,
-                            nationality=nationality,
-                            position=player_stats_data['position']
+                        player = self.db.merge_or_create(
+                            Player,
+                            filter_dict={'full_name': player_name},
+                            defaults={'nationality': nationality, 'position': player_stats_data['position']}
                         )
+                        player_id = player.player_id
 
-                        # Insert season stats
-                        self.db.insert_player_season_stats(
-                            player_id=player_id,
-                            team_id=team_id,
-                            season=season,
-                            stats=player_stats_data,
-                            source='fbref'
+                        # Upsert season stats
+                        self.db.merge_or_create(
+                            PlayerSeasonStats,
+                            filter_dict={'player_id': player_id, 'team_id': team_id, 'season': season},
+                            defaults={**player_stats_data, 'source': 'fbref'}
                         )
 
                         logger.debug(f"Player {player_name} ({fbref_team_name}): {player_stats_data['goals']}G, {player_stats_data['assists']}A in {player_stats_data['matches_played']} matches")
@@ -618,21 +510,25 @@ class FBrefCollector:
                 'players_processed': stats.get('player_stats', {}).get('players_collected', 0)
             }
 
-            query = """
-                INSERT INTO fbref_collection_log
-                (season, collection_type, items_attempted, items_collected, items_failed,
-                 started_at, completed_at, duration_seconds, status, teams_processed, players_processed)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """
-
-            params = (
-                log_data['season'], log_data['collection_type'], log_data['items_attempted'],
-                log_data['items_collected'], log_data['items_failed'], log_data['started_at'],
-                log_data['completed_at'], log_data['duration_seconds'], log_data['status'],
-                log_data['teams_processed'], log_data['players_processed']
-            )
-
-            self.db.execute_insert(query, params)
+            session = self.db.get_session()
+            try:
+                log_entry = FBrefCollectionLog(
+                    season=log_data['season'],
+                    collection_type=log_data['collection_type'],
+                    items_attempted=log_data['items_attempted'],
+                    items_collected=log_data['items_collected'],
+                    items_failed=log_data['items_failed'],
+                    started_at=log_data['started_at'],
+                    completed_at=log_data['completed_at'],
+                    duration_seconds=log_data['duration_seconds'],
+                    status=log_data['status'],
+                    teams_processed=log_data['teams_processed'],
+                    players_processed=log_data['players_processed']
+                )
+                session.add(log_entry)
+                session.commit()
+            finally:
+                session.close()
             logger.debug("Collection logged to database")
 
         except Exception as e:
@@ -694,25 +590,7 @@ class FBrefCollector:
         }
 
 
-def main():
-    """Main function for testing FBref collector"""
-    logger.info("Starting FBref collector test with Selenium")
-
-    # Use Selenium to bypass bot detection
-    collector = FBrefCollector(use_selenium=True)
-
-    # Test with single season first
-    test_season = "2023-2024"
-    logger.info(f"Testing with season: {test_season}")
-
-    results = collector.collect_season_data(test_season)
-
-    logger.info("\n=== Test Results ===")
-    logger.info(f"Season: {results.get('season')}")
-    logger.info(f"Duration: {results.get('duration_seconds', 0):.1f}s")
-    logger.info(f"Teams collected: {results.get('standings', {}).get('teams_collected', 0)}")
-    logger.info(f"Players collected: {results.get('player_stats', {}).get('players_collected', 0)}")
-
-
 if __name__ == "__main__":
-    main()
+    print("Use CLI instead: liga-predictor collect-fbref")
+    import sys
+    sys.exit(1)

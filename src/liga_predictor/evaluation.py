@@ -239,6 +239,102 @@ def calculate_all_metrics(
     return results
 
 
+def generate_expanding_season_splits(df: pd.DataFrame, start_season: int):
+    """Generator for expanding season splits - progressively larger training sets."""
+    start_season_str = f"{start_season}-{start_season+1}"
+    test_seasons = [s for s in sorted(df["season"].unique()) if s > start_season_str]
+    for test_season in test_seasons:
+        train_df = df[(df["season"] >= start_season_str) & (df["season"] < test_season)].copy()
+        test_df = df[df["season"] == test_season].copy()
+        if len(train_df) > 0 and len(test_df) > 0:
+            yield train_df, test_df, f"Season {test_season}"
+
+
+def generate_sliding_season_splits(df: pd.DataFrame, start_season: int, window_size: int):
+    """Generator for sliding season splits - fixed-window training sets."""
+    def get_start_year(season_str):
+        return int(season_str.split("-")[0])
+    test_seasons = [s for s in sorted(df["season"].unique()) 
+                    if get_start_year(s) >= start_season + window_size]
+    for test_season in test_seasons:
+        test_year = get_start_year(test_season)
+        train_start_str = f"{test_year - window_size}-{test_year - window_size + 1}"
+        train_df = df[(df["season"] >= train_start_str) & (df["season"] < test_season)].copy()
+        test_df = df[df["season"] == test_season].copy()
+        if len(train_df) > 0 and len(test_df) > 0:
+            yield train_df, test_df, f"Season {test_season}"
+
+
+def generate_rolling_matchday_splits(df: pd.DataFrame, start_season: int, test_season: int):
+    """Generator for rolling matchday splits - incrementally growing training sets."""
+    start_season_str = f"{start_season}-{start_season+1}"
+    test_season_str = f"{test_season}-{test_season+1}"
+    train_df = df[(df["season"] >= start_season_str) & (df["season"] < test_season_str)].copy()
+    test_season_df = df[df["season"] == test_season_str].copy()
+    for matchday in sorted(test_season_df["matchday"].unique()):
+        test_df = test_season_df[test_season_df["matchday"] == matchday].copy()
+        if len(test_df) > 0:
+            yield train_df, test_df, f"MD {matchday}"
+            train_df = pd.concat([train_df, test_df], ignore_index=True)
+
+
+def generate_static_preseason_splits(df: pd.DataFrame, start_season: int, test_season: int):
+    """Generator for static preseason splits - same training set, different test matchdays."""
+    start_season_str = f"{start_season}-{start_season+1}"
+    test_season_str = f"{test_season}-{test_season+1}"
+    train_df = df[(df["season"] >= start_season_str) & (df["season"] < test_season_str)].copy()
+    test_season_df = df[df["season"] == test_season_str].copy()
+    for matchday in sorted(test_season_df["matchday"].unique()):
+        test_df = test_season_df[test_season_df["matchday"] == matchday].copy()
+        if len(test_df) > 0:
+            yield train_df, test_df, f"MD {matchday}"
+
+
+def _run_evaluation_with_splits(
+    split_generator, console: Console, log_mlflow: bool, mlflow_params: Dict,
+    model: Optional[RandomForestClassifier] = None, saved_metadata: Optional[Dict] = None,
+    progress_description: str = "Evaluating folds",
+) -> List[Dict]:
+    """Unified evaluation function - consolidates train/predict/metric/log logic."""
+    results = []
+    for train_df, test_df, fold_name in track(split_generator, description=progress_description):
+        X_train, y_train = prepare_features_target(train_df)
+        X_test, y_test = prepare_features_target(test_df)
+        
+        if model is None:
+            fold_model = get_model()
+            fold_model.fit(X_train, y_train)
+        else:
+            fold_model = model
+            if saved_metadata and 'features' in saved_metadata:
+                X_test = X_test[[f for f in saved_metadata['features'] if f in X_test.columns]]
+            else:
+                from liga_predictor import config
+                X_test = X_test[[f for f in X_test.columns if f in config.NUMERICAL_FEATURES]]
+        
+        y_pred_classes = fold_model.predict(X_test)
+        y_pred_probs = fold_model.predict_proba(X_test)
+        fold_metrics = calculate_all_metrics(test_df, y_test, y_pred_classes, y_pred_probs)
+        fold_metrics.update({"fold": fold_name, "train_size": len(train_df), "test_size": len(test_df)})
+        results.append(fold_metrics)
+        
+        if log_mlflow:
+            fold_params = mlflow_params.copy()
+            mode_snake = mlflow_params.get('mode', 'eval').replace('-', '_')
+            if "Season" in fold_name:
+                fold_params["test_season"] = fold_name.replace("Season ", "")
+                run_name = f"{mode_snake}_{fold_params['test_season']}"
+            elif "MD" in fold_name:
+                matchday = fold_name.replace("MD ", "")
+                fold_params["matchday"] = int(matchday)
+                run_name = f"{mode_snake}_{fold_params.get('test_season', 'unknown')}_MD{matchday}"
+            else:
+                run_name = f"{mode_snake}_{fold_name}"
+            log_to_mlflow(run_name=run_name, params=fold_params, metrics=fold_metrics)
+    
+    return results
+
+
 def run_expanding_season(
     df: pd.DataFrame,
     start_season: int,
@@ -263,55 +359,15 @@ def run_expanding_season(
     console.print("\n[bold cyan]Mode 1: Expanding Season[/bold cyan]")
     console.print(f"Training starts from season {start_season}")
 
-    # Convert start_season to string format "YYYY-YYYY+1"
-    start_season_str = f"{start_season}-{start_season+1}"
-
-    # Get unique seasons
-    seasons = sorted(df["season"].unique())
-
-    # Filter test seasons (must be after start_season + 1 year for training)
-    test_seasons = [s for s in seasons if s > start_season_str]
-
-    results = []
-
-    for test_season in track(test_seasons, description="Evaluating seasons"):
-        # Split data - only train on data from start_season onwards
-        train_df = df[(df["season"] >= start_season_str) & (df["season"] < test_season)].copy()
-        test_df = df[df["season"] == test_season].copy()
-
-        if len(train_df) == 0 or len(test_df) == 0:
-            console.print(f"[yellow]Skipping season {test_season}: insufficient data[/yellow]")
-            continue
-
-        # Prepare features and target
-        X_train, y_train = prepare_features_target(train_df)
-        X_test, y_test = prepare_features_target(test_df)
-
-        # Train model
-        model = get_model()
-        model.fit(X_train, y_train)
-
-        # Predict
-        y_pred_classes = model.predict(X_test)
-        y_pred_probs = model.predict_proba(X_test)
-
-        # Calculate metrics
-        fold_metrics = calculate_all_metrics(test_df, y_test, y_pred_classes, y_pred_probs)
-        fold_metrics["fold"] = f"Season {test_season}"
-        fold_metrics["train_size"] = len(train_df)
-        fold_metrics["test_size"] = len(test_df)
-
-        results.append(fold_metrics)
-
-        # Log to MLflow if requested
-        if log_mlflow:
-            log_to_mlflow(
-                run_name=f"expanding_season_{test_season}",
-                params={"mode": "expanding-season", "test_season": test_season, "start_season": start_season},
-                metrics=fold_metrics,
-            )
-
-    return results
+    split_generator = generate_expanding_season_splits(df, start_season)
+    
+    return _run_evaluation_with_splits(
+        split_generator=split_generator,
+        console=console,
+        log_mlflow=log_mlflow,
+        mlflow_params={"mode": "expanding-season", "start_season": start_season},
+        progress_description="Evaluating seasons",
+    )
 
 
 def run_sliding_season(
@@ -340,61 +396,15 @@ def run_sliding_season(
     console.print("\n[bold cyan]Mode 2: Sliding Season[/bold cyan]")
     console.print(f"Window size: {window_size} seasons")
 
-    # Convert integer season years to string format for comparison
-    seasons = sorted(df["season"].unique())
-
-    # Parse start year from season strings for window calculation
-    def get_start_year(season_str):
-        return int(season_str.split("-")[0])
-
-    # Filter test seasons that have enough history for the window
-    test_seasons = [s for s in seasons if get_start_year(s) >= start_season + window_size]
-
-    results = []
-
-    for test_season in track(test_seasons, description="Evaluating seasons"):
-        # Train on previous window_size seasons
-        test_year = get_start_year(test_season)
-        train_start_year = test_year - window_size
-        train_start_str = f"{train_start_year}-{train_start_year+1}"
-
-        train_df = df[(df["season"] >= train_start_str) & (df["season"] < test_season)].copy()
-        test_df = df[df["season"] == test_season].copy()
-
-        if len(train_df) == 0 or len(test_df) == 0:
-            continue
-
-        # Prepare and train
-        X_train, y_train = prepare_features_target(train_df)
-        X_test, y_test = prepare_features_target(test_df)
-
-        model = get_model()
-        model.fit(X_train, y_train)
-
-        # Predict
-        y_pred_classes = model.predict(X_test)
-        y_pred_probs = model.predict_proba(X_test)
-
-        # Calculate metrics
-        fold_metrics = calculate_all_metrics(test_df, y_test, y_pred_classes, y_pred_probs)
-        fold_metrics["fold"] = f"Season {test_season}"
-        fold_metrics["train_size"] = len(train_df)
-        fold_metrics["test_size"] = len(test_df)
-
-        results.append(fold_metrics)
-
-        if log_mlflow:
-            log_to_mlflow(
-                run_name=f"sliding_season_{test_season}",
-                params={
-                    "mode": "sliding-season",
-                    "test_season": test_season,
-                    "window_size": window_size,
-                },
-                metrics=fold_metrics,
-            )
-
-    return results
+    split_generator = generate_sliding_season_splits(df, start_season, window_size)
+    
+    return _run_evaluation_with_splits(
+        split_generator=split_generator,
+        console=console,
+        log_mlflow=log_mlflow,
+        mlflow_params={"mode": "sliding-season", "window_size": window_size},
+        progress_description="Evaluating seasons",
+    )
 
 
 def run_rolling_matchday(
@@ -425,60 +435,15 @@ def run_rolling_matchday(
     console.print("\n[bold cyan]Mode 3: Rolling Matchday[/bold cyan]")
     console.print(f"Testing season {test_season}, retraining after each matchday")
 
-    # Convert to season string format
-    start_season_str = f"{start_season}-{start_season+1}"
-    test_season_str = f"{test_season}-{test_season+1}"
-
-    # Initial training data: all data from start_season before test season
-    train_df = df[(df["season"] >= start_season_str) & (df["season"] < test_season_str)].copy()
-
-    # Get all matchdays in test season
-    test_season_df = df[df["season"] == test_season_str].copy()
-    matchdays = sorted(test_season_df["matchday"].unique())
-
-    results = []
-
-    for matchday in track(matchdays, description="Evaluating matchdays"):
-        # Test on current matchday
-        test_df = test_season_df[test_season_df["matchday"] == matchday].copy()
-
-        if len(test_df) == 0:
-            continue
-
-        # Prepare and train
-        X_train, y_train = prepare_features_target(train_df)
-        X_test, y_test = prepare_features_target(test_df)
-
-        model = get_model()
-        model.fit(X_train, y_train)
-
-        # Predict
-        y_pred_classes = model.predict(X_test)
-        y_pred_probs = model.predict_proba(X_test)
-
-        # Calculate metrics
-        fold_metrics = calculate_all_metrics(test_df, y_test, y_pred_classes, y_pred_probs)
-        fold_metrics["fold"] = f"MD {matchday}"
-        fold_metrics["train_size"] = len(train_df)
-        fold_metrics["test_size"] = len(test_df)
-
-        results.append(fold_metrics)
-
-        # Add current matchday to training data for next iteration
-        train_df = pd.concat([train_df, test_df], ignore_index=True)
-
-        if log_mlflow:
-            log_to_mlflow(
-                run_name=f"rolling_matchday_{test_season}_MD{matchday}",
-                params={
-                    "mode": "rolling-matchday",
-                    "test_season": test_season,
-                    "matchday": matchday,
-                },
-                metrics=fold_metrics,
-            )
-
-    return results
+    split_generator = generate_rolling_matchday_splits(df, start_season, test_season)
+    
+    return _run_evaluation_with_splits(
+        split_generator=split_generator,
+        console=console,
+        log_mlflow=log_mlflow,
+        mlflow_params={"mode": "rolling-matchday", "test_season": test_season},
+        progress_description="Evaluating matchdays",
+    )
 
 
 def run_static_preseason(
@@ -527,59 +492,21 @@ def run_static_preseason(
         model.fit(X_train, y_train)
         saved_metadata = {}
 
-    # Test on each matchday WITHOUT retraining
-    test_season_df = df[df["season"] == test_season_str].copy()
-    matchdays = sorted(test_season_df["matchday"].unique())
-
-    results = []
-
-    for matchday in track(matchdays, description="Evaluating matchdays (static model)"):
-        test_df = test_season_df[test_season_df["matchday"] == matchday].copy()
-
-        if len(test_df) == 0:
-            continue
-
-        # Prepare and predict (no training!)
-        X_test, y_test = prepare_features_target(test_df)
-
-        # Filter features to match what the model was trained on
-        # If we have saved metadata with features list, use that for proper ordering
-        if saved_metadata and 'features' in saved_metadata:
-            # Use saved features list to ensure proper ordering
-            saved_features = saved_metadata['features']
-            # Only use features that exist in X_test
-            available_features = [f for f in saved_features if f in X_test.columns]
-            X_test = X_test[available_features]
-        else:
-            # Fallback: filter to NUMERICAL_FEATURES (same as ClassifierExperiment does)
-            from liga_predictor import config
-            numerical_features = [f for f in X_test.columns if f in config.NUMERICAL_FEATURES]
-            X_test = X_test[numerical_features]
-
-        y_pred_classes = model.predict(X_test)
-        y_pred_probs = model.predict_proba(X_test)
-
-        # Calculate metrics
-        fold_metrics = calculate_all_metrics(test_df, y_test, y_pred_classes, y_pred_probs)
-        fold_metrics["fold"] = f"MD {matchday}"
-        fold_metrics["train_size"] = len(train_df)
-        fold_metrics["test_size"] = len(test_df)
-
-        results.append(fold_metrics)
-
-        if log_mlflow:
-            log_to_mlflow(
-                run_name=f"static_preseason_{test_season}_MD{matchday}",
-                params={
-                    "mode": "static-preseason",
-                    "test_season": test_season,
-                    "matchday": matchday,
-                    "use_production_model": use_production_model,
-                },
-                metrics=fold_metrics,
-            )
-
-    return results
+    split_generator = generate_static_preseason_splits(df, start_season, test_season)
+    
+    return _run_evaluation_with_splits(
+        split_generator=split_generator,
+        console=console,
+        log_mlflow=log_mlflow,
+        mlflow_params={
+            "mode": "static-preseason",
+            "test_season": test_season,
+            "use_production_model": use_production_model,
+        },
+        model=model,
+        saved_metadata=saved_metadata,
+        progress_description="Evaluating matchdays (static model)",
+    )
 
 
 def format_results_table(results: List[Dict], console: Console) -> None:
