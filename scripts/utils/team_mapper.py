@@ -21,13 +21,15 @@ class TeamMapper:
     """Handles team name standardization and mapping"""
 
     def __init__(self, config_path: str = "config/team_mappings.json",
-                 fbref_config_path: str = "config/fbref_team_mapping.json"):
+                 fbref_config_path: str = "config/fbref_team_mapping.json",
+                 fotmob_config_path: str = "config/fotmob_team_mapping.json"):
         """
         Initialize team mapper
 
         Args:
             config_path: Path to team mappings configuration file
             fbref_config_path: Path to FBref-specific team mappings
+            fotmob_config_path: Path to FotMob-specific team mappings
         """
         self.config_path = Path(config_path)
         self.config_path.parent.mkdir(parents=True, exist_ok=True)
@@ -36,6 +38,10 @@ class TeamMapper:
         # Load FBref mappings
         self.fbref_config_path = Path(fbref_config_path)
         self.fbref_mappings = self._load_fbref_mappings()
+
+        # Load FotMob mappings
+        self.fotmob_config_path = Path(fotmob_config_path)
+        self.fotmob_mappings = self._load_fotmob_mappings()
 
         # Build normalized lookup tables
         self._build_normalized_maps()
@@ -105,6 +111,13 @@ class TeamMapper:
             with open(self.fbref_config_path, 'r', encoding='utf-8') as f:
                 return json.load(f)
         return {"fbref_to_standard": {}}
+
+    def _load_fotmob_mappings(self) -> Dict:
+        """Load FotMob-specific team mappings (ID -> standard name)"""
+        if self.fotmob_config_path.exists():
+            with open(self.fotmob_config_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        return {}
 
     def save_mappings(self) -> None:
         """Save team mappings to config file"""
@@ -402,6 +415,42 @@ class TeamMapper:
 
         logger.info(f"Added FBref mapping: '{fbref_name}' → '{standard_name}'")
 
+    def get_standard_name_from_fotmob(self, fotmob_name: str, fotmob_id: Optional[int] = None) -> str:
+        """
+        Get standardized team name from FotMob team name/ID
+
+        Args:
+            fotmob_name: Team name as it appears on FotMob
+            fotmob_id: Optional FotMob team ID for more reliable matching
+
+        Returns:
+            Standardized team name for database
+        """
+        # First try by ID if provided (most reliable)
+        if fotmob_id is not None:
+            fotmob_id_str = str(fotmob_id)
+            if fotmob_id_str in self.fotmob_mappings:
+                return self.fotmob_mappings[fotmob_id_str]
+
+        # Fall back to name-based matching
+        return self.get_standard_name(fotmob_name)
+
+    def add_fotmob_mapping(self, fotmob_id: int, standard_name: str) -> None:
+        """
+        Add a new FotMob team ID mapping
+
+        Args:
+            fotmob_id: FotMob team ID
+            standard_name: Standard database team name
+        """
+        self.fotmob_mappings[str(fotmob_id)] = standard_name
+
+        # Save updated mappings
+        with open(self.fotmob_config_path, 'w', encoding='utf-8') as f:
+            json.dump(self.fotmob_mappings, f, indent=2, ensure_ascii=False)
+
+        logger.info(f"Added FotMob mapping: ID {fotmob_id} → '{standard_name}'")
+
     def export_team_list(self, output_file: str = "data/processed/team_list.csv") -> None:
         """
         Export standardized team list to CSV
@@ -471,4 +520,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    print("This script is deprecated. Use: python main.py team-mapper-init [args]", file=sys.stderr)
+    sys.exit(2)

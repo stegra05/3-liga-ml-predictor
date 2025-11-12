@@ -32,6 +32,7 @@ CREATE INDEX IF NOT EXISTS idx_teams_openligadb ON teams(openligadb_id);
 CREATE TABLE IF NOT EXISTS matches (
     match_id INTEGER PRIMARY KEY AUTOINCREMENT,
     openligadb_match_id INTEGER UNIQUE,
+    fotmob_match_id INTEGER, -- FotMob match ID for statistics collection
     season VARCHAR(9) NOT NULL, -- Format: "2024-2025"
     matchday INTEGER NOT NULL,
     match_datetime TIMESTAMP NOT NULL,
@@ -74,6 +75,7 @@ CREATE INDEX IF NOT EXISTS idx_matches_season ON matches(season);
 CREATE INDEX IF NOT EXISTS idx_matches_datetime ON matches(match_datetime);
 CREATE INDEX IF NOT EXISTS idx_matches_home_team ON matches(home_team_id);
 CREATE INDEX IF NOT EXISTS idx_matches_away_team ON matches(away_team_id);
+CREATE INDEX IF NOT EXISTS idx_matches_fotmob ON matches(fotmob_match_id);
 
 -- =============================================
 -- DETAILED MATCH STATISTICS
@@ -183,6 +185,9 @@ CREATE TABLE IF NOT EXISTS match_events (
 
 CREATE INDEX IF NOT EXISTS idx_events_match ON match_events(match_id);
 CREATE INDEX IF NOT EXISTS idx_events_type ON match_events(event_type);
+-- Unique constraint for idempotency (prevents duplicate events)
+CREATE UNIQUE INDEX IF NOT EXISTS idx_match_events_unique
+ON match_events(match_id, event_type, minute, COALESCE(player_name, ''), COALESCE(is_penalty, 0), COALESCE(is_own_goal, 0));
 
 -- =============================================
 -- LEAGUE STANDINGS
@@ -317,47 +322,6 @@ CREATE TABLE IF NOT EXISTS player_season_stats (
 
 CREATE INDEX IF NOT EXISTS idx_player_stats_season ON player_season_stats(season);
 CREATE INDEX IF NOT EXISTS idx_player_stats_team ON player_season_stats(team_id);
-
--- Squad compositions (which players were on which team in which season)
-CREATE TABLE IF NOT EXISTS squad_memberships (
-    membership_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    player_id INTEGER NOT NULL,
-    team_id INTEGER NOT NULL,
-    season VARCHAR(9) NOT NULL,
-
-    jersey_number INTEGER,
-    joined_date DATE,
-    left_date DATE,
-
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (player_id) REFERENCES players(player_id),
-    FOREIGN KEY (team_id) REFERENCES teams(team_id),
-    UNIQUE(player_id, team_id, season)
-);
-
--- =============================================
--- TRANSFERS
--- =============================================
-
--- Transfer market data
-CREATE TABLE IF NOT EXISTS transfers (
-    transfer_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    player_id INTEGER NOT NULL,
-    from_team_id INTEGER,
-    to_team_id INTEGER,
-
-    season VARCHAR(9) NOT NULL,
-    transfer_date DATE,
-    transfer_fee_eur INTEGER, -- NULL for free transfers
-    transfer_type VARCHAR(20), -- 'permanent', 'loan', 'free'
-
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (player_id) REFERENCES players(player_id),
-    FOREIGN KEY (from_team_id) REFERENCES teams(team_id),
-    FOREIGN KEY (to_team_id) REFERENCES teams(team_id)
-);
 
 -- =============================================
 -- DERIVED FEATURES & RATINGS

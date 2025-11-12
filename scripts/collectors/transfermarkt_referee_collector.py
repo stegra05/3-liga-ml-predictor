@@ -267,10 +267,17 @@ class TransfermarktRefereeCollector:
         # 3. Liga has 38 matchdays
         for matchday in range(1, 39):
             # Check if matchday already has referee data
-            if skip_complete_matchdays and self._matchday_has_referees(season, matchday):
-                logger.debug(f"Skipping matchday {matchday} (already has referee data)")
-                skipped_matchdays += 1
-                continue
+            if skip_complete_matchdays:
+                has_referees = self._matchday_has_referees(season, matchday)
+                if has_referees:
+                    logger.debug(f"Skipping matchday {matchday} (already has referee data)")
+                    skipped_matchdays += 1
+                    continue
+                else:
+                    # Log why we're scraping (for debugging)
+                    coverage_info = self._get_matchday_coverage(season, matchday)
+                    if coverage_info:
+                        logger.debug(f"Matchday {matchday}: {coverage_info['with_referee']}/{coverage_info['total']} matches have referees ({coverage_info['coverage']:.0%}), scraping...")
             
             logger.debug(f"Scraping matchday {matchday}...")
             matches = self._scrape_matchday(season_year, matchday)
@@ -378,6 +385,77 @@ class TransfermarktRefereeCollector:
             logger.error(f"Error updating referee for match {match_id}: {e}")
             return False
     
+    def _get_matchday_coverage(self, season: str, matchday: int) -> Optional[Dict]:
+        """
+        Get referee coverage statistics for a matchday
+        
+        Args:
+            season: Season string
+            matchday: Matchday number
+            
+        Returns:
+            Dictionary with coverage info or None
+        """
+        query = """
+            SELECT 
+                COUNT(*) as total_matches,
+                COUNT(referee) as matches_with_referee
+            FROM matches
+            WHERE season = ? AND matchday = ?
+        """
+        result = self.db.execute_query(query, (season, matchday))
+        
+        if result:
+            row = result[0]
+            total = row['total_matches']
+            with_referee = row['matches_with_referee']
+            
+            if total == 0:
+                return None
+            
+            coverage = with_referee / total if total > 0 else 0
+            return {
+                'total': total,
+                'with_referee': with_referee,
+                'coverage': coverage
+            }
+        
+        return None
+    
+    def _matchday_matches_are_upcoming(self, season: str, matchday: int) -> bool:
+        """
+        Check if all matches for a matchday are upcoming (not finished)
+        
+        Args:
+            season: Season string
+            matchday: Matchday number
+            
+        Returns:
+            True if all matches are upcoming
+        """
+        query = """
+            SELECT 
+                COUNT(*) as total_matches,
+                COUNT(CASE WHEN is_finished = 1 THEN 1 END) as finished_matches
+            FROM matches
+            WHERE season = ? AND matchday = ?
+        """
+        result = self.db.execute_query(query, (season, matchday))
+        
+        if result:
+            row = result[0]
+            total = row['total_matches']
+            finished = row['finished_matches']
+            
+            # If no matches exist, consider it upcoming
+            if total == 0:
+                return True
+            
+            # If all matches are upcoming (none finished), return True
+            return finished == 0
+        
+        return True
+
     def _matchday_has_referees(self, season: str, matchday: int, min_coverage: float = 0.9) -> bool:
         """
         Check if matchday already has sufficient referee coverage
@@ -390,27 +468,11 @@ class TransfermarktRefereeCollector:
         Returns:
             True if matchday has sufficient coverage
         """
-        query = """
-            SELECT 
-                COUNT(*) as total_matches,
-                COUNT(referee) as matches_with_referee
-            FROM matches
-            WHERE season = ? AND matchday = ? AND is_finished = 1
-        """
-        result = self.db.execute_query(query, (season, matchday))
+        coverage_info = self._get_matchday_coverage(season, matchday)
+        if not coverage_info:
+            return False
         
-        if result:
-            row = result[0]
-            total = row['total_matches']
-            with_referee = row['matches_with_referee']
-            
-            if total == 0:
-                return False
-            
-            coverage = with_referee / total
-            return coverage >= min_coverage
-        
-        return False
+        return coverage_info['coverage'] >= min_coverage
     
     def _update_referees_batch(self, updates: List[tuple]) -> int:
         """
@@ -444,12 +506,111 @@ class TransfermarktRefereeCollector:
             logger.error(f"Error batch updating referees: {e}")
             return 0
     
+    def collect_matchday_range(self, season: str, start_matchday: int, end_matchday: int,
+                               use_match_reports: bool = False,
+                               skip_complete_matchdays: bool = True,
+                               skip_existing_referees: bool = True,
+                               batch_size: int = 50) -> Dict[str, int]:
+        """
+        Collect referees for a specific range of matchdays
+        
+        Args:
+            season: Season in format "2024-2025"
+            start_matchday: First matchday to collect (inclusive)
+            end_matchday: Last matchday to collect (inclusive)
+            use_match_reports: If True, scrape individual match reports (slower)
+            skip_complete_matchdays: If True, skip matchdays that already have referee data
+            skip_existing_referees: If True, skip matches that already have referee data
+            batch_size: Number of updates to batch before saving to database
+            
+        Returns:
+            Statistics dictionary
+        """
+        stats = {
+            'matches_scraped': 0,
+            'matches_matched': 0,
+            'matches_updated': 0,
+            'matches_skipped': 0,
+            'errors': 0
+        }
+        
+        if season not in self.SEASONS:
+            logger.warning(f"Season {season} not in mapping")
+            return stats
+        
+        season_year = self.SEASONS[season]
+        all_matches = []
+        
+        # Scrape only the specified matchday range
+        for matchday in range(start_matchday, end_matchday + 1):
+            # Check if matchday already has referee data
+            if skip_complete_matchdays:
+                has_referees = self._matchday_has_referees(season, matchday)
+                if has_referees:
+                    logger.debug(f"Skipping matchday {matchday} (already has referee data)")
+                    continue
+                else:
+                    # Log why we're scraping (for debugging)
+                    coverage_info = self._get_matchday_coverage(season, matchday)
+                    if coverage_info:
+                        logger.debug(f"Matchday {matchday}: {coverage_info['with_referee']}/{coverage_info['total']} matches have referees ({coverage_info['coverage']:.0%}), scraping...")
+            
+            # Check if matches are upcoming (referees may not be published yet)
+            matches_are_upcoming = self._matchday_matches_are_upcoming(season, matchday)
+            if matches_are_upcoming:
+                logger.debug(f"Matchday {matchday} matches are upcoming - referees may not be published yet on Transfermarkt, skipping scraping")
+                continue
+            
+            logger.debug(f"Scraping matchday {matchday}...")
+            matches = self._scrape_matchday(season_year, matchday)
+            if len(matches) == 0:
+                logger.debug(f"No referee data found for matchday {matchday} (matches may be upcoming or data not available)")
+            all_matches.extend(matches)
+            time.sleep(0.2)  # Be polite between requests
+        
+        stats['matches_scraped'] = len(all_matches)
+        
+        # Batch process matches
+        batch_updates = []
+        
+        for match in all_matches:
+            if not match.get('referee'):
+                continue
+            
+            match_id = self._match_to_database(match, season)
+            
+            if match_id:
+                stats['matches_matched'] += 1
+                
+                # Check if match already has referee
+                if skip_existing_referees and self._match_has_referee(match_id):
+                    stats['matches_skipped'] += 1
+                    continue
+                
+                batch_updates.append((match['referee'], match_id))
+                
+                # Save batch when it reaches batch_size
+                if len(batch_updates) >= batch_size:
+                    updated = self._update_referees_batch(batch_updates)
+                    stats['matches_updated'] += updated
+                    batch_updates = []
+                    logger.debug(f"Saved batch of {updated} referee updates")
+        
+        # Save remaining updates
+        if batch_updates:
+            updated = self._update_referees_batch(batch_updates)
+            stats['matches_updated'] += updated
+            logger.debug(f"Saved final batch of {updated} referee updates")
+        
+        logger.info(f"Matchday range {start_matchday}-{end_matchday} complete: {stats}")
+        return stats
+
     def collect_season(self, season: str, use_match_reports: bool = False,
                       skip_complete_matchdays: bool = True,
                       skip_existing_referees: bool = True,
                       batch_size: int = 50) -> Dict[str, int]:
         """
-        Collect referees for a single season
+        Collect referees for a single season (all 38 matchdays)
         
         Args:
             season: Season in format "2024-2025"
@@ -609,5 +770,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    print("This script is deprecated. Use: python main.py collect-transfermarkt-referees [args]", file=sys.stderr)
+    sys.exit(2)
 

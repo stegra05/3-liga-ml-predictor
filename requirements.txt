@@ -44,5 +44,4 @@ meteostat>=1.6.5
 wetterdienst>=0.50.0
 
 # Machine Learning
-catboost>=1.2.0
 scikit-learn>=1.3.0

@@ -345,13 +345,15 @@ class OpenLigaDBCollector:
 
         return parsed_standings
 
-    def parse_match_events(self, match: Dict, match_db_id: int) -> List[Dict]:
+    def parse_match_events(self, match: Dict, match_db_id: int, home_team_id: int = None, away_team_id: int = None) -> List[Dict]:
         """
-        Parse match events (goals, cards) from match data
+        Parse match events (goals, cards, substitutions) from match data
 
         Args:
             match: Raw match data
             match_db_id: Database match ID
+            home_team_id: Home team ID (for resolving which team scored)
+            away_team_id: Away team ID (for resolving which team scored)
 
         Returns:
             List of event dictionaries
@@ -359,38 +361,136 @@ class OpenLigaDBCollector:
         events = []
         goals = match.get('goals', [])
 
+        # Get team IDs from match if not provided
+        if home_team_id is None or away_team_id is None:
+            team1 = match.get('team1') or {}
+            team2 = match.get('team2') or {}
+            team1_id = team1.get('teamId')
+            team2_id = team2.get('teamId')
+            
+            if team1_id and team2_id:
+                # Get team IDs from database
+                team1_name = team1.get('teamName') or team1.get('shortName', '')
+                team2_name = team2.get('teamName') or team2.get('shortName', '')
+                
+                if team1_name:
+                    t1_db_id = self.db.get_or_create_team(team_name=team1_name, openligadb_id=team1_id)
+                    if home_team_id is None:
+                        home_team_id = t1_db_id
+                if team2_name:
+                    t2_db_id = self.db.get_or_create_team(team_name=team2_name, openligadb_id=team2_id)
+                    if away_team_id is None:
+                        away_team_id = t2_db_id
+
         for goal in goals:
-            # Determine team
-            team_name = goal.get('scoreTeam1') > goal.get('scoreTeam2', 0)  # Simplified
+            # Determine which team scored based on score progression
+            score_team1 = goal.get('scoreTeam1', 0)
+            score_team2 = goal.get('scoreTeam2', 0)
+            
+            # Determine team_id: if scoreTeam1 increased, it's home team; if scoreTeam2 increased, it's away team
+            # We compare with previous goal or initial score
+            team_id = None
+            if score_team1 > score_team2:
+                team_id = home_team_id
+            elif score_team2 > score_team1:
+                team_id = away_team_id
+            else:
+                # Equal scores - try to infer from goal getter (would need team lookup)
+                # For now, use home team as fallback
+                team_id = home_team_id
 
             event = {
                 'match_id': match_db_id,
-                'team_id': None,  # Would need to resolve from match teams
+                'team_id': team_id,
                 'event_type': 'goal',
                 'minute': goal.get('matchMinute'),
+                'minute_extra': goal.get('matchMinuteExtra'),
+                'player_id': None,  # Would need player lookup
                 'player_name': goal.get('goalGetterName'),
                 'is_penalty': goal.get('isPenalty', False),
-                'is_own_goal': goal.get('isOwnGoal', False)
+                'is_own_goal': goal.get('isOwnGoal', False),
+                'assist_player_id': None,
+                'assist_player_name': goal.get('goalAssistName'),
+                'player_out_id': None,
+                'player_out_name': None
             }
-
-            if goal.get('goalAssistName'):
-                event['assist_player_name'] = goal.get('goalAssistName')
 
             events.append(event)
 
+        # Parse cards and substitutions if available in match data
+        # OpenLigaDB may have these in different structures
+        # For now, we focus on goals which are most reliably available
+
         return events
 
-    def insert_matches_to_db(self, matches: List[Dict]) -> int:
+    def insert_match_events(self, events: List[Dict]) -> int:
+        """
+        Insert match events into database with idempotency
+
+        Args:
+            events: List of event dictionaries from parse_match_events
+
+        Returns:
+            Number of events inserted
+        """
+        if not events:
+            return 0
+
+        inserted = 0
+        conn = self.db.get_connection()
+
+        try:
+            for event in events:
+                # Use INSERT OR IGNORE for idempotency (based on match_id + minute + player_name)
+                query = """
+                    INSERT OR IGNORE INTO match_events
+                    (match_id, team_id, event_type, minute, minute_extra, player_id, player_name,
+                     is_penalty, is_own_goal, assist_player_id, assist_player_name, 
+                     player_out_id, player_out_name)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """
+                
+                try:
+                    conn.execute(query, (
+                        event['match_id'],
+                        event.get('team_id'),
+                        event['event_type'],
+                        event.get('minute'),
+                        event.get('minute_extra'),
+                        event.get('player_id'),
+                        event.get('player_name'),
+                        event.get('is_penalty', False),
+                        event.get('is_own_goal', False),
+                        event.get('assist_player_id'),
+                        event.get('assist_player_name'),
+                        event.get('player_out_id'),
+                        event.get('player_out_name')
+                    ))
+                    inserted += 1
+                except Exception as e:
+                    logger.debug(f"Error inserting event: {e}")
+                    continue
+
+            conn.commit()
+        finally:
+            conn.close()
+
+        return inserted
+
+    def insert_matches_to_db(self, matches: List[Dict], raw_matches: List[Dict] = None) -> int:
         """
         Insert matches into database using openligadb_match_id as primary key
+        Optionally also insert match events if raw_matches provided
 
         Args:
             matches: List of parsed match dictionaries
+            raw_matches: Optional list of raw match data from API (for event parsing)
 
         Returns:
             Number of matches inserted/updated
         """
         inserted = 0
+        match_id_map = {}  # Map openligadb_match_id -> db match_id
 
         for match in matches:
             try:
@@ -406,6 +506,7 @@ class OpenLigaDBCollector:
                 if existing:
                     # Update existing match (can update all fields including matchday/season if corrected)
                     existing_id = existing[0]['match_id']
+                    match_id_map[openligadb_match_id] = existing_id
                     query = """
                         UPDATE matches
                         SET season = ?, matchday = ?, match_datetime = ?,
@@ -432,7 +533,9 @@ class OpenLigaDBCollector:
                          result, is_finished, venue, attendance, referee)
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """
-                    self.db.execute_insert(query, (
+                    conn = self.db.get_connection()
+                    cursor = conn.cursor()
+                    cursor.execute(query, (
                         match['openligadb_match_id'], match['season'],
                         match['matchday'], match['match_datetime'],
                         match['home_team_id'], match['away_team_id'],
@@ -440,6 +543,9 @@ class OpenLigaDBCollector:
                         match['result'], match['is_finished'], match['venue'],
                         match.get('attendance'), match.get('referee')
                     ))
+                    match_id_map[openligadb_match_id] = cursor.lastrowid
+                    conn.commit()
+                    conn.close()
 
                 inserted += 1
 
@@ -447,6 +553,25 @@ class OpenLigaDBCollector:
                 logger.error(f"Error inserting match {match.get('openligadb_match_id')}: {e}")
                 import traceback
                 logger.debug(traceback.format_exc())
+
+        # Insert match events if raw_matches provided
+        if raw_matches and match_id_map:
+            all_events = []
+            for raw_match, parsed_match in zip(raw_matches, matches):
+                openligadb_id = parsed_match.get('openligadb_match_id')
+                db_match_id = match_id_map.get(openligadb_id)
+                if db_match_id:
+                    events = self.parse_match_events(
+                        raw_match, 
+                        db_match_id,
+                        home_team_id=parsed_match.get('home_team_id'),
+                        away_team_id=parsed_match.get('away_team_id')
+                    )
+                    all_events.extend(events)
+            
+            if all_events:
+                events_inserted = self.insert_match_events(all_events)
+                logger.debug(f"Inserted {events_inserted} match events")
 
         return inserted
 
@@ -634,6 +759,28 @@ Duration: {duration:.1f}s
         """)
         return stats
 
+    def _matchday_has_all_matches(self, season: str, matchday: int, expected_matches: int = 10) -> bool:
+        """
+        Check if a matchday already has all expected matches in the database
+        
+        Args:
+            season: Season string (e.g., "2022-2023")
+            matchday: Matchday number
+            expected_matches: Expected number of matches per matchday (default: 10 for 3. Liga)
+            
+        Returns:
+            True if matchday has all expected matches
+        """
+        query = """
+            SELECT COUNT(*) as count
+            FROM matches
+            WHERE season = ? AND matchday = ?
+        """
+        result = self.db.execute_query(query, (season, matchday))
+        if result and result[0]['count'] >= expected_matches:
+            return True
+        return False
+
     def collect_matchday_range(self, season_year: str, start_matchday: int, end_matchday: int) -> Dict[str, int]:
         """
         Collect matches for a specific range of matchdays within a season
@@ -655,12 +802,19 @@ Duration: {duration:.1f}s
         stats = {
             'matches_collected': 0,
             'matchdays_processed': 0,
+            'matchdays_skipped': 0,
             'errors': 0
         }
 
         # Collect matches for each matchday in range
         for matchday in range(start_matchday, end_matchday + 1):
             try:
+                # Check if matchday already has all matches
+                if self._matchday_has_all_matches(season_str, matchday):
+                    logger.info(f"Matchday {matchday} already has all matches, skipping API call")
+                    stats['matchdays_skipped'] += 1
+                    continue
+                
                 logger.info(f"Collecting matchday {matchday}...")
                 matches_raw = self.get_matchdata_for_matchday(season_year, matchday)
                 
@@ -712,6 +866,7 @@ Duration: {duration:.1f}s
 Season: {season_str}
 Matchdays: {start_matchday}-{end_matchday}
 Matchdays processed: {stats['matchdays_processed']}
+Matchdays skipped: {stats['matchdays_skipped']}
 Matches collected: {stats['matches_collected']}
 Errors: {stats['errors']}
 Duration: {duration:.1f}s
@@ -895,4 +1050,6 @@ Examples:
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    print("This script is deprecated. Use: python main.py collect-openligadb [args]", file=sys.stderr)
+    sys.exit(2)

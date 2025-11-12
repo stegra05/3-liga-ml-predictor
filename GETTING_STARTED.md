@@ -94,8 +94,7 @@ conda activate 3liga
 # Install required packages
 pip install -r requirements.txt
 
-# For ML modeling, also install:
-pip install catboost lightgbm scikit-learn
+# For ML modeling, scikit-learn is already included in requirements.txt
 ```
 
 ### Step 4: Verify Installation
@@ -235,15 +234,15 @@ y_total = train['target_total_goals']  # Total goals
 ### Example 1: Simple Classification
 
 ```python
-from catboost import CatBoostClassifier
-import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
+import pandas as pd
 
 # Load data
 train = pd.read_csv('data/processed/3liga_ml_dataset_train.csv')
 test = pd.read_csv('data/processed/3liga_ml_dataset_test.csv')
 
-# Select features (start with the most important ones)
+# Select features (start with the most important ones, numerical only for Random Forest)
 features = [
     'elo_diff',       # Elo rating difference
     'pi_diff',        # Pi rating difference
@@ -262,13 +261,13 @@ y_test = test['target_multiclass']
 
 # Train model
 print("🚀 Training model...")
-model = CatBoostClassifier(
-    iterations=500,
-    learning_rate=0.05,
-    depth=4,
-    loss_function='MultiClass',
-    random_seed=42,
-    verbose=50  # Print progress every 50 iterations
+model = RandomForestClassifier(
+    n_estimators=200,
+    max_depth=15,
+    min_samples_split=20,
+    min_samples_leaf=10,
+    random_state=42,
+    n_jobs=-1
 )
 
 model.fit(X_train, y_train)
@@ -326,13 +325,13 @@ y_train = train_clean['target_multiclass']
 X_test = test_clean[extended_features]
 y_test = test_clean['target_multiclass']
 
-model = CatBoostClassifier(
-    iterations=1000,
-    learning_rate=0.03,
-    depth=6,
-    loss_function='MultiClass',
-    random_seed=42,
-    verbose=100
+model = RandomForestClassifier(
+    n_estimators=200,
+    max_depth=15,
+    min_samples_split=20,
+    min_samples_leaf=10,
+    random_state=42,
+    n_jobs=-1
 )
 
 model.fit(X_train, y_train)
@@ -343,7 +342,7 @@ print(f"\n✅ Test Accuracy with Extended Features: {accuracy:.3f}")
 ### Example 3: Goal Prediction (Regression)
 
 ```python
-from catboost import CatBoostRegressor
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 import numpy as np
 
@@ -361,13 +360,13 @@ X_test = test[features]
 y_train_home = train['target_home_goals']
 y_test_home = test['target_home_goals']
 
-model = CatBoostRegressor(
-    iterations=500,
-    learning_rate=0.05,
-    depth=4,
-    loss_function='RMSE',
-    random_seed=42,
-    verbose=100
+model = RandomForestRegressor(
+    n_estimators=200,
+    max_depth=15,
+    min_samples_split=20,
+    min_samples_leaf=10,
+    random_state=42,
+    n_jobs=-1
 )
 
 model.fit(X_train, y_train_home)
@@ -400,19 +399,17 @@ train['form_ratio'] = train['home_points_l5'] / (train['away_points_l5'] + 1)
 train['odds_ratio'] = train['odds_away'] / train['odds_home']
 ```
 
-### 3. Try Different Models
+### 3. Try Different Hyperparameters
 
 ```python
-from lightgbm import LGBMClassifier
 from sklearn.ensemble import RandomForestClassifier
 
-# LightGBM
-lgbm = LGBMClassifier(n_estimators=500, learning_rate=0.05)
-lgbm.fit(X_train, y_train)
+# Random Forest with different hyperparameters
+rf1 = RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42)
+rf1.fit(X_train, y_train)
 
-# Random Forest
-rf = RandomForestClassifier(n_estimators=200, max_depth=10, random_seed=42)
-rf.fit(X_train, y_train)
+rf2 = RandomForestClassifier(n_estimators=300, max_depth=20, random_state=42)
+rf2.fit(X_train, y_train)
 ```
 
 ### 4. Advanced Topics
@@ -424,10 +421,20 @@ rf.fit(X_train, y_train)
 
 ### 5. Update the Data
 
-Want the latest matches? See [CONTRIBUTING.md](CONTRIBUTING.md) for instructions on:
-- Running data collectors
-- Updating ratings
-- Re-exporting ML datasets
+Want the latest matches? Use the unified CLI:
+
+```bash
+# Collect latest matches
+python main.py collect-openligadb
+
+# Recalculate ratings
+python main.py rating-calculator
+
+# Re-export ML datasets
+python main.py export-ml-data
+```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
 
 ---
 
@@ -500,8 +507,8 @@ features = ['elo_diff', 'pi_diff', 'form_diff_l5',
 
 ### Train Model
 ```python
-from catboost import CatBoostClassifier
-model = CatBoostClassifier(iterations=500, depth=4, random_seed=42)
+from sklearn.ensemble import RandomForestClassifier
+model = RandomForestClassifier(n_estimators=200, max_depth=15, random_state=42)
 model.fit(train[features], train['target_multiclass'])
 ```
 

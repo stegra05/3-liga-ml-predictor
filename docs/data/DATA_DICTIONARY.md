@@ -50,7 +50,7 @@
 
 **Coverage:** 100%
 **Unique Teams:** 68 teams across 17 seasons
-**Encoding:** Team names used as categorical (CatBoost handles natively)
+**Encoding:** Team names should be encoded numerically for Random Forest models
 
 ---
 
@@ -471,7 +471,7 @@ Internal flags indicating data availability.
 ### Avoid
 - Leakage from post-match statistics
 - Future information (results after match date)
-- Over-complicated interactions (CatBoost handles these)
+- Over-complicated interactions (Random Forest can capture these through tree splits)
 
 ---
 

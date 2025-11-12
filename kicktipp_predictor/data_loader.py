@@ -41,7 +41,7 @@ def prepare_features(
         train: Training dataset
         val: Validation dataset
         test: Test dataset
-        use_categorical: Whether to use categorical features (True for CatBoost, False for sklearn models)
+        use_categorical: Whether to use categorical features (False for Random Forest models)
 
     Returns:
         X_train, y_train, X_val, y_val, X_test, y_test, feature_names

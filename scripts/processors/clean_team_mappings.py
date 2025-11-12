@@ -175,4 +175,6 @@ def clean_team_mappings(input_file: str = "config/team_mappings.json",
 
 
 if __name__ == "__main__":
-    clean_team_mappings()
+    import sys
+    print("This script is deprecated. This script is for internal use only.", file=sys.stderr)
+    sys.exit(2)

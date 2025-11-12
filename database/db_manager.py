@@ -88,6 +88,13 @@ class DatabaseManager:
                 cursor.execute("ALTER TABLE matches ADD COLUMN weather_confidence REAL")
                 conn.commit()
                 logger.success("'weather_confidence' column added to 'matches' table.")
+
+            # Add fotmob_match_id column to matches if it doesn't exist
+            if 'fotmob_match_id' not in match_columns:
+                logger.info("Adding 'fotmob_match_id' column to 'matches' table...")
+                cursor.execute("ALTER TABLE matches ADD COLUMN fotmob_match_id INTEGER")
+                conn.commit()
+                logger.success("'fotmob_match_id' column added to 'matches' table.")
             # --- End Schema Migrations ---
 
         except sqlite3.Error as e:
@@ -489,7 +496,8 @@ def get_db(db_path: str = "database/3liga.db") -> DatabaseManager:
     return _db_instance
 
 
-if __name__ == "__main__":
+def main():
+    """Main function for database initialization"""
     # Initialize database when run as script
     db = DatabaseManager()
     db.initialize_schema()
@@ -500,3 +508,9 @@ if __name__ == "__main__":
     print("\nDatabase Statistics:")
     for key, value in stats.items():
         print(f"  {key}: {value}")
+
+
+if __name__ == "__main__":
+    import sys
+    print("This script is deprecated. Use: python main.py db-init [args]", file=sys.stderr)
+    sys.exit(2)

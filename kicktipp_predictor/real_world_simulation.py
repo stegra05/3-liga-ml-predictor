@@ -169,21 +169,20 @@ def simulate_season_predictions(
     return results
 
 
-def create_classifier_trainer(model_class, features, default_scores, use_catboost=True):
+def create_classifier_trainer(model_class, features, default_scores):
     """
-    Create a trainer function for classifier models
+    Create a trainer function for classifier models using Random Forest
 
     Args:
         model_class: ClassifierExperiment class
         features: List of feature names
         default_scores: Score heuristics dict
-        use_catboost: Use CatBoost (True) or Random Forest (False)
 
     Returns:
         Trainer function
     """
     def trainer(train_data: pd.DataFrame, pred_data: pd.DataFrame) -> Tuple[np.ndarray, np.ndarray]:
-        """Train classifier and return score predictions"""
+        """Train Random Forest classifier and return score predictions"""
         try:
             # Prepare data - create copies to avoid SettingWithCopyWarning
             X_train = train_data[features].copy()
@@ -204,20 +203,9 @@ def create_classifier_trainer(model_class, features, default_scores, use_catboos
             # Create experiment
             exp = model_class(default_scores=default_scores)
 
-            # Train
-            if use_catboost:
-                # Use a small validation set from end of training data
-                val_size = min(100, len(train_data) // 10)
-                X_val = X_train.iloc[-val_size:]
-                y_val = y_train.iloc[-val_size:]
-                X_train_sub = X_train.iloc[:-val_size]
-                y_train_sub = y_train.iloc[:-val_size]
-
-                exp.train_catboost(X_train_sub, y_train_sub, X_val, y_val, verbose=False)
-                pred_home, pred_away = exp.predict_catboost(X_pred)
-            else:
-                exp.train_random_forest(X_train, y_train, verbose=False)
-                pred_home, pred_away = exp.predict_random_forest(X_pred)
+            # Train Random Forest
+            exp.train_random_forest(X_train, y_train, verbose=False)
+            pred_home, pred_away = exp.predict_random_forest(X_pred)
 
             return pred_home, pred_away
 
@@ -228,20 +216,19 @@ def create_classifier_trainer(model_class, features, default_scores, use_catboos
     return trainer
 
 
-def create_regressor_trainer(model_class, features, use_catboost=True):
+def create_regressor_trainer(model_class, features):
     """
-    Create a trainer function for regressor models
+    Create a trainer function for regressor models using Random Forest
 
     Args:
         model_class: RegressorExperiment class
         features: List of feature names
-        use_catboost: Use CatBoost (True) or Random Forest (False)
 
     Returns:
         Trainer function
     """
     def trainer(train_data: pd.DataFrame, pred_data: pd.DataFrame) -> Tuple[np.ndarray, np.ndarray]:
-        """Train regressors and return score predictions"""
+        """Train Random Forest regressors and return score predictions"""
         try:
             # Prepare data - create copies to avoid SettingWithCopyWarning
             X_train = train_data[features].copy()
@@ -263,26 +250,9 @@ def create_regressor_trainer(model_class, features, use_catboost=True):
             # Create experiment
             exp = model_class()
 
-            # Train
-            if use_catboost:
-                # Use a small validation set
-                val_size = min(100, len(train_data) // 10)
-                X_val = X_train.iloc[-val_size:]
-                y_val_home = y_train_home.iloc[-val_size:]
-                y_val_away = y_train_away.iloc[-val_size:]
-                X_train_sub = X_train.iloc[:-val_size]
-                y_train_home_sub = y_train_home.iloc[:-val_size]
-                y_train_away_sub = y_train_away.iloc[:-val_size]
-
-                exp.train_catboost(
-                    X_train_sub, y_train_home_sub, y_train_away_sub,
-                    X_val, y_val_home, y_val_away,
-                    verbose=False
-                )
-                pred_home, pred_away = exp.predict_catboost(X_pred)
-            else:
-                exp.train_random_forest(X_train, y_train_home, y_train_away, verbose=False)
-                pred_home, pred_away = exp.predict_random_forest(X_pred)
+            # Train Random Forest
+            exp.train_random_forest(X_train, y_train_home, y_train_away, verbose=False)
+            pred_home, pred_away = exp.predict_random_forest(X_pred)
 
             # Round to integers
             pred_home = np.round(pred_home).astype(int)

@@ -18,8 +18,14 @@ git clone https://github.com/yourusername/catboost-predictor.git
 cd catboost-predictor
 pip install -r requirements.txt
 
-# 2. Load data and train your first model
-python examples/train_model_example.py
+# 2. Predict matches (default command)
+python main.py
+# Or using python -m:
+python -m .
+
+# 3. Or use explicit predict command
+python main.py predict --season 2025 --matchday 15
+python -m . predict --season 2025 --matchday 15
 ```
 
 That's it! The dataset is pre-built and ready to use.
@@ -28,7 +34,7 @@ That's it! The dataset is pre-built and ready to use.
 
 ## 📊 Dataset Overview
 
-This project provides the most comprehensive publicly available dataset for German 3. Liga football, specifically designed for machine learning match prediction models using gradient boosting algorithms (CatBoost, LightGBM).
+This project provides the most comprehensive publicly available dataset for German 3. Liga football, specifically designed for machine learning match prediction models using Random Forest algorithms.
 
 **What makes it special:**
 - ✅ **ML-Ready**: Pre-split train/val/test sets, no preprocessing needed
@@ -148,14 +154,14 @@ catboost-predictor/
 ## 💡 Example: Train Your First Model
 
 ```python
-from catboost import CatBoostClassifier
+from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
 
 # 1. Load pre-split datasets
 train = pd.read_csv('data/processed/3liga_ml_dataset_train.csv')
 test = pd.read_csv('data/processed/3liga_ml_dataset_test.csv')
 
-# 2. Select the most important features
+# 2. Select the most important features (numerical only for Random Forest)
 features = [
     'elo_diff',       # Rating difference (most predictive!)
     'pi_diff',        # Pi-rating difference
@@ -170,12 +176,13 @@ X_test = test[features]
 y_test = test['target_multiclass']
 
 # 3. Train model
-model = CatBoostClassifier(
-    iterations=500,
-    learning_rate=0.05,
-    depth=4,
-    random_seed=42,
-    verbose=100
+model = RandomForestClassifier(
+    n_estimators=200,
+    max_depth=15,
+    min_samples_split=20,
+    min_samples_leaf=10,
+    random_state=42,
+    n_jobs=-1
 )
 model.fit(X_train, y_train)
 
@@ -216,13 +223,13 @@ This shows typical home advantage in football (~42% vs 30%).
 
 ```bash
 # 1. Collect latest matches
-python scripts/collectors/openligadb_collector.py
+python main.py collect-openligadb
 
 # 2. Recalculate ratings
-python scripts/processors/rating_calculator.py
+python main.py rating-calculator
 
 # 3. Re-export ML datasets
-python scripts/processors/ml_data_exporter.py
+python main.py export-ml-data
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
@@ -349,8 +356,8 @@ git push origin feature/your-feature
 Key research papers for football prediction:
 - Dixon & Coles (1997) - Modelling Association Football Scores
 - Baio & Blangiardo (2010) - Bayesian hierarchical model for prediction
-- Research on Pi-ratings for gradient boosting (2023)
-- State-of-the-art: 55.82% accuracy with CatBoost + Pi-ratings
+- Research on Pi-ratings for tree-based models (2023)
+- State-of-the-art: ~55% accuracy with Random Forest + Pi-ratings
 
 ## 💡 Tips for Better Models
 
@@ -371,7 +378,7 @@ Key research papers for football prediction:
 - Baseline (always predict home win): ~43% accuracy
 - Decent model (ratings + form): ~54-56% accuracy
 - Strong model (all features optimized): ~57-59% accuracy
-- Research state-of-the-art: ~55.8% (Pi-ratings + CatBoost)
+- Research state-of-the-art: ~55% (Pi-ratings + Random Forest)
 
 See [GETTING_STARTED.md](GETTING_STARTED.md#building-your-first-model) for detailed examples.
 

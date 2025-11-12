@@ -90,17 +90,17 @@ pip install -r requirements.txt
 pip install pytest pytest-cov black flake8 mypy
 
 # ML libraries (for testing)
-pip install catboost lightgbm scikit-learn
+pip install scikit-learn
 ```
 
 ### 2. Set Up the Database
 
 ```bash
 # Initialize the database (creates 3liga.db)
-python database/db_manager.py
+python main.py db-init
 
 # Optional: Import existing data
-python scripts/processors/import_existing_data.py
+python main.py import-existing-data
 ```
 
 ### 3. Verify Setup

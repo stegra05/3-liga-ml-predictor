@@ -99,31 +99,6 @@ TARGET_AWAY_GOALS = 'target_away_goals'
 # Walk-Forward Validation
 N_SPLITS = 5  # Number of temporal splits
 
-# CatBoost Parameters
-CATBOOST_CLASSIFIER_PARAMS = {
-    'iterations': 1000,
-    'learning_rate': 0.05,
-    'depth': 6,
-    'loss_function': 'MultiClass',
-    'eval_metric': 'Accuracy',
-    'random_seed': 42,
-    'verbose': 0,
-    'early_stopping_rounds': 50,
-    'cat_features': CATEGORICAL_FEATURES
-}
-
-CATBOOST_REGRESSOR_PARAMS = {
-    'iterations': 1000,
-    'learning_rate': 0.05,
-    'depth': 6,
-    'loss_function': 'RMSE',
-    'eval_metric': 'RMSE',
-    'random_seed': 42,
-    'verbose': 0,
-    'early_stopping_rounds': 50,
-    'cat_features': CATEGORICAL_FEATURES
-}
-
 # Random Forest Parameters
 RF_CLASSIFIER_PARAMS = {
     'n_estimators': 200,
@@ -141,27 +116,6 @@ RF_REGRESSOR_PARAMS = {
     'min_samples_leaf': 10,
     'random_state': 42,
     'n_jobs': -1
-}
-
-# Neural Network Parameters (MLP)
-MLP_PARAMS = {
-    'hidden_layer_sizes': (100, 50),
-    'activation': 'relu',
-    'solver': 'adam',
-    'alpha': 0.001,
-    'batch_size': 'auto',
-    'learning_rate': 'adaptive',
-    'max_iter': 500,
-    'random_state': 42,
-    'early_stopping': True,
-    'validation_fraction': 0.1
-}
-
-# Logistic Regression Parameters (for ensemble meta-model)
-LOGREG_PARAMS = {
-    'random_state': 42,
-    'max_iter': 1000,
-    'solver': 'lbfgs'
 }
 
 # ============================================================================

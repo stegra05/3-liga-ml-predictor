@@ -629,32 +629,79 @@ weather = fetcher.fetch_match_weather(
 
 ## Utilities
 
-### Command-Line Scripts
+### Command-Line Interface
+
+**All commands are accessed through the single entry point: `main.py`**
+
+#### Run Predictions (Default)
+
+```bash
+# Predict next matchday (default command)
+python main.py
+
+# Predict specific season/matchday
+python main.py predict --season 2025 --matchday 15
+
+# Update data before predicting
+python main.py predict --update-data
+```
 
 #### Run Data Collection
 
 ```bash
 # Collect latest matches
-python scripts/collectors/openligadb_collector.py
+python main.py collect-openligadb
 
 # Collect FBref data
-python scripts/collectors/fbref_collector.py
+python main.py collect-fbref
+
+# Collect referee data
+python main.py collect-transfermarkt-referees
 
 # Fetch weather data
-python scripts/processors/fetch_weather_multi.py
+python main.py fetch-weather-multi -- --limit 50
 ```
 
 #### Run Data Processing
 
 ```bash
 # Calculate ratings
-python scripts/processors/rating_calculator.py
+python main.py rating-calculator
 
 # Export ML datasets
-python scripts/processors/ml_data_exporter.py
+python main.py export-ml-data
 
 # Build head-to-head statistics
-python scripts/processors/build_head_to_head.py
+python main.py build-head-to-head
+
+# Build team locations
+python main.py build-team-locations
+
+# Unify team names
+python main.py unify-teams
+```
+
+#### Database Management
+
+```bash
+# Initialize database schema
+python main.py db-init
+```
+
+#### Utilities
+
+```bash
+# Initialize team mappings
+python main.py team-mapper-init
+
+# Generate weather coverage report
+python main.py weather-coverage-report -- --detailed
+```
+
+**Note**: All subcommands support `--help` for detailed usage information:
+```bash
+python main.py predict --help
+python main.py collect-openligadb --help
 ```
 
 ### Helper Functions

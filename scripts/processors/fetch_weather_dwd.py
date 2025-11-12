@@ -261,5 +261,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    print("This script is deprecated. Use: python main.py fetch-weather-dwd [args]", file=sys.stderr)
+    sys.exit(2)
 

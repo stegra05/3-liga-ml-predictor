@@ -25,7 +25,6 @@ from .real_world_simulation import (
 )
 from .models.classifiers import ClassifierExperiment
 from .models.regressors import RegressorExperiment
-from .models.ensemble import EnsembleExperiment
 
 
 def print_header(title: str):
@@ -49,24 +48,6 @@ def run_experiment_1(
 
     exp = ClassifierExperiment(default_scores=default_scores)
 
-    # Train CatBoost
-    exp.train_catboost(X_train, y_train, X_val, y_val, verbose=False)
-    results_cb = exp.evaluate_catboost(X_test, y_test, y_test_home, y_test_away)
-    print_results(results_cb)
-
-    # Detailed analysis
-    pred_home, pred_away = exp.predict_catboost(X_test)
-    analysis_cb = analyze_predictions(
-        y_test_home.values, y_test_away.values,
-        pred_home, pred_away,
-        'CatBoost Classifier'
-    )
-    print_detailed_analysis(analysis_cb)
-
-    # Per-season analysis
-    season_df_cb = evaluate_per_season(test_df, pred_home, pred_away, 'CatBoost Classifier')
-    print_season_analysis(season_df_cb, 'CatBoost Classifier')
-
     # Train Random Forest
     exp.train_random_forest(X_train, y_train, verbose=False)
     results_rf = exp.evaluate_random_forest(X_test, y_test, y_test_home, y_test_away)
@@ -85,7 +66,7 @@ def run_experiment_1(
     season_df_rf = evaluate_per_season(test_df, pred_home, pred_away, 'Random Forest Classifier')
     print_season_analysis(season_df_rf, 'Random Forest Classifier')
 
-    return [results_cb, results_rf]
+    return [results_rf]
 
 
 def run_experiment_2(
@@ -102,29 +83,6 @@ def run_experiment_2(
     print_header("EXPERIMENT 2: REGRESSORS")
 
     exp = RegressorExperiment()
-
-    # Train CatBoost
-    exp.train_catboost(
-        X_train, y_train_home, y_train_away,
-        X_val, y_val_home, y_val_away,
-        verbose=False
-    )
-    results_cb = exp.evaluate_catboost(X_test, y_test_home, y_test_away)
-    print_results(results_cb)
-
-    # Detailed analysis
-    pred_home, pred_away = exp.predict_catboost(X_test)
-    # Round for analysis
-    pred_home_rounded = np.round(pred_home).astype(int)
-    pred_away_rounded = np.round(pred_away).astype(int)
-    pred_home_rounded = np.maximum(pred_home_rounded, 0)
-    pred_away_rounded = np.maximum(pred_away_rounded, 0)
-    analysis_cb = analyze_predictions(
-        y_test_home.values, y_test_away.values,
-        pred_home_rounded, pred_away_rounded,
-        'CatBoost Regressor'
-    )
-    print_detailed_analysis(analysis_cb)
 
     # Train Random Forest
     exp.train_random_forest(X_train, y_train_home, y_train_away, verbose=False)
@@ -144,44 +102,7 @@ def run_experiment_2(
     )
     print_detailed_analysis(analysis_rf)
 
-    return [results_cb, results_rf]
-
-
-def run_experiment_3(
-    X_train, y_train, X_val, y_val, X_test, y_test,
-    y_test_home, y_test_away, test_df, default_scores
-) -> List[dict]:
-    """
-    Experiment 3: Stacked Ensemble
-
-    Returns:
-        List with single results dictionary
-    """
-    print_header("EXPERIMENT 3: STACKED ENSEMBLE")
-
-    exp = EnsembleExperiment(default_scores=default_scores)
-
-    # Train ensemble
-    exp.train(X_train, y_train, X_val, y_val, verbose=False)
-
-    # Evaluate
-    results = exp.evaluate(X_test, y_test, y_test_home, y_test_away)
-    print_results(results)
-
-    # Detailed analysis
-    pred_home, pred_away = exp.predict(X_test)
-    analysis = analyze_predictions(
-        y_test_home.values, y_test_away.values,
-        pred_home, pred_away,
-        'Stacked Ensemble'
-    )
-    print_detailed_analysis(analysis)
-
-    # Per-season analysis
-    season_df = evaluate_per_season(test_df, pred_home, pred_away, 'Stacked Ensemble')
-    print_season_analysis(season_df, 'Stacked Ensemble')
-
-    return [results]
+    return [results_rf]
 
 
 def main():
@@ -196,10 +117,10 @@ def main():
     5. Identify best model
     """
     print_header("KICKTIPP PREDICTION SYSTEM")
-    print("\nThis system implements three approaches to predict football match scores:")
+    print("\nThis system implements two approaches to predict football match scores:")
     print("  1. Classifiers (predict outcome → map to score)")
     print("  2. Regressors (predict exact goals)")
-    print("  3. Stacked Ensemble (combine multiple models)")
+    print("\nAll models use Random Forest algorithms.")
     print("\nEvaluation metric: Average Kicktipp points per match")
 
     # ========================================================================
@@ -214,19 +135,19 @@ def main():
     # ========================================================================
     print_header("STEP 2: PREPARING FEATURES")
 
-    # For classification experiments (1 and 3)
+    # For classification experiment (1)
     X_train_cls, y_train_cls, X_val_cls, y_val_cls, X_test_cls, y_test_cls, features_cls = prepare_features(
-        train, val, test, use_categorical=True
+        train, val, test, use_categorical=False
     )
 
     # For regression experiment (2)
     (X_train_reg, y_train_home, y_train_away,
      X_val_reg, y_val_home, y_val_away,
      X_test_reg, y_test_home, y_test_away, features_reg) = prepare_regression_features(
-        train, val, test, use_categorical=True
+        train, val, test, use_categorical=False
     )
 
-    # Get true goals for test set (needed for Kicktipp scoring in Exp 1 & 3)
+    # Get true goals for test set (needed for Kicktipp scoring in Exp 1)
     y_test_home_cls = test[config.TARGET_HOME_GOALS]
     y_test_away_cls = test[config.TARGET_AWAY_GOALS]
 
@@ -312,19 +233,6 @@ def main():
         import traceback
         traceback.print_exc()
 
-    # Experiment 3: Stacked Ensemble
-    try:
-        results_3 = run_experiment_3(
-            X_train_cls, y_train_cls, X_val_cls, y_val_cls,
-            X_test_cls, y_test_cls, y_test_home_cls, y_test_away_cls,
-            test, default_scores
-        )
-        all_results.extend(results_3)
-    except Exception as e:
-        print(f"\n[ERROR] Experiment 3 failed: {e}")
-        import traceback
-        traceback.print_exc()
-
     # ========================================================================
     # STEP 4: Compare Results
     # ========================================================================
@@ -380,13 +288,12 @@ def main():
 
     simulation_results = []
 
-    # Simulate best classifier (Random Forest based on earlier results)
+    # Simulate Random Forest classifier
     try:
         trainer_rf_cls = create_classifier_trainer(
             ClassifierExperiment,
             features_cls,
-            default_scores,
-            use_catboost=False  # Random Forest
+            default_scores
         )
         result_rf_cls = simulate_season_predictions(
             full_data,
@@ -400,24 +307,23 @@ def main():
     except Exception as e:
         print(f"RF Classifier simulation failed: {e}")
 
-    # Simulate best regressor (CatBoost based on earlier results)
+    # Simulate Random Forest regressor
     try:
-        trainer_cb_reg = create_regressor_trainer(
+        trainer_rf_reg = create_regressor_trainer(
             RegressorExperiment,
-            features_reg,
-            use_catboost=True
+            features_reg
         )
-        result_cb_reg = simulate_season_predictions(
+        result_rf_reg = simulate_season_predictions(
             full_data,
             target_season,
-            trainer_cb_reg,
-            'CatBoost Regressor',
+            trainer_rf_reg,
+            'Random Forest Regressor',
             verbose=True
         )
-        if result_cb_reg:
-            simulation_results.append(result_cb_reg)
+        if result_rf_reg:
+            simulation_results.append(result_rf_reg)
     except Exception as e:
-        print(f"CatBoost Regressor simulation failed: {e}")
+        print(f"RF Regressor simulation failed: {e}")
 
     # Compare simulation results
     if len(simulation_results) > 0:
@@ -443,4 +349,6 @@ def main():
 
 
 if __name__ == "__main__":
-    leaderboard = main()
+    print("This script is deprecated. This module is for internal use only.", file=sys.stderr)
+    print("For predictions, use: python main.py predict", file=sys.stderr)
+    sys.exit(2)

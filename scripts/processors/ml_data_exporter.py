@@ -733,4 +733,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    print("This script is deprecated. Use: python main.py export-ml-data [args]", file=sys.stderr)
+    sys.exit(2)
