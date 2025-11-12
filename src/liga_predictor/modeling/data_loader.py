@@ -72,7 +72,14 @@ def prepare_features(
             test[feat] = test[feat].fillna('MISSING')
         else:
             # Use train median for all datasets
-            median_val = train[feat].median()
+            # Check if column has any non-NaN values before computing median
+            non_null_values = train[feat].dropna()
+            if len(non_null_values) == 0:
+                median_val = 0.0  # All values are NaN, use 0
+            else:
+                median_val = non_null_values.median()
+                if pd.isna(median_val):
+                    median_val = 0.0  # Fallback to 0 if median is still NaN
             train[feat] = train[feat].fillna(median_val)
             val[feat] = val[feat].fillna(median_val)
             test[feat] = test[feat].fillna(median_val)
@@ -121,7 +128,14 @@ def prepare_regression_features(
             val[feat] = val[feat].fillna('MISSING')
             test[feat] = test[feat].fillna('MISSING')
         else:
-            median_val = train[feat].median()
+            # Check if column has any non-NaN values before computing median
+            non_null_values = train[feat].dropna()
+            if len(non_null_values) == 0:
+                median_val = 0.0  # All values are NaN, use 0
+            else:
+                median_val = non_null_values.median()
+                if pd.isna(median_val):
+                    median_val = 0.0  # Fallback to 0 if median is still NaN
             train[feat] = train[feat].fillna(median_val)
             val[feat] = val[feat].fillna(median_val)
             test[feat] = test[feat].fillna(median_val)

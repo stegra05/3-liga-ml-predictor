@@ -47,9 +47,13 @@ class MLDataExporter:
         query = """
         WITH season_mapping AS (
             -- Map each season to its previous season for lookback features
-            SELECT DISTINCT season,
+            -- First get distinct seasons, then apply LAG window function
+            SELECT season,
                    LAG(season) OVER (ORDER BY season) as prev_season
-            FROM matches
+            FROM (
+                SELECT DISTINCT season
+                FROM matches
+            )
         ),
         final_standings AS (
             -- Get only the final standings per team per season (max matchday)

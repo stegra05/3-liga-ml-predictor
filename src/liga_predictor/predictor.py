@@ -846,7 +846,14 @@ class MatchPredictor:
             if feat in config.CATEGORICAL_FEATURES:
                 df[feat] = df[feat].fillna('MISSING')
             else:
-                median_val = df[feat].median()
+                # Check if column has any non-NaN values before computing median
+                non_null_values = df[feat].dropna()
+                if len(non_null_values) == 0:
+                    median_val = 0.0  # All values are NaN, use 0
+                else:
+                    median_val = non_null_values.median()
+                    if pd.isna(median_val):
+                        median_val = 0.0  # Fallback to 0 if median is still NaN
                 self.feature_medians[feat] = median_val
                 df[feat] = df[feat].fillna(median_val)
 
