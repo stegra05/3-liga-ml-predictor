@@ -1,461 +1,209 @@
-# 3. Liga Football Prediction Dataset
+# 3. Liga Match Predictor
 
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Data Quality](https://img.shields.io/badge/data%20quality-production-brightgreen.svg)](docs/data/README.md)
+A comprehensive machine learning system for predicting German 3. Liga football match results. The system aggregates historical data from multiple sources, engineers predictive features (ratings, form, odds, weather, head-to-head), and uses a Random Forest Classifier model to generate match predictions with detailed explanations.
 
-**The most comprehensive ML-ready dataset for German 3. Liga football prediction (2009-2025)**
+## Features
 
-Perfect for data scientists, researchers, and football analytics enthusiasts to build and test match outcome prediction models.
+- **Live Weather Integration**: Fetches real-time weather forecasts via Open-Meteo API, with fallback to historical estimates
+- **Comprehensive Feature Engineering**: Includes Elo ratings, Pi-ratings, recent form, head-to-head statistics, betting odds, and contextual factors
+- **SQLite Database**: Robust database schema storing match data, statistics, ratings, and more
+- **Modern CLI**: Typer-based command-line interface (`liga-predictor`) with intuitive commands
+- **ML-Ready Datasets**: Export feature-engineered datasets to CSV for your own modeling experiments
 
-## 🚀 Quick Start
+## Requirements
 
-**New to this project?** Start here: **[GETTING_STARTED.md](GETTING_STARTED.md)**
+- **Python**: 3.9 to 3.14
+- **Poetry**: For dependency management
+- **SQLite 3**: Database engine (usually pre-installed)
+- **Optional**: Chrome + chromedriver for Selenium-based data collectors (FBref, OddsPortal, Transfermarkt)
+
+## Installation
 
 ```bash
-# 1. Clone and install
-git clone https://github.com/yourusername/catboost-predictor.git
+# Clone the repository
+git clone <repository-url>
 cd catboost-predictor
-pip install -r requirements.txt
 
-# 2. Predict matches (default command)
-python main.py
-# Or using python -m:
-python -m .
-
-# 3. Or use explicit predict command
-python main.py predict --season 2025 --matchday 15
-python -m . predict --season 2025 --matchday 15
-
-# 4. Update data before predicting (ensures DB-only prediction with latest data)
-python main.py predict --season 2025 --matchday 15 --update-data
+# Install dependencies using Poetry
+poetry install
 ```
 
-That's it! The dataset is pre-built and ready to use.
+## Quick Start
 
----
+### Predict Next Matchday (Default)
 
-## 📊 Dataset Overview
-
-This project provides the most comprehensive publicly available dataset for German 3. Liga football, specifically designed for machine learning match prediction models using Random Forest algorithms.
-
-**What makes it special:**
-- ✅ **ML-Ready**: Pre-split train/val/test sets, no preprocessing needed
-- ✅ **Rich Features**: 103 features including ratings, form, odds, and weather
-- ✅ **Long History**: 17 seasons with 6,290+ matches
-- ✅ **Research-Backed**: Includes Pi-ratings from academic research
-- ✅ **Well-Documented**: Complete data dictionary and usage examples
-
-### Current Database Statistics
-
-```
-Total Matches: 6,290 (2009-2025)
-Teams: 70
-Match Statistics: 4,446 detailed records
-League Standings: 320 records
-Betting Odds: 1,247 records
-Team Ratings: 9,646 (Elo, Pi-ratings for all finished matches)
-Seasons: 17 complete seasons
-```
-
-### ML-Ready Export Statistics
-
-```
-Total ML Dataset: 4,063 matches (2014-2025, when detailed stats available)
-Training Set: 2,925 matches (72%)
-Validation Set: 325 matches (8%)
-Test Set: 813 matches (20%)
-
-Features: 73 total
-  - Rating features (Elo, Pi-ratings): 100% coverage
-  - Form metrics (last 5/10 games): 100% coverage
-  - Detailed match statistics: 53.6% coverage
-  - Betting odds: 18.7% coverage
-```
-
-## 🎯 Key Features
-
-### 1. **Match Results & Basic Data** (100% coverage, 2009-2025)
-- Match outcomes, scores, dates, venues
-- Home/away team information
-- Season and matchday details
-- Source: OpenLigaDB API
-
-### 2. **Rating Systems** (100% coverage for finished matches)
-Research shows these are the **most predictive features** for gradient boosting models:
-
-- **Elo Ratings**: Dynamic skill ratings updated after each match
-- **Pi-Ratings**: Research-proven best features for tree-based models
-  - Based on weighted recent performance
-  - Shown to achieve state-of-the-art accuracy in football prediction
-- **Form Metrics**: Points and goals in last 5/10 matches
-- All ratings calculated **BEFORE** each match for proper prediction
-
-### 3. **Detailed Match Statistics** (53.6% coverage, 2014-2025)
-From FotMob:
-- Possession percentages
-- Shots (total, on target, big chances)
-- Passing stats (total passes, accuracy, crosses)
-- Defensive actions (tackles, interceptions, clearances)
-- Duels and aerial battles
-- Fouls, cards, corners, offsides
-
-### 4. **Attendance Data** (Collection in progress, 2009-2025)
-From Transfermarkt:
-- Match attendance figures for all seasons
-- Automated collection system
-- See `docs/ATTENDANCE_COLLECTION.md` for details
-
-### 5. **Betting Odds** (18.7% coverage, 2009-2025)
-From OddsPortal:
-- Closing odds for Home/Draw/Away
-- Implied probabilities
-- Market expectations baseline
-
-### 6. **League Standings** (2009-2025)
-### 5. **League Standings** (2009-2025)
-- Historical standings after each matchday
-- Position, points, wins/draws/losses
-- Goals for/against, goal difference
-
-## 📁 Project Structure
-
-```
-catboost-predictor/
-├── database/
-│   ├── 3liga.db                 # SQLite database
-│   ├── schema.sql               # Database schema
-│   └── db_manager.py            # Database operations
-│
-├── scripts/
-│   ├── collectors/
-│   │   └── openligadb_collector.py    # API data collection
-│   ├── processors/
-│   │   ├── import_existing_data.py    # Import CSV files
-│   │   ├── rating_calculator.py       # Elo/Pi-ratings
-│   │   └── ml_data_exporter.py        # Export ML datasets
-│   └── utils/
-│       └── team_mapper.py             # Team name mapping
-│
-├── config/
-│   └── team_mappings.json       # Team name standardization
-│
-├── data/
-│   ├── raw/                     # Original CSV files
-│   └── processed/               # ML-ready exports
-│       ├── 3liga_ml_dataset_full.csv
-│       ├── 3liga_ml_dataset_train.csv
-│       ├── 3liga_ml_dataset_val.csv
-│       ├── 3liga_ml_dataset_test.csv
-│       ├── feature_documentation.txt
-│       └── dataset_summary.txt
-│
-└── requirements.txt             # Python dependencies
-```
-
-## 💡 Example: Train Your First Model
-
-```python
-from sklearn.ensemble import RandomForestClassifier
-import pandas as pd
-
-# 1. Load pre-split datasets
-train = pd.read_csv('data/processed/3liga_ml_dataset_train.csv')
-test = pd.read_csv('data/processed/3liga_ml_dataset_test.csv')
-
-# 2. Select the most important features (numerical only for Random Forest)
-features = [
-    'elo_diff',       # Rating difference (most predictive!)
-    'pi_diff',        # Pi-rating difference
-    'form_diff_l5',   # Recent form difference
-    'home_points_l5', # Home team recent points
-    'away_points_l5', # Away team recent points
-]
-
-X_train = train[features]
-y_train = train['target_multiclass']  # 0=Away, 1=Draw, 2=Home
-X_test = test[features]
-y_test = test['target_multiclass']
-
-# 3. Train model
-model = RandomForestClassifier(
-    n_estimators=200,
-    max_depth=15,
-    min_samples_split=20,
-    min_samples_leaf=10,
-    random_state=42,
-    n_jobs=-1
-)
-model.fit(X_train, y_train)
-
-# 4. Evaluate
-accuracy = model.score(X_test, y_test)
-print(f'Test Accuracy: {accuracy:.3f}')  # Expected: ~54-56%
-```
-
-**Want more?** See [examples/train_model_example.py](examples/train_model_example.py) for a complete script.
-
-## 📊 Target Distribution
-
-Based on 4,063 matches (2014-2025):
-- **Home Wins**: 42.5% (1,726 matches)
-- **Draws**: 27.3% (1,109 matches)
-- **Away Wins**: 30.2% (1,228 matches)
-
-This shows typical home advantage in football (~42% vs 30%).
-
-## 📚 Documentation
-
-| Document | Description |
-|----------|-------------|
-| **[GETTING_STARTED.md](GETTING_STARTED.md)** | 👈 **Start here!** Step-by-step tutorial for beginners |
-| **[CONTRIBUTING.md](CONTRIBUTING.md)** | How to contribute to this project |
-| **[API_REFERENCE.md](API_REFERENCE.md)** | Developer documentation for key modules |
-
----
-
-## 🔄 Updating the Dataset
-
-**Using pre-built data?** You can skip this section.
-
-**Want the latest matches?** Run the data collection pipeline:
+Simply run without arguments to predict the next upcoming matchday:
 
 ```bash
-# 1. Collect latest matches
-python main.py collect-openligadb
-
-# 2. Recalculate ratings
-python main.py rating-calculator
-
-# 3. Re-export ML datasets
-python main.py export-ml-data
+poetry run liga-predictor
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
+### Explicit Prediction with Options
 
-## 📈 Research-Backed Features
-
-### Pi-Ratings: State-of-the-Art Performance
-
-Research (Dixon & Coles, 1997; Baio & Blangiardo, 2010) shows that **Pi-ratings** combined with gradient boosting achieve:
-- **55.82% accuracy** on match outcome prediction
-- **Rank Probability Score (RPS): 0.1925** (lower is better)
-- Superior performance vs. raw statistics or Elo alone
-
-### Recommended Feature Set
-
-Based on research for gradient-boosted tree models:
-
-**Tier 1 (Essential):**
-- Pi-ratings (home/away/diff)
-- Elo ratings (home/away/diff)
-- Form metrics (points last 5/10)
-
-**Tier 2 (Important):**
-- Goal scoring/conceding trends
-- Betting odds (market baseline)
-- Match context (home/away, matchday)
-
-**Tier 3 (Supplementary):**
-- Detailed match statistics (when available)
-- League position
-- Head-to-head history
-
-## 🎯 Use Cases
-
-### 1. Match Outcome Prediction
-```python
-# Binary classification (win/not win)
-target = 'target_home_win'
-
-# 3-way classification (home/draw/away)
-target = 'target_multiclass'
-```
-
-### 2. Goal Prediction
-```python
-# Regression for goals
-target_home = 'target_home_goals'
-target_away = 'target_away_goals'
-target_total = 'target_total_goals'
-```
-
-### 3. Research & Analysis
-- Team performance analysis
-- Rating system comparison
-- Feature importance studies
-- Betting strategy development
-
-## 📝 Data Quality Notes
-
-### Coverage by Period
-
-**2009-2014**: Basic match results + standings only
-- Good for: Historical analysis, basic models
-- Missing: Detailed statistics
-
-**2014-2018**: Results + partial statistics + ratings
-- Good for: Training basic models
-- Statistics coverage: ~40-50%
-
-**2018-2025**: Results + detailed statistics + ratings + odds
-- Good for: Full-featured models
-- Statistics coverage: ~70-80%
-
-### Recommended Usage
-
-For **best model performance**, use data from **2014-2025** (included in exported datasets):
-- 100% coverage of rating features (Elo, Pi)
-- 53.6% coverage of detailed statistics
-- Sufficient data for robust training (4,063 matches)
-
-## 🔮 Future Enhancements
-
-Potential additions (not currently implemented):
-- ❌ Player-level statistics
-- ❌ Transfer market data
-- ❌ Weather conditions
-- ❌ xG (Expected Goals) - not available for 3. Liga
-- ❌ Event-level tracking data - only available for top leagues
-
-## 📄 License
-
-Data sources:
-- **OpenLigaDB**: Free API, no authentication required
-- **FotMob**: Publicly scraped data (use responsibly)
-- **OddsPortal**: Historical odds data
-
-**Usage**: This dataset is for research and educational purposes. Please cite appropriately if used in publications.
-
-## 🤝 Contributing
-
-We welcome contributions! Whether you're:
-- 🐛 Reporting bugs
-- 📝 Improving documentation
-- ✨ Adding new features
-- 🔧 Fixing issues
-
-**See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.**
-
-Quick start for contributors:
 ```bash
-# Fork and clone the repository
-git clone https://github.com/YOUR-USERNAME/catboost-predictor.git
-
-# Create a branch
-git checkout -b feature/your-feature
-
-# Make changes, test, and submit PR
-pytest tests/
-git push origin feature/your-feature
+# Predict specific season/matchday, update data first, and save to CSV
+poetry run liga-predictor predict \
+  --season 2025 \
+  --matchday 15 \
+  --update-data \
+  --weather-mode live \
+  --output outputs/predictions_2025_MD15.csv
 ```
 
-## 📚 References
+**Weather Modes:**
+- `live`: Fetch live weather forecast from Open-Meteo API (default)
+- `estimate`: Use historical weather estimates based on similar time periods
+- `off`: Use default weather values
 
-Key research papers for football prediction:
-- Dixon & Coles (1997) - Modelling Association Football Scores
-- Baio & Blangiardo (2010) - Bayesian hierarchical model for prediction
-- Research on Pi-ratings for tree-based models (2023)
-- State-of-the-art: ~55% accuracy with Random Forest + Pi-ratings
+## Database Setup
 
-## 💡 Tips for Better Models
+Before making predictions, initialize the SQLite database schema:
 
-**Feature Selection:**
-- 🥇 **Tier 1**: Start with `elo_diff`, `pi_diff`, `form_diff_l5` (most predictive)
-- 🥈 **Tier 2**: Add goal form and betting odds
-- 🥉 **Tier 3**: Include weather and contextual features
-
-**Common Pitfalls:**
-- ❌ Don't use random splits (use temporal splits!)
-- ❌ Don't use post-match statistics (e.g., `home_possession`)
-- ❌ Don't ignore missing data (check coverage in data dictionary)
-- ✅ Do handle class imbalance (draws are less frequent)
-- ✅ Do use cross-validation on temporal folds
-- ✅ Do check feature importance after training
-
-**Expected Performance:**
-- Baseline (always predict home win): ~43% accuracy
-- Decent model (ratings + form): ~54-56% accuracy
-- Strong model (all features optimized): ~57-59% accuracy
-- Research state-of-the-art: ~55% (Pi-ratings + Random Forest)
-
-See [GETTING_STARTED.md](GETTING_STARTED.md#building-your-first-model) for detailed examples.
-
----
-
-## 📊 Dataset at a Glance
-
-| Statistic | Value |
-|-----------|-------|
-| **Total Matches** | 6,290 (2009-2025) |
-| **ML Dataset** | 5,970 matches |
-| **Teams** | 70 unique |
-| **Seasons** | 17 complete |
-| **Features** | 103 total (40 for prediction) |
-| **Train/Val/Test** | 72% / 8% / 20% |
-| **Rating Coverage** | 100% (Elo, Pi-ratings) |
-| **Odds Coverage** | 98.6% |
-| **Stats Coverage** | 37.6% (2014+) |
-
----
-
-## 🏆 Use Cases
-
-This dataset is perfect for:
-
-1. **🎓 Education**: Learn ML with real-world sports data
-2. **🔬 Research**: Test new prediction algorithms
-3. **⚽ Sports Analytics**: Analyze team performance patterns
-4. **📈 Betting Models**: Develop data-driven strategies
-5. **🤖 ML Competitions**: Practice feature engineering
-6. **📊 Benchmarking**: Compare model performance
-
----
-
-## 📄 License & Attribution
-
-### Data Sources
-- **Match Results**: [OpenLigaDB](https://www.openligadb.de) (Public API)
-- **Betting Odds**: OddsPortal (Educational use)
-- **Match Statistics**: FotMob (Educational use)
-- **League Standings**: [FBref](https://fbref.com) (Educational use)
-- **Weather**: Meteostat, OpenWeatherMap (API)
-
-### Usage
-This dataset is provided for **educational and research purposes**. If you use this data in academic work, please cite:
-
-```bibtex
-@dataset{3liga_dataset_2025,
-  title={3. Liga Comprehensive Football Prediction Dataset},
-  author={[Your Name/Team]},
-  year={2025},
-  url={https://github.com/yourusername/catboost-predictor}
-}
+```bash
+poetry run liga-predictor db-init
 ```
 
-For commercial use, verify data rights with original sources.
+This creates `database/3liga.db` with all required tables based on `database/schema.sql`.
 
----
+## Data Collection
 
-## 🌟 Acknowledgments
+The system supports collecting data from multiple sources. Run these commands as needed to update your database:
 
-This project builds on research from:
-- Dixon & Coles (1997) - Modelling Association Football Scores
-- Baio & Blangiardo (2010) - Bayesian hierarchical models
-- Pi-rating research achieving 55.82% accuracy with gradient boosting
+```bash
+# Matches & fixtures from OpenLigaDB API
+poetry run liga-predictor collect-openligadb
 
----
+# Team standings & player statistics from FBref
+poetry run liga-predictor collect-fbref
 
-## 📞 Support
+# Betting odds from OddsPortal
+poetry run liga-predictor collect-oddsportal
 
-**Questions or Issues?**
-- 📖 **Documentation**: Check [GETTING_STARTED.md](GETTING_STARTED.md) first
-- 💬 **Discussions**: For questions and ideas
-- 🐛 **Issues**: Report bugs or request features
-- 🤝 **Contributing**: See [CONTRIBUTING.md](CONTRIBUTING.md)
+# Referee data from Transfermarkt
+poetry run liga-predictor collect-transfermarkt
+```
 
----
+## Export ML Datasets
 
-**Last Updated**: November 2025 | **Status**: Production Ready ✅
+Export feature-engineered datasets for machine learning model training:
 
-**Star this repo** ⭐ if you find it useful!
+```bash
+poetry run liga-predictor export-ml-data
+```
+
+This creates the following files in `data/processed/`:
+
+- `3liga_ml_dataset_full.csv` - Complete dataset with all matches
+- `3liga_ml_dataset_train.csv` - Training set (temporal split)
+- `3liga_ml_dataset_val.csv` - Validation set
+- `3liga_ml_dataset_test.csv` - Test set
+
+Each dataset includes 100+ engineered features including ratings, form, odds, weather, and head-to-head statistics.
+
+## Stadium Locations
+
+The predictor resolves stadium coordinates for weather lookups using the following priority:
+
+1. **JSON Config** (preferred): `src/liga_predictor/config/stadium_locations.json`
+2. **Database Fallback**: `team_locations` table
+
+If you see warnings about missing `stadium_locations.json`, you can either:
+
+- Copy `config/stadium_locations.json` to `src/liga_predictor/config/stadium_locations.json`, or
+- Populate the database with locations:
+  ```bash
+  poetry run liga-predictor build-locations
+  ```
+
+## Project Structure
+
+Key paths in the project:
+
+- **Database**: `database/3liga.db` (SQLite database file)
+- **Schema**: `database/schema.sql` (database schema definition)
+- **Processed Data**: `data/processed/` (ML-ready CSV exports)
+- **Models**: `models/rf_classifier.pkl` (default model path)
+- **CLI**: `src/liga_predictor/cli.py` (command-line interface)
+- **Config**: `src/liga_predictor/config/` (configuration files)
+
+## CLI Reference
+
+Get help for any command:
+
+```bash
+poetry run liga-predictor --help
+poetry run liga-predictor predict --help
+```
+
+### Common Commands
+
+- `predict` - Run match predictions (default command when run without arguments)
+- `db-init` - Initialize database schema
+- `collect-openligadb` - Collect matches and fixtures from OpenLigaDB API
+- `collect-fbref` - Collect team standings and player stats from FBref
+- `collect-oddsportal` - Collect 1X2 betting odds from OddsPortal
+- `collect-transfermarkt` - Collect referee data from Transfermarkt
+- `export-ml-data` - Export ML-ready datasets to `data/processed/`
+- `build-locations` - Build team location mappings for travel distance calculations
+- `build-h2h` - Compute head-to-head statistics table
+- `calculate-ratings` - Calculate and update team ratings (Elo, Pi, etc.)
+- `fetch-weather` - Fetch historical weather data from multiple sources
+
+## Troubleshooting
+
+### Stadium Coordinates Missing
+
+If you see warnings about missing stadium coordinates:
+
+- Ensure `src/liga_predictor/config/stadium_locations.json` exists, or
+- Run `poetry run liga-predictor build-locations` to populate the database
+
+### Weather Unavailable
+
+If weather data is unavailable for a specific venue:
+
+- Use `--weather-mode estimate` to fall back to historical weather estimates
+- The system will automatically use seasonal defaults if no historical data is available
+
+### No Data for Matchday
+
+If predictions fail due to missing data:
+
+- Run with `--update-data` flag to fetch latest data before predicting:
+  ```bash
+  poetry run liga-predictor predict --season 2025 --matchday 15 --update-data
+  ```
+- Or manually run the appropriate data collectors listed above
+
+## Development
+
+### Running Tests
+
+```bash
+poetry run pytest
+```
+
+### Code Style
+
+The project uses Black and isort for code formatting (configured in `pyproject.toml`).
+
+## License
+
+This project is intended for research and educational use. Please check the repository for license details.
+
+## Acknowledgments
+
+- **OpenLigaDB** - Match data and fixtures API
+- **FBref** - Team standings and player statistics
+- **OddsPortal** - Betting odds data
+- **Transfermarkt** - Referee information
+- **Open-Meteo** - Weather forecast data provider
+
+## Additional Documentation
+
+For more detailed information about:
+
+- **Using the ML datasets**: See [GETTING_STARTED.md](GETTING_STARTED.md)
+- **Contributing**: See [CONTRIBUTING.md](CONTRIBUTING.md) (if available)
+- **Data dictionary**: Check `docs/data/DATA_DICTIONARY.md` (if available)
+
