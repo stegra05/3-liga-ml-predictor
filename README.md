@@ -43,7 +43,7 @@ A comprehensive machine learning system for predicting German 3. Liga football m
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd catboost-predictor
+cd 3-liga-ml-predictor
 
 # Install dependencies using Poetry
 poetry install
