@@ -140,7 +140,7 @@ catboost-predictor/
 │   │   └── import_existing_data.py   # Batch imports
 │   │
 │   └── utils/                  # Utility modules
-│       └── team_mapper.py      # Team name standardization
+│       └── team_mapper.py      # Team name mapping
 │
 ├── config/                     # Configuration files
 │   ├── team_mappings.json      # Team name mappings

@@ -2027,14 +2027,15 @@ class MatchPredictor:
 
         return df_enriched
 
-    def get_upcoming_matches(self, season: str, matchday: int) -> pd.DataFrame:
+    def get_upcoming_matches(self, season: str, matchday: int, require_db: bool = False) -> pd.DataFrame:
         """
         Get upcoming matches for prediction
-        Priority: DB → CSV → API
+        Priority: DB → CSV → API (unless require_db=True, then DB-only)
 
         Args:
             season: Season
             matchday: Matchday number
+            require_db: If True, only return DB matches (no CSV/API fallback)
 
         Returns:
             DataFrame with match features
@@ -2048,6 +2049,11 @@ class MatchPredictor:
             matches_with_features = self.engineer_features_for_matches(db_matches)
             logger.info(f"Found {len(matches_with_features)} matches in database")
             return matches_with_features
+
+        # If require_db is True, only use DB matches - return empty if none found
+        if require_db:
+            logger.warning(f"No matches found in database for {season} MD {matchday} (require_db=True)")
+            return pd.DataFrame()
 
         # Priority 2: Try to load from existing CSV dataset
         try:
@@ -2122,19 +2128,20 @@ class MatchPredictor:
 
         return X
 
-    def predict_matches(self, season: str, matchday: int) -> pd.DataFrame:
+    def predict_matches(self, season: str, matchday: int, require_db: bool = False) -> pd.DataFrame:
         """
         Predict results for all matches in a matchday
 
         Args:
             season: Season
             matchday: Matchday number
+            require_db: If True, only use DB matches (no CSV/API fallback)
 
         Returns:
             DataFrame with predictions
         """
         # Get matches to predict (first, so we can derive cutoff to avoid leakage)
-        matches = self.get_upcoming_matches(season, matchday)
+        matches = self.get_upcoming_matches(season, matchday, require_db=require_db)
 
         if matches.empty:
             logger.error(f"No matches found for {season} MD {matchday}")
@@ -2336,11 +2343,6 @@ def main():
         help='Update/fetch data for the matchday before predicting'
     )
     parser.add_argument(
-        '--retrain',
-        action='store_true',
-        help='Force model retraining'
-    )
-    parser.add_argument(
         '--output',
         type=str,
         help='Save predictions to CSV file'
@@ -2362,8 +2364,6 @@ def main():
 
     # Initialize predictor
     predictor = MatchPredictor(weather_mode=args.weather_mode, ext_data=args.ext_data)
-    # Wire CLI retrain preference into instance for later use
-    predictor._force_retrain_default = args.retrain
 
     # Determine which matchday to predict
     # Normalize season format if provided as start year (e.g., "2025" -> "2025-2026")
@@ -2422,7 +2422,8 @@ def main():
 
     # Step 2: Data is available - retrain (leakage-safe) and predict
     logger.info("Making predictions...")
-    predictions = predictor.predict_matches(season, matchday)
+    # Use DB-only when --update-data was set (ensures we use freshly updated data)
+    predictions = predictor.predict_matches(season, matchday, require_db=args.update_data)
 
     if predictions.empty:
         logger.error("No predictions generated")

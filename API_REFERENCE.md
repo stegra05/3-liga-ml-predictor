@@ -676,9 +676,6 @@ python main.py build-head-to-head
 
 # Build team locations
 python main.py build-team-locations
-
-# Unify team names
-python main.py unify-teams
 ```
 
 #### Database Management
@@ -686,16 +683,6 @@ python main.py unify-teams
 ```bash
 # Initialize database schema
 python main.py db-init
-```
-
-#### Utilities
-
-```bash
-# Initialize team mappings
-python main.py team-mapper-init
-
-# Generate weather coverage report
-python main.py weather-coverage-report -- --detailed
 ```
 
 **Note**: All subcommands support `--help` for detailed usage information:

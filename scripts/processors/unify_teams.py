@@ -84,20 +84,6 @@ def add_unique_index() -> None:
     db.execute_insert("CREATE UNIQUE INDEX IF NOT EXISTS ux_teams_name ON teams(team_name)", ())
 
 
-def main():
-    logger.info("=== Unifying duplicate teams to canonical entries ===")
-    merged = 0
-    for old_name, canonical_name in CANONICAL_MAP.items():
-        old_id, canonical_id = unify_team(old_name, canonical_name)
-        if canonical_id:
-            merged += 1
-    add_unique_index()
-    logger.success(f"Unification complete. Canonicalized {merged} team entries.")
-
-
-if __name__ == "__main__":
-    import sys
-    print("This script is deprecated. Use: python main.py unify-teams [args]", file=sys.stderr)
-    sys.exit(2)
+# CLI compatibility removed - utility functions are kept for programmatic use
 
 

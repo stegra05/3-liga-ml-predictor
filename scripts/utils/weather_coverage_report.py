@@ -164,52 +164,5 @@ def assert_coverage(db, min_coverage: float = 95.0):
         return False
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Weather coverage report and verification")
-    parser.add_argument("--detailed", action="store_true", help="Show detailed season breakdown")
-    parser.add_argument("--assert", type=float, default=None, metavar="PERCENT", 
-                       help="Assert minimum coverage percentage (e.g., 95.0)")
-    parser.add_argument("--csv", type=str, default=None, help="Export report to CSV file")
-    args = parser.parse_args()
-    
-    db = get_db()
-    
-    # Print report
-    print_report(db, detailed=args.detailed)
-    
-    # Assertion check
-    if args.assert is not None:
-        success = assert_coverage(db, args.assert)
-        if not success:
-            sys.exit(1)
-    
-    # CSV export
-    if args.csv:
-        overall = get_overall_coverage(db)
-        sources = get_coverage_by_source(db)
-        seasons = get_coverage_by_season(db)
-        
-        # Create summary DataFrame
-        summary_data = {
-            'metric': ['total_matches', 'with_weather', 'coverage_pct', 'missing'],
-            'value': [overall['total_matches'], overall['with_weather'], 
-                     overall['coverage_pct'], overall['missing']]
-        }
-        summary_df = pd.DataFrame(summary_data)
-        
-        # Export
-        with pd.ExcelWriter(args.csv, engine='openpyxl') as writer:
-            summary_df.to_excel(writer, sheet_name='Summary', index=False)
-            if sources:
-                pd.DataFrame(sources).to_excel(writer, sheet_name='By Source', index=False)
-            if seasons:
-                pd.DataFrame(seasons).to_excel(writer, sheet_name='By Season', index=False)
-        
-        logger.info(f"Report exported to {args.csv}")
-
-
-if __name__ == "__main__":
-    import sys
-    print("This script is deprecated. Use: python main.py weather-coverage-report [args]", file=sys.stderr)
-    sys.exit(2)
+# CLI compatibility removed - utility functions are kept for programmatic use
 

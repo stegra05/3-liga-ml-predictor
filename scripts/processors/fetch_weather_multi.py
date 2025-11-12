@@ -107,43 +107,14 @@ def main():
         logger.info(f"Would run stages to improve coverage from {initial_coverage:.2f}% to {args.target_coverage}%")
         return
     
-    # Stage 1: Meteostat
+    # Weather fetching scripts have been removed - predict.py uses its own internal weather methods
+    logger.warning("Weather fetching scripts (Meteostat, Open-Meteo, DWD) have been removed.")
+    logger.info("Weather data is now fetched via predict.py's internal methods (_get_live_weather, _estimate_weather).")
+    logger.info("Current coverage: {:.2f}%".format(initial_coverage))
+    
     stage1_coverage = initial_coverage
-    if not args.skip_meteostat:
-        script_path = Path(__file__).parent / "fetch_weather_meteostat.py"
-        if run_stage("Meteostat", script_path, limit=args.limit):
-            stage1_coverage = get_weather_coverage(db)
-            logger.info(f"After Meteostat: {stage1_coverage:.2f}% coverage")
-            
-            if stage1_coverage >= args.target_coverage:
-                logger.success(f"Target coverage reached after Meteostat: {stage1_coverage:.2f}%")
-                return
-        else:
-            logger.warning("Meteostat stage failed, continuing to next stage")
-    
-    # Stage 2: Open-Meteo
-    stage2_coverage = stage1_coverage
-    if not args.skip_open_meteo:
-        script_path = Path(__file__).parent / "fetch_weather.py"
-        if run_stage("Open-Meteo", script_path, limit=args.limit, sleep=args.sleep):
-            stage2_coverage = get_weather_coverage(db)
-            logger.info(f"After Open-Meteo: {stage2_coverage:.2f}% coverage")
-            
-            if stage2_coverage >= args.target_coverage:
-                logger.success(f"Target coverage reached after Open-Meteo: {stage2_coverage:.2f}%")
-                return
-        else:
-            logger.warning("Open-Meteo stage failed, continuing to next stage")
-    
-    # Stage 3: DWD
-    stage3_coverage = stage2_coverage
-    if not args.skip_dwd:
-        script_path = Path(__file__).parent / "fetch_weather_dwd.py"
-        if run_stage("DWD", script_path, limit=args.limit, sleep=args.sleep):
-            stage3_coverage = get_weather_coverage(db)
-            logger.info(f"After DWD: {stage3_coverage:.2f}% coverage")
-        else:
-            logger.warning("DWD stage failed")
+    stage2_coverage = initial_coverage
+    stage3_coverage = initial_coverage
     
     # Final summary
     final_coverage = get_weather_coverage(db)

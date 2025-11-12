@@ -155,55 +155,8 @@ class TeamMapper:
             logger.error(f"Error reading {csv_path}: {e}")
             return set()
 
-    def collect_all_team_names(self, data_dir: str = "data/raw") -> Dict[str, set]:
-        """
-        Collect all team names from all data sources
-
-        Args:
-            data_dir: Directory containing raw data files
-
-        Returns:
-            Dictionary with source as key and set of team names as value
-        """
-        data_path = Path(data_dir)
-        all_teams = {}
-
-        # Matches file
-        matches_file = data_path / "matches_3liga_2009-2025.csv"
-        if matches_file.exists():
-            all_teams['matches'] = self.extract_teams_from_csv(
-                str(matches_file),
-                'homeTeamName',
-                'awayTeamName'
-            )
-
-        # FotMob stats
-        fotmob_file = data_path / "fotmob_stats_all.csv"
-        if fotmob_file.exists():
-            all_teams['fotmob'] = self.extract_teams_from_csv(
-                str(fotmob_file),
-                'home_team',
-                'away_team'
-            )
-
-        # OddsPortal
-        odds_file = data_path / "oddsportal_3liga_full.csv"
-        if odds_file.exists():
-            all_teams['oddsportal'] = self.extract_teams_from_csv(
-                str(odds_file),
-                'homeTeamName',
-                'awayTeamName'
-            )
-
-        # Get unique teams across all sources
-        all_unique = set()
-        for teams in all_teams.values():
-            all_unique.update(teams)
-
-        all_teams['all_unique'] = all_unique
-        logger.info(f"Total unique team names across all sources: {len(all_unique)}")
-
-        return all_teams
+    # collect_all_team_names() method removed - was only used by deprecated main() function
+    # Raw CSV files have been removed as data is now imported via collectors
 
     def create_standardized_names(self, team_names: set) -> Dict[str, str]:
         """
@@ -253,18 +206,22 @@ class TeamMapper:
     def generate_mapping_template(self) -> Dict:
         """
         Generate a template for manual team mapping
+        
+        Note: This method now uses teams from the database instead of CSV files.
 
         Returns:
             Dictionary template for team mappings
         """
-        all_teams = self.collect_all_team_names()
-        team_list = sorted(all_teams.get('all_unique', []))
+        # Get teams from database instead of CSV files
+        db = get_db()
+        team_rows = db.execute_query("SELECT DISTINCT team_name FROM teams ORDER BY team_name")
+        team_list = [row['team_name'] for row in team_rows]
 
         mapping_template = {
             "metadata": {
                 "total_teams": len(team_list),
                 "generated_at": pd.Timestamp.now().isoformat(),
-                "sources": list(all_teams.keys())
+                "sources": ["database"]
             },
             "teams": {},
             "aliases": {}
@@ -480,46 +437,4 @@ class TeamMapper:
         logger.success(f"Exported team list to {output_file}")
 
 
-def main():
-    """Main function for team mapping initialization"""
-    logger.info("Starting team mapping system initialization")
-
-    mapper = TeamMapper()
-
-    # Collect all team names
-    logger.info("Collecting team names from all data sources...")
-    all_teams = mapper.collect_all_team_names()
-
-    print("\n=== Team Names by Source ===")
-    for source, teams in all_teams.items():
-        if source != 'all_unique':
-            print(f"{source}: {len(teams)} teams")
-
-    print(f"\nTotal unique teams: {len(all_teams['all_unique'])}")
-
-    # Generate mapping template
-    logger.info("Generating team mapping template...")
-    template = mapper.generate_mapping_template()
-
-    # Print similar names for review
-    if "similar_names_to_review" in template["metadata"]:
-        print("\n=== Similar Team Names (Manual Review Needed) ===")
-        for pair in template["metadata"]["similar_names_to_review"][:10]:
-            print(f"  {pair['name1']} <-> {pair['name2']} (similarity: {pair['similarity']})")
-
-    # Save template
-    mapper.mappings = template
-    mapper.save_mappings()
-
-    print(f"\n✓ Team mapping template created: {mapper.config_path}")
-    print(f"✓ Found {template['metadata']['total_teams']} unique teams")
-    print("\nNext steps:")
-    print("1. Review and edit config/team_mappings.json to standardize team names")
-    print("2. Add OpenLigaDB IDs where available")
-    print("3. Run mapper.populate_database_with_teams() to add teams to database")
-
-
-if __name__ == "__main__":
-    import sys
-    print("This script is deprecated. Use: python main.py team-mapper-init [args]", file=sys.stderr)
-    sys.exit(2)
+# CLI compatibility removed - this module is used by collectors via imports

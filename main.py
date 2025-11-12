@@ -110,11 +110,6 @@ Examples:
         help='Update/fetch data for the matchday before predicting'
     )
     predict_parser.add_argument(
-        '--retrain',
-        action='store_true',
-        help='Force model retraining'
-    )
-    predict_parser.add_argument(
         '--output',
         type=str,
         help='Save predictions to CSV file'
@@ -188,40 +183,10 @@ Examples:
         _forward=('scripts/processors/ml_data_exporter.py',)
     )
     
-    fetch_weather_parser = subparsers.add_parser(
-        'fetch-weather',
-        help='Fetch weather data for matches',
-        description='Fetch historical weather data using Open-Meteo archive API'
-    )
-    fetch_weather_parser.add_argument('args', nargs=argparse.REMAINDER)
-    fetch_weather_parser.set_defaults(
-        _forward=('scripts/processors/fetch_weather.py',)
-    )
-    
-    fetch_weather_dwd_parser = subparsers.add_parser(
-        'fetch-weather-dwd',
-        help='Fetch weather data from DWD',
-        description='Fetch weather data from Deutscher Wetterdienst (DWD)'
-    )
-    fetch_weather_dwd_parser.add_argument('args', nargs=argparse.REMAINDER)
-    fetch_weather_dwd_parser.set_defaults(
-        _forward=('scripts/processors/fetch_weather_dwd.py',)
-    )
-    
-    fetch_weather_meteostat_parser = subparsers.add_parser(
-        'fetch-weather-meteostat',
-        help='Fetch weather data from Meteostat',
-        description='Fetch weather data from Meteostat API'
-    )
-    fetch_weather_meteostat_parser.add_argument('args', nargs=argparse.REMAINDER)
-    fetch_weather_meteostat_parser.set_defaults(
-        _forward=('scripts/processors/fetch_weather_meteostat.py',)
-    )
-    
     fetch_weather_multi_parser = subparsers.add_parser(
         'fetch-weather-multi',
         help='Fetch weather data from multiple sources',
-        description='Fetch weather data using multi-source pipeline'
+        description='Fetch weather data using multi-source pipeline (deprecated - weather now handled by predict.py)'
     )
     fetch_weather_multi_parser.add_argument('args', nargs=argparse.REMAINDER)
     fetch_weather_multi_parser.set_defaults(
@@ -258,16 +223,6 @@ Examples:
         _forward=('scripts/processors/import_existing_data.py',)
     )
     
-    unify_teams_parser = subparsers.add_parser(
-        'unify-teams',
-        help='Unify duplicate team entries',
-        description='Unify duplicate teams to canonical entries'
-    )
-    unify_teams_parser.add_argument('args', nargs=argparse.REMAINDER)
-    unify_teams_parser.set_defaults(
-        _forward=('scripts/processors/unify_teams.py',)
-    )
-    
     rating_calc_parser = subparsers.add_parser(
         'rating-calculator',
         help='Calculate team ratings',
@@ -276,29 +231,6 @@ Examples:
     rating_calc_parser.add_argument('args', nargs=argparse.REMAINDER)
     rating_calc_parser.set_defaults(
         _forward=('scripts/processors/rating_calculator.py',)
-    )
-    
-    # ========================================================================
-    # UTILITY SUBCOMMANDS
-    # ========================================================================
-    team_mapper_parser = subparsers.add_parser(
-        'team-mapper-init',
-        help='Initialize team mappings',
-        description='Initialize and update team name mappings'
-    )
-    team_mapper_parser.add_argument('args', nargs=argparse.REMAINDER)
-    team_mapper_parser.set_defaults(
-        _forward=('scripts/utils/team_mapper.py',)
-    )
-    
-    weather_report_parser = subparsers.add_parser(
-        'weather-coverage-report',
-        help='Generate weather coverage report',
-        description='Generate report on weather data coverage'
-    )
-    weather_report_parser.add_argument('args', nargs=argparse.REMAINDER)
-    weather_report_parser.set_defaults(
-        _forward=('scripts/utils/weather_coverage_report.py',)
     )
     
     # ========================================================================
@@ -361,7 +293,7 @@ Examples:
     if args.command == 'predict':
         # Reconstruct arguments for predict.main()
         forwarded = []
-        for opt in ('season', 'matchday', 'update_data', 'retrain', 'output', 'weather_mode', 'ext_data'):
+        for opt in ('season', 'matchday', 'update_data', 'output', 'weather_mode', 'ext_data'):
             v = getattr(args, opt, None)
             if v is True:
                 forwarded.append(f'--{opt.replace("_", "-")}')

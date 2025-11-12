@@ -26,6 +26,9 @@ python -m .
 # 3. Or use explicit predict command
 python main.py predict --season 2025 --matchday 15
 python -m . predict --season 2025 --matchday 15
+
+# 4. Update data before predicting (ensures DB-only prediction with latest data)
+python main.py predict --season 2025 --matchday 15 --update-data
 ```
 
 That's it! The dataset is pre-built and ready to use.
@@ -130,8 +133,7 @@ catboost-predictor/
 │   ├── processors/
 │   │   ├── import_existing_data.py    # Import CSV files
 │   │   ├── rating_calculator.py       # Elo/Pi-ratings
-│   │   ├── ml_data_exporter.py        # Export ML datasets
-│   │   └── clean_team_mappings.py     # Team name standardization
+│   │   └── ml_data_exporter.py        # Export ML datasets
 │   └── utils/
 │       └── team_mapper.py             # Team name mapping
 │
@@ -207,11 +209,8 @@ This shows typical home advantage in football (~42% vs 30%).
 | Document | Description |
 |----------|-------------|
 | **[GETTING_STARTED.md](GETTING_STARTED.md)** | 👈 **Start here!** Step-by-step tutorial for beginners |
-| **[docs/data/DATA_DICTIONARY.md](docs/data/DATA_DICTIONARY.md)** | Complete reference for all 103 features |
-| **[docs/data/README.md](docs/data/README.md)** | Dataset overview and statistics |
 | **[CONTRIBUTING.md](CONTRIBUTING.md)** | How to contribute to this project |
 | **[API_REFERENCE.md](API_REFERENCE.md)** | Developer documentation for key modules |
-| **[docs/data/FBREF_INTEGRATION.md](docs/data/FBREF_INTEGRATION.md)** | FBref data source documentation |
 
 ---
 
