@@ -676,24 +676,6 @@ class MatchPredictor:
             else:
                 logger.info("Step 10: Skipping FBref collection (--ext-data not set)")
 
-            # Step 11: Import detailed match statistics (CSV, if available)
-            logger.info("Step 11: Checking for detailed match statistics (CSV import)...")
-            try:
-                from liga_predictor.processing.importer import DataImporter
-                importer = DataImporter()
-                # Check if CSV file exists
-                csv_path = Path("data/raw/fotmob_stats_all.csv")
-                if csv_path.exists():
-                    logger.info("Found FotMob stats CSV, importing...")
-                    stats_count = importer.import_fotmob_statistics()
-                    logger.success(f"Imported {stats_count} detailed statistics records")
-                else:
-                    logger.debug("No FotMob stats CSV found, skipping detailed stats import")
-            except ImportError:
-                logger.debug("Data importer not available, skipping detailed stats import")
-            except Exception as e:
-                logger.debug(f"Detailed stats import failed: {e}")
-
             logger.success(f"=== Data update complete for {season} MD {matchday} ===")
             return True
 
