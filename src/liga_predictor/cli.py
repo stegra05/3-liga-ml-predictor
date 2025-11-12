@@ -144,6 +144,78 @@ def predict(
         logger.success(f"Predictions saved to: {output_path}")
 
 
+@app.command()
+def evaluate(
+    mode: Annotated[
+        str,
+        typer.Option(
+            help="Evaluation mode: expanding-season, sliding-season, rolling-matchday, static-preseason"
+        ),
+    ] = "expanding-season",
+    start_season: Annotated[
+        int,
+        typer.Option(help="First season to use in the training set. 2014+ has richer data."),
+    ] = 2014,
+    test_season: Annotated[
+        int,
+        typer.Option(
+            help="The single season to test for 'rolling-matchday' or 'static-preseason' modes."
+        ),
+    ] = 2025,
+    window_size: Annotated[
+        int,
+        typer.Option(help="Number of seasons to use in 'sliding-season' mode."),
+    ] = 4,
+    log_mlflow: Annotated[
+        bool,
+        typer.Option(help="Log results to MLflow."),
+    ] = True,
+):
+    """
+    Run a backtest evaluation of the prediction model.
+
+    This command runs comprehensive evaluations to test model performance across
+    different time periods and training strategies. Use this to validate your
+    model and understand how it performs in realistic scenarios.
+
+    Evaluation modes:
+    - expanding-season: Train on all past data, test on each future season
+    - sliding-season: Train on fixed window of recent seasons
+    - rolling-matchday: Retrain after each matchday within a season
+    - static-preseason: Single model trained once, tested throughout season
+    """
+    from rich.console import Console
+    from liga_predictor import evaluation
+
+    console = Console()
+
+    # Validate mode
+    valid_modes = ["expanding-season", "sliding-season", "rolling-matchday", "static-preseason"]
+    if mode not in valid_modes:
+        console.print(f"[red]Invalid mode: {mode}[/red]")
+        console.print(f"Valid modes: {', '.join(valid_modes)}")
+        raise typer.Exit(code=1)
+
+    console.print(f"[bold green]Starting evaluation in {mode} mode...[/bold green]")
+
+    # Run evaluation
+    evaluation.run_evaluation(
+        mode=mode,
+        start_season=start_season,
+        test_season=test_season,
+        window_size=window_size,
+        log_mlflow=log_mlflow,
+        console=console,
+    )
+
+    console.print("\n[bold green]✓ Evaluation complete![/bold green]")
+
+    if log_mlflow:
+        console.print("\n[cyan]To view results in MLflow UI, run:[/cyan]")
+        console.print("  mlflow ui")
+        console.print("  Then open http://localhost:5000 in your browser")
+
+
 @app.command("collect-fbref")
 def collect_fbref(
     ctx: typer.Context,
