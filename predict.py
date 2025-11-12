@@ -1093,18 +1093,9 @@ class MatchPredictor:
             conn: Database connection
 
         Returns:
-            Number of rest days (default to 7 if no previous match found)
+            Number of rest days (no cap - can be >7 during breaks)
         """
         try:
-            # Find most recent match before this date
-            query = """
-            SELECT MAX(match_datetime) as last_match
-            FROM matches
-            WHERE (home_team = ? OR away_team = ?)
-              AND match_datetime < ?
-              AND is_finished = 1
-            """
-
             # Get team_id for querying
             team_id_result = pd.read_sql_query(
                 "SELECT team_id FROM teams WHERE team_name = ? LIMIT 1",
@@ -1113,7 +1104,8 @@ class MatchPredictor:
             )
 
             if team_id_result.empty:
-                return 7  # Default
+                logger.warning(f"Team not found: {team_name}, using default rest days")
+                return 7  # Default only if team not found
 
             team_id = team_id_result.iloc[0]['team_id']
 
@@ -1130,15 +1122,18 @@ class MatchPredictor:
                 params=(team_id, team_id, match_date.isoformat())
             )
 
-            if not result.empty and result.iloc[0]['last_match']:
+            if not result.empty and result.iloc[0]['last_match'] is not None:
                 last_match = pd.to_datetime(result.iloc[0]['last_match'])
                 rest_days = (match_date - last_match).days
+                # Return actual rest days without any cap (can be >7 during breaks)
                 return max(0, rest_days)  # Ensure non-negative
 
         except Exception as e:
             logger.warning(f"Could not calculate rest days for {team_name}: {e}")
 
-        return 7  # Default to 1 week
+        # Only default to 7 if truly no previous match found (should be rare)
+        # During breaks, previous matches should exist, so this shouldn't be hit
+        return 7
 
     def _calculate_travel_distance(self, home_team: str, away_team: str, conn) -> float:
         """

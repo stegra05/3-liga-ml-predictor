@@ -57,6 +57,12 @@ class DataImporter:
                 home_team_id = self.team_mapper.get_team_id(row['home_team'])
                 away_team_id = self.team_mapper.get_team_id(row['away_team'])
 
+                # Try fallback resolver if initial lookup failed
+                if not home_team_id:
+                    home_team_id = self._find_team_id_alternative(row['home_team'])
+                if not away_team_id:
+                    away_team_id = self._find_team_id_alternative(row['away_team'])
+
                 if not home_team_id or not away_team_id:
                     logger.warning(f"Could not find teams: {row['home_team']} vs {row['away_team']}")
                     skipped += 1
@@ -125,7 +131,9 @@ class DataImporter:
             "Braunschweig": "Eintracht Braunschweig",
             "Burghausen": "Wacker Burghausen",
             "Dortmund II": "Borussia Dortmund II",
+            "Elversberg": ["SV 07 Elversberg"],
             "Erfurt": "FC Rot-Weiß Erfurt",
+            "Hannover 96 II": ["Hannover II", "Hannover 96 II"],
             "Heidenheim": "1. FC Heidenheim 1846",
             "Ingolstadt": "FC Ingolstadt 04",
             "Jena": "FC Carl Zeiss Jena",
@@ -142,8 +150,12 @@ class DataImporter:
             # Additional mappings for newer seasons (allow multiple candidates)
             "Viktoria Koln": ["Viktoria Köln"],
             "Viktoria Köln": ["Viktoria Köln"],
+            "Viktoria Köln 1904": ["Viktoria Köln"],
+            "FC Viktoria Köln": ["Viktoria Köln"],
             "RW Essen": ["Rot-Weiss Essen"],
             "Rot-Weiss Essen": ["Rot-Weiss Essen"],
+            "Waldhof Mannheim": ["SV Waldhof Mannheim"],
+            "Hoffenheim II": ["TSG 1899 Hoffenheim II"],
             "Preussen Munster": ["Preußen Münster"],
             "Preussen Münster": ["Preußen Münster"],
             "Preußen Munster": ["Preußen Münster"],
@@ -154,6 +166,11 @@ class DataImporter:
             "Großaspach": ["SG Sonnenhof Großaspach"],
             "Saarbrucken": ["1. FC Saarbrücken"],
             "Saarbrücken": ["1. FC Saarbrücken"],
+            "Sandhausen": ["SV Sandhausen"],
+            "FC Energie Cottbus": ["Energie Cottbus"],
+            "Energie Cottbus": ["Energie Cottbus"],
+            "Cottbus": ["Energie Cottbus"],
+            "SpVgg Bayreuth": ["SpVgg Oberfranken Bayreuth", "SpVgg Bayreuth"],
             "Kaiserslautern": ["1. FC Kaiserslautern"],
             "Fortuna Koln": ["Fortuna Köln", "SC Fortuna Köln"],
             "Stutt. Kickers": ["Stuttgarter Kickers"],
