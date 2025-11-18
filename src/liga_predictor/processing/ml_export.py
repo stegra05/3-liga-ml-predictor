@@ -62,27 +62,41 @@ class MLDataExporter:
                 ROW_NUMBER() OVER (PARTITION BY ls.team_id, ls.season ORDER BY ls.matchday DESC) as rn
             FROM league_standings ls
         ),
-        h2h_flat AS (
+        -- POINT-IN-TIME H2H: Calculate head-to-head stats using ONLY matches before current match
+        -- This prevents data leakage by ensuring we don't use future match results
+        h2h_dynamic AS (
             SELECT
-                CASE WHEN team_a_id < team_b_id THEN team_a_id ELSE team_b_id END AS ta_id,
-                CASE WHEN team_a_id < team_b_id THEN team_b_id ELSE team_a_id END AS tb_id,
-                CASE WHEN team_a_id < team_b_id THEN team_a_wins ELSE team_b_wins END AS ta_wins,
-                draws,
-                CASE WHEN team_a_id < team_b_id THEN team_b_wins ELSE team_a_wins END AS tb_wins,
-                total_matches,
-                last_updated
-            FROM head_to_head
-        ),
-        most_recent AS (
-            SELECT ta_id, tb_id, MAX(last_updated) AS max_updated
-            FROM h2h_flat
-            GROUP BY ta_id, tb_id
-        ),
-        h2h_norm AS (
-            SELECT f.ta_id, f.tb_id, f.ta_wins, f.draws, f.tb_wins, f.total_matches
-            FROM h2h_flat f
-            JOIN most_recent mr
-              ON mr.ta_id = f.ta_id AND mr.tb_id = f.tb_id AND mr.max_updated = f.last_updated
+                m1.match_id as current_match_id,
+                m1.home_team_id,
+                m1.away_team_id,
+                -- Total historical matches between these two teams (before current match)
+                COUNT(m2.match_id) as h2h_total_matches,
+                -- Wins from home team perspective
+                SUM(CASE
+                    WHEN (m2.home_team_id = m1.home_team_id AND m2.result = 'H')
+                      OR (m2.away_team_id = m1.home_team_id AND m2.result = 'A')
+                    THEN 1 ELSE 0
+                END) as h2h_home_wins,
+                -- Draws
+                SUM(CASE WHEN m2.result = 'D' THEN 1 ELSE 0 END) as h2h_draws,
+                -- Wins from away team perspective
+                SUM(CASE
+                    WHEN (m2.home_team_id = m1.away_team_id AND m2.result = 'H')
+                      OR (m2.away_team_id = m1.away_team_id AND m2.result = 'A')
+                    THEN 1 ELSE 0
+                END) as h2h_away_wins
+            FROM matches m1
+            LEFT JOIN matches m2 ON (
+                -- Match involves the same two teams
+                ((m2.home_team_id = m1.home_team_id AND m2.away_team_id = m1.away_team_id) OR
+                 (m2.home_team_id = m1.away_team_id AND m2.away_team_id = m1.home_team_id))
+                -- CRITICAL: Only use matches that occurred BEFORE the current match
+                AND m2.match_datetime < m1.match_datetime
+                AND m2.is_finished = 1
+                AND m2.home_goals IS NOT NULL
+            )
+            WHERE m1.is_finished = 1
+            GROUP BY m1.match_id, m1.home_team_id, m1.away_team_id
         ),
         odds_agg AS (
             SELECT
@@ -215,6 +229,10 @@ class MLDataExporter:
             ams.red_cards as away_red_cards,
 
             -- Weather conditions at kickoff
+            -- WARNING: These are OBSERVED weather values (post-match).
+            -- For real prediction, you need FORECAST data (2-3 days before match).
+            -- This creates minor leakage in backtesting but impact is minimal.
+            -- TODO: Integrate weather forecast API for production predictions.
             m.temperature_celsius,
             m.humidity_percent,
             m.wind_speed_kmh,
@@ -235,15 +253,11 @@ class MLDataExporter:
             als.wins as away_prev_season_wins,
             als.goal_difference as away_prev_season_goal_diff,
 
-            -- Head-to-head statistics (raw values, will be adjusted in feature engineering)
-            h2h.total_matches as h2h_total_matches,
-            h2h.ta_wins as h2h_team_a_wins,
-            h2h.draws as h2h_draws,
-            h2h.tb_wins as h2h_team_b_wins,
-            CASE
-                WHEN m.home_team_id < m.away_team_id THEN m.home_team_id
-                ELSE m.away_team_id
-            END as h2h_team_a_id
+            -- Head-to-head statistics (POINT-IN-TIME: only includes matches before current match)
+            h2h.h2h_total_matches,
+            h2h.h2h_home_wins,
+            h2h.h2h_draws,
+            h2h.h2h_away_wins
 
         FROM matches m
 
@@ -262,11 +276,8 @@ class MLDataExporter:
         LEFT JOIN match_statistics hms ON m.match_id = hms.match_id AND m.home_team_id = hms.team_id
         LEFT JOIN match_statistics ams ON m.match_id = ams.match_id AND m.away_team_id = ams.team_id
 
-        -- Join head-to-head with canonical ordering (ensure one row per unordered pair)
-        LEFT JOIN h2h_norm h2h ON (
-            CASE WHEN m.home_team_id < m.away_team_id THEN m.home_team_id ELSE m.away_team_id END = h2h.ta_id AND
-            CASE WHEN m.home_team_id < m.away_team_id THEN m.away_team_id ELSE m.home_team_id END = h2h.tb_id
-        )
+        -- Join point-in-time head-to-head statistics
+        LEFT JOIN h2h_dynamic h2h ON m.match_id = h2h.current_match_id
 
         -- Join rest days calculations
         LEFT JOIN rest_days_home rdh ON m.match_id = rdh.match_id
@@ -343,37 +354,33 @@ class MLDataExporter:
             df['home_is_new_team'] = df['home_prev_season_position'].isna().astype(int)
             df['away_is_new_team'] = df['away_prev_season_position'].isna().astype(int)
 
-        # Head-to-head features (adjust from team_a perspective to home team perspective)
-        if 'h2h_total_matches' in df.columns and 'h2h_team_a_id' in df.columns:
-            # Determine if home team is team_a (team_a_id < team_b_id in h2h table)
-            is_home_team_a = (df['h2h_team_a_id'] == df['home_team_id']).fillna(False)
+        # Head-to-head features (already in home/away perspective from point-in-time calculation)
+        if 'h2h_total_matches' in df.columns:
+            # Fill NaN values with 0 (no previous matchups)
+            df['h2h_total_matches'] = df['h2h_total_matches'].fillna(0)
+            df['h2h_home_wins'] = df['h2h_home_wins'].fillna(0)
+            df['h2h_draws'] = df['h2h_draws'].fillna(0)
+            df['h2h_away_wins'] = df['h2h_away_wins'].fillna(0)
 
-            # Adjust H2H stats to home team perspective
-            df['h2h_home_wins'] = np.where(
-                is_home_team_a,
-                df['h2h_team_a_wins'].fillna(0),
-                df['h2h_team_b_wins'].fillna(0)
-            )
-            df['h2h_away_wins'] = np.where(
-                is_home_team_a,
-                df['h2h_team_b_wins'].fillna(0),
-                df['h2h_team_a_wins'].fillna(0)
-            )
-
-            # Calculate H2H win rates
+            # Calculate H2H win rates (avoid division by zero)
             df['h2h_home_win_rate'] = np.where(
-                df['h2h_total_matches'].fillna(0) > 0,
+                df['h2h_total_matches'] > 0,
                 df['h2h_home_wins'] / df['h2h_total_matches'],
                 np.nan
             )
             df['h2h_draw_rate'] = np.where(
-                df['h2h_total_matches'].fillna(0) > 0,
-                df['h2h_draws'].fillna(0) / df['h2h_total_matches'],
+                df['h2h_total_matches'] > 0,
+                df['h2h_draws'] / df['h2h_total_matches'],
+                np.nan
+            )
+            df['h2h_away_win_rate'] = np.where(
+                df['h2h_total_matches'] > 0,
+                df['h2h_away_wins'] / df['h2h_total_matches'],
                 np.nan
             )
 
-            # H2H match count (useful for new matchups)
-            df['h2h_match_count'] = df['h2h_total_matches'].fillna(0)
+            # H2H match count (useful indicator for new matchups)
+            df['h2h_match_count'] = df['h2h_total_matches']
 
         # Rest days features (only if present and non-null)
         if 'rest_days_home' in df.columns and df['rest_days_home'].notna().any() and 'rest_days_away' in df.columns:

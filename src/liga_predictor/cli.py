@@ -270,7 +270,7 @@ def collect(
 def process(
     step: Annotated[
         str,
-        typer.Argument(help="Processing step: ml-export, weather, locations, h2h, ratings, unify"),
+        typer.Argument(help="Processing step: ml-export, weather, locations, h2h, ratings, unify, validate"),
     ],
 ):
     """
@@ -319,9 +319,23 @@ def process(
 
             unifier = TeamUnifier()
             unifier.unify_all()
+        case "validate":
+            from liga_predictor.processing.ml_export import MLDataExporter
+            from liga_predictor.utils.data_validation import validate_ml_export
+
+            logger.info("=== Validating ML Dataset for Temporal Leakage ===")
+            exporter = MLDataExporter()
+            df = exporter.export_comprehensive_dataset()
+            is_valid = validate_ml_export(df)
+
+            if not is_valid:
+                logger.error("Validation failed! Please review issues above.")
+                raise typer.Exit(code=1)
+            else:
+                logger.success("✓ Dataset validation passed")
         case _:
             logger.error(f"Unknown processing step: {step}")
-            logger.info("Valid steps: ml-export, weather, locations, h2h, ratings, unify")
+            logger.info("Valid steps: ml-export, weather, locations, h2h, ratings, unify, validate")
             raise typer.Exit(code=1)
 
 

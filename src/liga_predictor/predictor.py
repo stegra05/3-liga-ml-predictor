@@ -69,7 +69,9 @@ class MatchPredictor:
         self.ext_data = ext_data
 
         # Load stadium locations from JSON
-        stadium_json_path = Path(__file__).parent / "config" / "stadium_locations.json"
+        # Find project root by going up from current file until we find config/ or pyproject.toml
+        project_root = Path(__file__).parent.parent.parent
+        stadium_json_path = project_root / "config" / "stadium_locations.json"
         try:
             with open(stadium_json_path, 'r', encoding='utf-8') as f:
                 self._stadium_locations = json.load(f)
@@ -851,6 +853,8 @@ class MatchPredictor:
             if feat in config.CATEGORICAL_FEATURES:
                 df[feat] = df[feat].fillna('MISSING')
             else:
+                # Ensure column is numeric before computing median
+                df[feat] = pd.to_numeric(df[feat], errors='coerce')
                 # Check if column has any non-NaN values before computing median
                 non_null_values = df[feat].dropna()
                 if len(non_null_values) == 0:
