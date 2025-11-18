@@ -2,10 +2,10 @@
 
 ## Backtested Performance (eye-catchers)
 
-- **+142% ROI** in 2025 static pre-season backtest (MD 1–14, 119 bets, **+169.13 units**)
-- **+104% ROI** in 2025 rolling matchday backtest (117 bets, **+121.50 units**)
+- **+142.13% ROI** in 2025 static pre-season backtest (MD 1–14, 119 bets, **+169.13 units**)
+- **+103.85% ROI** in 2025 rolling matchday backtest (117 bets, **+121.50 units**)
 - **+67.84% ROI** average across 2018–2026 (sliding-season, 2017 bets, **+1368.30 units**)
-- **≈+61% ROI** average across 2015–2026 (expanding-season, 2887 bets, **+1760+ units**)
+- **+61.15% ROI** average across 2015–2026 (expanding-season, 2887 bets, **+1765.48 units**)
 - Strong accuracy vs baselines: up to **0.714** (2025–26 sliding), baselines ≤ **0.471**
 
 | Mode | Horizon | Accuracy | ROI % | P&L (units) | # Bets |
@@ -13,7 +13,7 @@
 | Static Pre-Season | 2025 MD 1–14 | 0.836 | +142.13 | +169.13 | 119 |
 | Rolling Matchday | 2025 | 0.736 | +103.85 | +121.50 | 117 |
 | Sliding Season | 2018–2026 | 0.596 | +67.84 | +1368.30 | 2017 |
-| Expanding Season | 2015–2026 | 0.587 | ≈+61 | +1760+ | 2887 |
+| Expanding Season | 2015–2026 | 0.587 | +61.15 | +1765.48 | 2887 |
 
 Baselines for comparison (accuracy): Home 0.425, Draw 0.273, Away 0.303, Favorite 0.471.
 
@@ -139,13 +139,13 @@ poetry run liga-predictor evaluate \
 poetry run liga-predictor evaluate \
   --mode rolling-matchday \
   --start-season 2014 \
-  --test-season 2024
+  --test-season 2025
 
 # Static pre-season evaluation (single model, no retraining)
 poetry run liga-predictor evaluate \
   --mode static-preseason \
   --start-season 2014 \
-  --test-season 2024
+  --test-season 2025
 ```
 
 **Evaluation Modes:**
@@ -290,6 +290,23 @@ For more detailed information about:
   - Sliding-season uses a 4-season training window
   - Rolling-matchday retrains after each matchday within the season
   - Static pre-season trains once and stays fixed through the season
+
+### Expanding Season (train grows across seasons)
+
+| Fold | Samples | Accuracy | RPS | Brier | LogLoss | P&L (units) | # Bets | ROI % |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Season 2015-2016 | 380 | 0.500 | 0.3961 | 0.5985 | 0.9986 | +124.51 | 303 | +41.09 |
+| Season 2016-2017 | 380 | 0.566 | 0.3760 | 0.5497 | 0.9222 | +172.53 | 288 | +59.91 |
+| Season 2017-2018 | 380 | 0.576 | 0.3743 | 0.5456 | 0.9153 | +94.68 | 290 | +32.65 |
+| Season 2018-2019 | 380 | 0.555 | 0.3889 | 0.5599 | 0.9309 | +169.88 | 282 | +60.24 |
+| Season 2019-2020 | 380 | 0.555 | 0.3708 | 0.5575 | 0.9250 | +177.11 | 273 | +64.88 |
+| Season 2020-2021 | 380 | 0.537 | 0.3844 | 0.5565 | 0.9262 | +196.67 | 306 | +64.27 |
+| Season 2021-2022 | 374 | 0.594 | 0.3581 | 0.5134 | 0.8522 | +225.22 | 308 | +73.12 |
+| Season 2022-2023 | 140 | 0.686 | 0.3392 | 0.4677 | 0.8063 | +74.50 | 111 | +67.12 |
+| Season 2023-2024 | 380 | 0.584 | 0.3702 | 0.5296 | 0.8826 | +221.94 | 316 | +70.23 |
+| Season 2024-2025 | 379 | 0.609 | 0.3534 | 0.5048 | 0.8488 | +198.22 | 297 | +66.74 |
+| Season 2025-2026 | 140 | 0.693 | 0.2836 | 0.4221 | 0.7348 | +110.22 | 113 | +97.54 |
+| AVERAGE | 3693 | 0.587 | 0.3632 | 0.5277 | 0.8857 | +1765.48 | 2887 | +61.15 |
 
 ### Static Pre-Season 2025 (single model, no retraining)
 
