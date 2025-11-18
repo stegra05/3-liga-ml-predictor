@@ -17,6 +17,7 @@ from loguru import logger
 
 from liga_predictor.database import get_db
 from liga_predictor.utils.team_mapper import TeamMapper
+from liga_predictor.utils.seasons import generate_season_mapping, TRANSFERMARKT_START_YEAR
 
 
 class TransfermarktRefereeCollector:
@@ -24,27 +25,10 @@ class TransfermarktRefereeCollector:
     
     BASE_URL = "https://www.transfermarkt.com"
     COMPETITION_ID = "L3"  # 3. Liga
-    
+
     # Season mapping (Transfermarkt uses year of season start)
-    SEASONS = {
-        "2009-2010": 2009,
-        "2010-2011": 2010,
-        "2011-2012": 2011,
-        "2012-2013": 2012,
-        "2013-2014": 2013,
-        "2014-2015": 2014,
-        "2015-2016": 2015,
-        "2016-2017": 2016,
-        "2017-2018": 2017,
-        "2018-2019": 2018,
-        "2019-2020": 2019,
-        "2020-2021": 2020,
-        "2021-2022": 2021,
-        "2022-2023": 2022,
-        "2023-2024": 2023,
-        "2024-2025": 2024,
-        "2025-2026": 2025,
-    }
+    # Dynamically generated from 2009 to current year
+    SEASONS = generate_season_mapping(start_year=TRANSFERMARKT_START_YEAR)
     
     def __init__(self):
         """Initialize collector"""

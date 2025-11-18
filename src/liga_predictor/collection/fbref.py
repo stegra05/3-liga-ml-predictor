@@ -16,6 +16,7 @@ from liga_predictor.database import get_db
 from liga_predictor.utils.team_mapper import TeamMapper
 from liga_predictor.utils.scraper import BaseScraper
 from liga_predictor.models import Player, PlayerSeasonStats, FBrefCollectionLog
+from liga_predictor.utils.seasons import generate_seasons, FBREF_START_YEAR
 
 
 class FBrefCollector(BaseScraper):
@@ -25,10 +26,8 @@ class FBrefCollector(BaseScraper):
     COMPETITION_ID = "59"  # 3. Liga competition code
 
     # Available seasons on FBref (2018-2019 onwards)
-    AVAILABLE_SEASONS = [
-        "2018-2019", "2019-2020", "2020-2021", "2021-2022",
-        "2022-2023", "2023-2024", "2024-2025", "2025-2026"
-    ]
+    # Dynamically generated from 2018 to current year
+    AVAILABLE_SEASONS = generate_seasons(start_year=FBREF_START_YEAR)
 
     def __init__(self, use_selenium: bool = False):
         """
