@@ -81,14 +81,49 @@ class DatabaseManager:
         """
         return self.SessionLocal()
 
-    def initialize_schema(self, schema_file: str = "database/schema.sql") -> None:
+    def initialize_schema_with_alembic(self) -> None:
         """
-        Initialize database with schema from SQL file
-        Note: For new projects, use Alembic migrations instead
+        Initialize database schema using Alembic migrations (RECOMMENDED)
+
+        This is the preferred method for database initialization as it:
+        - Tracks schema versions
+        - Allows incremental migrations
+        - Maintains consistency with ORM models
+        """
+        try:
+            from alembic.config import Config
+            from alembic import command
+
+            logger.info("Initializing database schema using Alembic migrations...")
+
+            # Load Alembic config
+            alembic_cfg = Config("alembic.ini")
+
+            # Run migrations to head
+            command.upgrade(alembic_cfg, "head")
+
+            logger.success("✓ Database schema initialized successfully via Alembic")
+
+        except ImportError:
+            logger.error("Alembic not installed. Install with: pip install alembic")
+            raise
+        except Exception as e:
+            logger.error(f"Error running Alembic migrations: {e}")
+            raise
+
+    def initialize_schema_legacy(self, schema_file: str = "database/schema.sql") -> None:
+        """
+        Initialize database with schema from SQL file (LEGACY METHOD)
+
+        DEPRECATED: Use initialize_schema_with_alembic() instead.
+        This method is kept for backwards compatibility but bypasses
+        Alembic migrations, which can lead to schema drift.
 
         Args:
             schema_file: Path to schema SQL file
         """
+        logger.warning("Using legacy schema initialization. Consider using Alembic migrations instead.")
+
         schema_path = Path(schema_file)
         if not schema_path.exists():
             raise FileNotFoundError(f"Schema file not found: {schema_file}")
@@ -109,6 +144,9 @@ class DatabaseManager:
             raise
         finally:
             conn.close()
+
+    # Alias for backwards compatibility
+    initialize_schema = initialize_schema_with_alembic
 
     def execute_query(self, query: str, params: Optional[tuple] = None) -> List[sqlite3.Row]:
         """

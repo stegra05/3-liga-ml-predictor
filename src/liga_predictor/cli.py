@@ -340,18 +340,42 @@ def process(
 
 
 @app.command("db-init")
-def db_init():
+def db_init(
+    legacy: Annotated[
+        bool,
+        typer.Option(
+            "--legacy",
+            help="Use legacy SQL file initialization (not recommended)"
+        ),
+    ] = False,
+):
     """
-    Initialize database schema.
+    Initialize database schema using Alembic migrations.
 
-    Creates the SQLite database schema and all required tables. Run this command
-    when setting up the system for the first time or after major schema changes.
+    This command creates the SQLite database and runs all Alembic migrations
+    to set up the schema. This is the RECOMMENDED approach as it:
+    - Tracks schema versions
+    - Allows incremental migrations
+    - Maintains consistency with ORM models
+
+    Use --legacy flag only if you need the old SQL file approach.
+
+    Examples:
+        liga-predictor db-init              # Use Alembic (recommended)
+        liga-predictor db-init --legacy     # Use legacy SQL file
     """
     from liga_predictor.database import DatabaseManager
 
-    logger.info("Initializing database schema...")
     db = DatabaseManager()
-    db.initialize_schema()
+
+    if legacy:
+        logger.warning("Using legacy SQL initialization (not recommended)")
+        logger.info("Consider using Alembic migrations for better schema management")
+        db.initialize_schema_legacy()
+    else:
+        logger.info("Using Alembic migrations for schema initialization (recommended)")
+        db.initialize_schema_with_alembic()
+
     logger.success("Database initialized successfully!")
 
     # Print stats

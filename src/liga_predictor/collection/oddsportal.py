@@ -16,6 +16,7 @@ from loguru import logger
 from liga_predictor.database import get_db
 from liga_predictor.utils.team_mapper import TeamMapper
 from liga_predictor.models import BettingOdds
+from liga_predictor.utils.seasons import generate_seasons, ODDSPORTAL_START_YEAR
 
 
 class OddsPortalCollector:
@@ -24,26 +25,9 @@ class OddsPortalCollector:
     BASE_URL = "https://www.oddsportal.com"
     LEAGUE_PATH = "/football/germany/3-liga"
 
-    # Season mapping for URL construction
-    SEASONS = {
-        "2009-2010": "2009-2010",
-        "2010-2011": "2010-2011",
-        "2011-2012": "2011-2012",
-        "2012-2013": "2012-2013",
-        "2013-2014": "2013-2014",
-        "2014-2015": "2014-2015",
-        "2015-2016": "2015-2016",
-        "2016-2017": "2016-2017",
-        "2017-2018": "2017-2018",
-        "2018-2019": "2018-2019",
-        "2019-2020": "2019-2020",
-        "2020-2021": "2020-2021",
-        "2021-2022": "2021-2022",
-        "2022-2023": "2022-2023",
-        "2023-2024": "2023-2024",
-        "2024-2025": "2024-2025",
-        "2025-2026": "2025-2026",
-    }
+    # Season mapping for URL construction (identity mapping: season -> season)
+    # Dynamically generated from 2009 to current year
+    SEASONS = {s: s for s in generate_seasons(start_year=ODDSPORTAL_START_YEAR)}
 
     def __init__(self, use_selenium: bool = True):
         """Initialize collector with Selenium (recommended for JavaScript sites)"""
