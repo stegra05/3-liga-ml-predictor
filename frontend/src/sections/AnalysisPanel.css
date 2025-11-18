@@ -1,0 +1,228 @@
+.analysis-panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-end;
+    opacity: 0;
+    animation: fadeIn 0.2s forwards;
+}
+
+.analysis-panel {
+    width: 100%;
+    max-width: 480px;
+    height: 100%;
+    background: var(--color-bg-gunmetal);
+    border-left: 1px solid var(--color-border);
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    animation: slideIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    to {
+        transform: translateX(0);
+    }
+}
+
+.close-btn {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: 2rem;
+    line-height: 1;
+    padding: 0;
+    z-index: 10;
+}
+
+.close-btn:hover {
+    color: var(--color-text-primary);
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.form-comparison {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.vs-divider {
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.panel-header {
+    padding: var(--spacing-xl);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-void);
+}
+
+.panel-title {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent-green);
+    margin-bottom: var(--spacing-sm);
+}
+
+.panel-match-info {
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.vs {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    font-weight: 400;
+    font-family: var(--font-mono);
+}
+
+.panel-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.analysis-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* Radar Chart Placeholder */
+.chart-container {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(22, 27, 34, 0.3);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.radar-circle {
+    width: 200px;
+    height: 200px;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    position: absolute;
+}
+
+.radar-axis {
+    width: 1px;
+    height: 200px;
+    background: var(--color-border);
+    position: absolute;
+}
+
+.radar-label {
+    position: absolute;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+}
+
+.radar-label.top {
+    top: 20px;
+}
+
+.radar-label.right-top {
+    top: 60px;
+    right: 40px;
+}
+
+.radar-label.right-bottom {
+    bottom: 60px;
+    right: 40px;
+}
+
+.radar-label.left-bottom {
+    bottom: 60px;
+    left: 40px;
+}
+
+.radar-label.left-top {
+    top: 60px;
+    left: 40px;
+}
+
+/* Conditions Grid */
+.conditions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+}
+
+.condition-card {
+    background: var(--color-bg-card);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    text-align: center;
+    border: 1px solid var(--color-border);
+}
+
+.condition-icon {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: var(--spacing-xs);
+}
+
+.condition-value {
+    display: block;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.condition-label {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+}
+
+/* AI Text */
+.ai-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    background: rgba(0, 255, 148, 0.05);
+    padding: var(--spacing-md);
+    border-left: 3px solid var(--color-accent-green);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.highlight {
+    color: var(--color-accent-green);
+    font-weight: 600;
+}

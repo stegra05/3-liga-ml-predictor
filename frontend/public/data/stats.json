@@ -1,0 +1,32 @@
+{
+  "accuracy": 0.596,
+  "roi": 67.8,
+  "modelName": "Random Forest v1.0",
+  "lastTrained": "2h ago",
+  "equityCurve": [
+    {
+      "match": 1,
+      "pnl": 1.0
+    },
+    {
+      "match": 2,
+      "pnl": 0.5
+    },
+    {
+      "match": 3,
+      "pnl": 1.5
+    },
+    {
+      "match": 4,
+      "pnl": 2.8
+    },
+    {
+      "match": 5,
+      "pnl": 2.2
+    },
+    {
+      "match": 6,
+      "pnl": 3.5
+    }
+  ]
+}

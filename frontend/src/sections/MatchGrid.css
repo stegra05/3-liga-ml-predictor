@@ -1,0 +1,17 @@
+.match-grid-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.section-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-lg);
+    padding-left: var(--spacing-xs);
+    border-left: 3px solid var(--color-accent-green);
+    line-height: 1.2;
+}
+
+.match-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-md);
+}

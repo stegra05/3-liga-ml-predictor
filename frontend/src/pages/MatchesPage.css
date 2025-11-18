@@ -1,0 +1,46 @@
+.matches-page {
+    padding-top: var(--spacing-xl);
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--spacing-md);
+}
+
+.page-title {
+    font-size: 2rem;
+}
+
+.filter-controls {
+    display: flex;
+    gap: var(--spacing-sm);
+    background: var(--color-bg-gunmetal);
+    padding: 4px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+}
+
+.filter-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+}
+
+.filter-btn:hover {
+    color: var(--color-text-primary);
+}
+
+.filter-btn.active {
+    background: var(--color-bg-void);
+    color: var(--color-accent-green);
+    box-shadow: var(--shadow-sm);
+}

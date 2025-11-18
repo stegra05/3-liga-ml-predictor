@@ -1,0 +1,647 @@
+{
+  "upcoming": [
+    {
+      "id": 6051,
+      "date": "2025-11-21 19:00:00",
+      "homeTeam": "TSG 1899 Hoffenheim II",
+      "awayTeam": "MSV Duisburg",
+      "homeTeamId": 69,
+      "awayTeamId": 39,
+      "status": "UPCOMING",
+      "eloDiff": 0,
+      "homeForm": "???",
+      "awayForm": "???",
+      "prediction": {
+        "homeWinProb": 0.45,
+        "drawProb": 0.3,
+        "awayWinProb": 0.25,
+        "confidence": 0.65,
+        "verdict": "HOME_WIN"
+      }
+    },
+    {
+      "id": 6052,
+      "date": "2025-11-22 14:00:00",
+      "homeTeam": "SV Waldhof Mannheim",
+      "awayTeam": "SV Wehen Wiesbaden",
+      "homeTeamId": 56,
+      "awayTeamId": 6,
+      "status": "UPCOMING",
+      "eloDiff": 0,
+      "homeForm": "???",
+      "awayForm": "???",
+      "prediction": {
+        "homeWinProb": 0.45,
+        "drawProb": 0.3,
+        "awayWinProb": 0.25,
+        "confidence": 0.65,
+        "verdict": "HOME_WIN"
+      }
+    },
+    {
+      "id": 6053,
+      "date": "2025-11-22 14:00:00",
+      "homeTeam": "Viktoria K\u00f6ln",
+      "awayTeam": "SC Verl",
+      "homeTeamId": 55,
+      "awayTeamId": 59,
+      "status": "UPCOMING",
+      "eloDiff": 0,
+      "homeForm": "???",
+      "awayForm": "???",
+      "prediction": {
+        "homeWinProb": 0.45,
+        "drawProb": 0.3,
+        "awayWinProb": 0.25,
+        "confidence": 0.65,
+        "verdict": "HOME_WIN"
+      }
+    },
+    {
+      "id": 6054,
+      "date": "2025-11-22 14:00:00",
+      "homeTeam": "Hansa Rostock",
+      "awayTeam": "1. FC Schweinfurt 05",
+      "homeTeamId": 24,
+      "awayTeamId": 70,
+      "status": "UPCOMING",
+      "eloDiff": 0,
+      "homeForm": "???",
+      "awayForm": "???",
+      "prediction": {
+        "homeWinProb": 0.45,
+        "drawProb": 0.3,
+        "awayWinProb": 0.25,
+        "confidence": 0.65,
+        "verdict": "HOME_WIN"
+      }
+    },
+    {
+      "id": 6055,
+      "date": "2025-11-22 14:00:00",
+      "homeTeam": "TSV Havelse",
+      "awayTeam": "SSV Ulm 1846",
+      "homeTeamId": 60,
+      "awayTeamId": 67,
+      "status": "UPCOMING",
+      "eloDiff": 0,
+      "homeForm": "???",
+      "awayForm": "???",
+      "prediction": {
+        "homeWinProb": 0.45,
+        "drawProb": 0.3,
+        "awayWinProb": 0.25,
+        "confidence": 0.65,
+        "verdict": "HOME_WIN"
+      }
+    },
+    {
+      "id": 6056,
+      "date": "2025-11-22 14:00:00",
+      "homeTeam": "Alemannia Aachen",
+      "awayTeam": "Jahn Regensburg",
+      "homeTeamId": 32,
+      "awayTeamId": 1,
+      "status": "UPCOMING",
+      "eloDiff": 0,
+      "homeForm": "???",
+      "awayForm": "???",
+      "prediction": {
+        "homeWinProb": 0.45,
+        "drawProb": 0.3,
+        "awayWinProb": 0.25,
+        "confidence": 0.65,
+        "verdict": "HOME_WIN"
+      }
+    },
+    {
+      "id": 6057,
+      "date": "2025-11-22 16:30:00",
+      "homeTeam": "VfL Osnabr\u00fcck",
+      "awayTeam": "FC Ingolstadt 04",
+      "homeTeamId": 14,
+      "awayTeamId": 19,
+      "status": "UPCOMING",
+      "eloDiff": 0,
+      "homeForm": "???",
+      "awayForm": "???",
+      "prediction": {
+        "homeWinProb": 0.45,
+        "drawProb": 0.3,
+        "awayWinProb": 0.25,
+        "confidence": 0.65,
+        "verdict": "HOME_WIN"
+      }
+    },
+    {
+      "id": 6058,
+      "date": "2025-11-23 13:30:00",
+      "homeTeam": "TSV 1860 M\u00fcnchen",
+      "awayTeam": "1. FC Saarbr\u00fccken",
+      "homeTeamId": 53,
+      "awayTeamId": 21,
+      "status": "UPCOMING",
+      "eloDiff": 0,
+      "homeForm": "???",
+      "awayForm": "???",
+      "prediction": {
+        "homeWinProb": 0.45,
+        "drawProb": 0.3,
+        "awayWinProb": 0.25,
+        "confidence": 0.65,
+        "verdict": "HOME_WIN"
+      }
+    },
+    {
+      "id": 6059,
+      "date": "2025-11-23 16:30:00",
+      "homeTeam": "Erzgebirge Aue",
+      "awayTeam": "VfB Stuttgart II",
+      "homeTeamId": 10,
+      "awayTeamId": 4,
+      "status": "UPCOMING",
+      "eloDiff": 0,
+      "homeForm": "???",
+      "awayForm": "???",
+      "prediction": {
+        "homeWinProb": 0.45,
+        "drawProb": 0.3,
+        "awayWinProb": 0.25,
+        "confidence": 0.65,
+        "verdict": "HOME_WIN"
+      }
+    },
+    {
+      "id": 6060,
+      "date": "2025-11-23 19:30:00",
+      "homeTeam": "Rot-Weiss Essen",
+      "awayTeam": "Energie Cottbus",
+      "homeTeamId": 66,
+      "awayTeamId": 41,
+      "status": "UPCOMING",
+      "eloDiff": 0,
+      "homeForm": "???",
+      "awayForm": "???",
+      "prediction": {
+        "homeWinProb": 0.45,
+        "drawProb": 0.3,
+        "awayWinProb": 0.25,
+        "confidence": 0.65,
+        "verdict": "HOME_WIN"
+      }
+    }
+  ],
+  "recent": [
+    {
+      "id": 6050,
+      "date": "2025-11-09 19:30:00",
+      "homeTeam": "SV Wehen Wiesbaden",
+      "awayTeam": "Viktoria K\u00f6ln",
+      "homeScore": 0,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6049,
+      "date": "2025-11-09 16:30:00",
+      "homeTeam": "Jahn Regensburg",
+      "awayTeam": "TSV 1860 M\u00fcnchen",
+      "homeScore": 4,
+      "awayScore": 0,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6048,
+      "date": "2025-11-09 13:30:00",
+      "homeTeam": "VfB Stuttgart II",
+      "awayTeam": "Alemannia Aachen",
+      "homeScore": 1,
+      "awayScore": 3,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6047,
+      "date": "2025-11-08 16:30:00",
+      "homeTeam": "1. FC Saarbr\u00fccken",
+      "awayTeam": "TSV Havelse",
+      "homeScore": 1,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6046,
+      "date": "2025-11-08 14:00:00",
+      "homeTeam": "1. FC Schweinfurt 05",
+      "awayTeam": "TSG 1899 Hoffenheim II",
+      "homeScore": 2,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6045,
+      "date": "2025-11-08 14:00:00",
+      "homeTeam": "SC Verl",
+      "awayTeam": "Erzgebirge Aue",
+      "homeScore": 1,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6044,
+      "date": "2025-11-08 14:00:00",
+      "homeTeam": "Energie Cottbus",
+      "awayTeam": "VfL Osnabr\u00fcck",
+      "homeScore": 0,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6043,
+      "date": "2025-11-08 14:00:00",
+      "homeTeam": "SSV Ulm 1846",
+      "awayTeam": "Hansa Rostock",
+      "homeScore": 0,
+      "awayScore": 5,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6042,
+      "date": "2025-11-08 14:00:00",
+      "homeTeam": "FC Ingolstadt 04",
+      "awayTeam": "Rot-Weiss Essen",
+      "homeScore": 1,
+      "awayScore": 2,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6041,
+      "date": "2025-11-07 19:00:00",
+      "homeTeam": "MSV Duisburg",
+      "awayTeam": "SV Waldhof Mannheim",
+      "homeScore": 2,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6040,
+      "date": "2025-11-02 19:30:00",
+      "homeTeam": "Alemannia Aachen",
+      "awayTeam": "1. FC Saarbr\u00fccken",
+      "homeScore": 2,
+      "awayScore": 0,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6039,
+      "date": "2025-11-02 16:30:00",
+      "homeTeam": "Rot-Weiss Essen",
+      "awayTeam": "1. FC Schweinfurt 05",
+      "homeScore": 2,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6038,
+      "date": "2025-11-02 13:30:00",
+      "homeTeam": "TSG 1899 Hoffenheim II",
+      "awayTeam": "SV Waldhof Mannheim",
+      "homeScore": 2,
+      "awayScore": 0,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6037,
+      "date": "2025-11-01 16:30:00",
+      "homeTeam": "Hansa Rostock",
+      "awayTeam": "SC Verl",
+      "homeScore": 2,
+      "awayScore": 2,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6036,
+      "date": "2025-11-01 14:00:00",
+      "homeTeam": "TSV 1860 M\u00fcnchen",
+      "awayTeam": "Energie Cottbus",
+      "homeScore": 3,
+      "awayScore": 0,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6035,
+      "date": "2025-11-01 14:00:00",
+      "homeTeam": "TSV Havelse",
+      "awayTeam": "SV Wehen Wiesbaden",
+      "homeScore": 0,
+      "awayScore": 2,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6034,
+      "date": "2025-11-01 14:00:00",
+      "homeTeam": "VfL Osnabr\u00fcck",
+      "awayTeam": "MSV Duisburg",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6033,
+      "date": "2025-11-01 14:00:00",
+      "homeTeam": "Erzgebirge Aue",
+      "awayTeam": "Jahn Regensburg",
+      "homeScore": 3,
+      "awayScore": 3,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6032,
+      "date": "2025-11-01 14:00:00",
+      "homeTeam": "SSV Ulm 1846",
+      "awayTeam": "VfB Stuttgart II",
+      "homeScore": 1,
+      "awayScore": 3,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6031,
+      "date": "2025-10-31 19:00:00",
+      "homeTeam": "Viktoria K\u00f6ln",
+      "awayTeam": "FC Ingolstadt 04",
+      "homeScore": 3,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6030,
+      "date": "2025-10-26 19:30:00",
+      "homeTeam": "MSV Duisburg",
+      "awayTeam": "Rot-Weiss Essen",
+      "homeScore": 1,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6029,
+      "date": "2025-10-26 16:30:00",
+      "homeTeam": "Viktoria K\u00f6ln",
+      "awayTeam": "Hansa Rostock",
+      "homeScore": 2,
+      "awayScore": 4,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6028,
+      "date": "2025-10-26 13:30:00",
+      "homeTeam": "TSG 1899 Hoffenheim II",
+      "awayTeam": "Erzgebirge Aue",
+      "homeScore": 1,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6027,
+      "date": "2025-10-25 16:30:00",
+      "homeTeam": "1. FC Schweinfurt 05",
+      "awayTeam": "VfL Osnabr\u00fcck",
+      "homeScore": 1,
+      "awayScore": 2,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6026,
+      "date": "2025-10-25 14:00:00",
+      "homeTeam": "SC Verl",
+      "awayTeam": "SSV Ulm 1846",
+      "homeScore": 5,
+      "awayScore": 0,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6025,
+      "date": "2025-10-25 14:00:00",
+      "homeTeam": "Jahn Regensburg",
+      "awayTeam": "VfB Stuttgart II",
+      "homeScore": 3,
+      "awayScore": 2,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6024,
+      "date": "2025-10-25 14:00:00",
+      "homeTeam": "Energie Cottbus",
+      "awayTeam": "TSV Havelse",
+      "homeScore": 4,
+      "awayScore": 3,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6023,
+      "date": "2025-10-25 14:00:00",
+      "homeTeam": "FC Ingolstadt 04",
+      "awayTeam": "1. FC Saarbr\u00fccken",
+      "homeScore": 2,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6022,
+      "date": "2025-10-25 14:00:00",
+      "homeTeam": "SV Waldhof Mannheim",
+      "awayTeam": "TSV 1860 M\u00fcnchen",
+      "homeScore": 3,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6021,
+      "date": "2025-10-24 19:00:00",
+      "homeTeam": "SV Wehen Wiesbaden",
+      "awayTeam": "Alemannia Aachen",
+      "homeScore": 1,
+      "awayScore": 2,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6020,
+      "date": "2025-10-19 19:30:00",
+      "homeTeam": "TSV Havelse",
+      "awayTeam": "Jahn Regensburg",
+      "homeScore": 1,
+      "awayScore": 2,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6019,
+      "date": "2025-10-19 16:30:00",
+      "homeTeam": "TSV 1860 M\u00fcnchen",
+      "awayTeam": "MSV Duisburg",
+      "homeScore": 3,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6018,
+      "date": "2025-10-19 13:30:00",
+      "homeTeam": "SSV Ulm 1846",
+      "awayTeam": "Energie Cottbus",
+      "homeScore": 1,
+      "awayScore": 2,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6017,
+      "date": "2025-10-18 16:30:00",
+      "homeTeam": "Rot-Weiss Essen",
+      "awayTeam": "Viktoria K\u00f6ln",
+      "homeScore": 1,
+      "awayScore": 0,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6016,
+      "date": "2025-10-18 14:00:00",
+      "homeTeam": "Alemannia Aachen",
+      "awayTeam": "FC Ingolstadt 04",
+      "homeScore": 0,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6015,
+      "date": "2025-10-18 14:00:00",
+      "homeTeam": "Hansa Rostock",
+      "awayTeam": "SV Wehen Wiesbaden",
+      "homeScore": 3,
+      "awayScore": 0,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6014,
+      "date": "2025-10-18 14:00:00",
+      "homeTeam": "VfL Osnabr\u00fcck",
+      "awayTeam": "TSG 1899 Hoffenheim II",
+      "homeScore": 0,
+      "awayScore": 4,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6013,
+      "date": "2025-10-18 14:00:00",
+      "homeTeam": "VfB Stuttgart II",
+      "awayTeam": "1. FC Schweinfurt 05",
+      "homeScore": 3,
+      "awayScore": 0,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6012,
+      "date": "2025-10-18 14:00:00",
+      "homeTeam": "1. FC Saarbr\u00fccken",
+      "awayTeam": "SC Verl",
+      "homeScore": 2,
+      "awayScore": 4,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6011,
+      "date": "2025-10-17 19:00:00",
+      "homeTeam": "Erzgebirge Aue",
+      "awayTeam": "SV Waldhof Mannheim",
+      "homeScore": 0,
+      "awayScore": 2,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6010,
+      "date": "2025-10-05 19:30:00",
+      "homeTeam": "TSG 1899 Hoffenheim II",
+      "awayTeam": "VfB Stuttgart II",
+      "homeScore": 1,
+      "awayScore": 3,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6009,
+      "date": "2025-10-05 16:30:00",
+      "homeTeam": "SV Wehen Wiesbaden",
+      "awayTeam": "TSV 1860 M\u00fcnchen",
+      "homeScore": 1,
+      "awayScore": 0,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6008,
+      "date": "2025-10-05 13:30:00",
+      "homeTeam": "Erzgebirge Aue",
+      "awayTeam": "Rot-Weiss Essen",
+      "homeScore": 2,
+      "awayScore": 2,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6007,
+      "date": "2025-10-04 16:30:00",
+      "homeTeam": "Energie Cottbus",
+      "awayTeam": "Alemannia Aachen",
+      "homeScore": 3,
+      "awayScore": 2,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6006,
+      "date": "2025-10-04 14:00:00",
+      "homeTeam": "1. FC Schweinfurt 05",
+      "awayTeam": "SC Verl",
+      "homeScore": 1,
+      "awayScore": 2,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6005,
+      "date": "2025-10-04 14:00:00",
+      "homeTeam": "Jahn Regensburg",
+      "awayTeam": "1. FC Saarbr\u00fccken",
+      "homeScore": 1,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6004,
+      "date": "2025-10-04 14:00:00",
+      "homeTeam": "Viktoria K\u00f6ln",
+      "awayTeam": "TSV Havelse",
+      "homeScore": 4,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6003,
+      "date": "2025-10-04 14:00:00",
+      "homeTeam": "FC Ingolstadt 04",
+      "awayTeam": "SSV Ulm 1846",
+      "homeScore": 4,
+      "awayScore": 1,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6002,
+      "date": "2025-10-04 14:00:00",
+      "homeTeam": "SV Waldhof Mannheim",
+      "awayTeam": "VfL Osnabr\u00fcck",
+      "homeScore": 1,
+      "awayScore": 4,
+      "status": "FINISHED"
+    },
+    {
+      "id": 6001,
+      "date": "2025-10-03 19:00:00",
+      "homeTeam": "MSV Duisburg",
+      "awayTeam": "Hansa Rostock",
+      "homeScore": 2,
+      "awayScore": 2,
+      "status": "FINISHED"
+    }
+  ],
+  "generatedAt": "2025-11-18T21:32:42.998407"
+}
