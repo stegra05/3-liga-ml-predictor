@@ -435,22 +435,12 @@ def update_latest_ratings(season: str = None):
                 logger.warning(f"No existing ratings found for {team_name}, skipping")
                 continue
 
-        # Update the existing rating record for this match with corrected form metrics
-        # The form metrics should reflect the state AFTER this match
-        update_query = """
-            UPDATE team_ratings
-            SET points_last_5 = ?,
-                goals_scored_last_5 = ?,
-                goals_conceded_last_5 = ?,
-                created_at = CURRENT_TIMESTAMP
-            WHERE team_id = ? AND match_id = ?
-        """
-
-        cursor = conn.cursor()
-        cursor.execute(update_query, (
-            points_last_5, goals_scored_avg, goals_conceded_avg,
-            team_id, match_id
-        ))
+        # CRITICAL FIX: Do NOT update the existing rating record for this match.
+        # The existing record (where match_id is set) represents the state BEFORE the match,
+        # which is what we need for training. Updating it with post-match form would cause leakage.
+        
+        # We ONLY update the "current" rating (match_id = NULL) which represents the state
+        # AFTER the match, ready for the NEXT prediction.
 
         # Also create a "current" rating record (match_id = NULL) for easy querying
         # This represents the team's state after their most recent match

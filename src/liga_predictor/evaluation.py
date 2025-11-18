@@ -140,31 +140,14 @@ def prepare_features_target(
 
     # Auto-detect feature columns if not provided
     if feature_cols is None:
-        # Exclude non-feature columns
-        exclude_cols = [
-            "match_id",
-            "season",
-            "matchday",
-            "match_datetime",
-            "home_team",
-            "away_team",
-            "home_team_id",
-            "away_team_id",
-            "home_goals",
-            "away_goals",
-            "result",
-            "venue",
-            # All target columns
-            "target_home_win",
-            "target_draw",
-            "target_away_win",
-            "target_multiclass",
-            "target_home_goals",
-            "target_away_goals",
-            "target_total_goals",
-        ]
-
-        feature_cols = [col for col in df.columns if col not in exclude_cols]
+        from liga_predictor import config
+        
+        # STRICTLY use the clean predictive features list from config
+        # This ignores post-match stats present in the CSV
+        feature_cols = config.ALL_FEATURES
+        
+        # Verify these columns exist in df, fallback to numerical if categorical missing
+        feature_cols = [c for c in feature_cols if c in df.columns]
 
     X = df[feature_cols].copy()
 

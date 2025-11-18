@@ -73,18 +73,18 @@ IDENTIFIERS:
   - away_team
 
 POST_MATCH_STATS:
-  - home_possession
-  - away_possession
-  - home_shots
-  - away_shots
-  - home_shots_on_target
-  - away_shots_on_target
-  - home_pass_accuracy
-  - away_pass_accuracy
-  - home_corners
-  - away_corners
-  - home_fouls
-  - away_fouls
+  - post_home_possession
+  - post_away_possession
+  - post_home_shots
+  - post_away_shots
+  - post_home_shots_on_target
+  - post_away_shots_on_target
+  - post_home_pass_accuracy
+  - post_away_pass_accuracy
+  - post_home_corners
+  - post_away_corners
+  - post_home_fouls
+  - post_away_fouls
 
 ALL_PREDICTIVE:
   - home_team

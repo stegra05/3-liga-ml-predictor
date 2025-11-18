@@ -201,32 +201,32 @@ class MLDataExporter:
             bo.implied_prob_away,
 
             -- Home team match statistics
-            hms.possession_percent as home_possession,
-            hms.shots_total as home_shots,
-            hms.shots_on_target as home_shots_on_target,
-            hms.big_chances as home_big_chances,
-            hms.passes_total as home_passes,
-            hms.pass_accuracy_percent as home_pass_accuracy,
-            hms.tackles_total as home_tackles,
-            hms.interceptions as home_interceptions,
-            hms.fouls_committed as home_fouls,
-            hms.corners as home_corners,
-            hms.yellow_cards as home_yellow_cards,
-            hms.red_cards as home_red_cards,
+            hms.possession_percent as post_home_possession,
+            hms.shots_total as post_home_shots,
+            hms.shots_on_target as post_home_shots_on_target,
+            hms.big_chances as post_home_big_chances,
+            hms.passes_total as post_home_passes,
+            hms.pass_accuracy_percent as post_home_pass_accuracy,
+            hms.tackles_total as post_home_tackles,
+            hms.interceptions as post_home_interceptions,
+            hms.fouls_committed as post_home_fouls,
+            hms.corners as post_home_corners,
+            hms.yellow_cards as post_home_yellow_cards,
+            hms.red_cards as post_home_red_cards,
 
             -- Away team match statistics
-            ams.possession_percent as away_possession,
-            ams.shots_total as away_shots,
-            ams.shots_on_target as away_shots_on_target,
-            ams.big_chances as away_big_chances,
-            ams.passes_total as away_passes,
-            ams.pass_accuracy_percent as away_pass_accuracy,
-            ams.tackles_total as away_tackles,
-            ams.interceptions as away_interceptions,
-            ams.fouls_committed as away_fouls,
-            ams.corners as away_corners,
-            ams.yellow_cards as away_yellow_cards,
-            ams.red_cards as away_red_cards,
+            ams.possession_percent as post_away_possession,
+            ams.shots_total as post_away_shots,
+            ams.shots_on_target as post_away_shots_on_target,
+            ams.big_chances as post_away_big_chances,
+            ams.passes_total as post_away_passes,
+            ams.pass_accuracy_percent as post_away_pass_accuracy,
+            ams.tackles_total as post_away_tackles,
+            ams.interceptions as post_away_interceptions,
+            ams.fouls_committed as post_away_fouls,
+            ams.corners as post_away_corners,
+            ams.yellow_cards as post_away_yellow_cards,
+            ams.red_cards as post_away_red_cards,
 
             -- Weather conditions at kickoff
             -- WARNING: These are OBSERVED weather values (post-match).
@@ -506,7 +506,7 @@ class MLDataExporter:
         """Add data quality indicators"""
 
         # Flag indicating if match has detailed statistics
-        df['has_detailed_stats'] = df['home_possession'].notna().astype(int)
+        df['has_detailed_stats'] = df['post_home_possession'].notna().astype(int)
 
         # Flag indicating if match has betting odds
         df['has_odds'] = df['odds_home'].notna().astype(int)
@@ -618,12 +618,12 @@ class MLDataExporter:
 
         if include_post_match:
             features['post_match_stats'] = [
-                'home_possession', 'away_possession',
-                'home_shots', 'away_shots',
-                'home_shots_on_target', 'away_shots_on_target',
-                'home_pass_accuracy', 'away_pass_accuracy',
-                'home_corners', 'away_corners',
-                'home_fouls', 'away_fouls'
+                'post_home_possession', 'post_away_possession',
+                'post_home_shots', 'post_away_shots',
+                'post_home_shots_on_target', 'post_away_shots_on_target',
+                'post_home_pass_accuracy', 'post_away_pass_accuracy',
+                'post_home_corners', 'post_away_corners',
+                'post_home_fouls', 'post_away_fouls'
             ]
 
         # All predictive features (for training)

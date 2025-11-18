@@ -2,7 +2,7 @@
 3. LIGA ML DATASET SUMMARY
 ============================================================
 
-Generated: 2025-11-12 13:10:57
+Generated: 2025-11-18 17:39:08
 
 DATASET SIZES:
   Full dataset: 5,973 matches
@@ -26,15 +26,15 @@ TARGET DISTRIBUTION (Full Dataset):
   Away wins: 1,741 (29.1%)
 
 FEATURE STATISTICS:
-  Total features: 119
+  Total features: 117
   Missing data:
     attendance: 5,049 (84.5%)
     venue: 4,969 (83.2%)
-    home_pass_accuracy: 3,540 (59.3%)
-    away_pass_accuracy: 3,540 (59.3%)
-    away_red_cards: 3,536 (59.2%)
-    home_big_chances: 3,536 (59.2%)
-    home_tackles: 3,536 (59.2%)
-    home_interceptions: 3,536 (59.2%)
-    home_yellow_cards: 3,536 (59.2%)
-    home_red_cards: 3,536 (59.2%)
+    post_away_pass_accuracy: 3,540 (59.3%)
+    post_home_pass_accuracy: 3,540 (59.3%)
+    post_home_big_chances: 3,536 (59.2%)
+    post_away_red_cards: 3,536 (59.2%)
+    post_away_yellow_cards: 3,536 (59.2%)
+    post_away_interceptions: 3,536 (59.2%)
+    post_away_tackles: 3,536 (59.2%)
+    post_away_passes: 3,536 (59.2%)
